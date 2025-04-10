@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindfood - Pre-diabetes Diet Management App</title>
+    <!-- 先加载HTML修复脚本，确保页面结构正�?-->
+    <script src="fix_prototype_html.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -936,6 +938,9 @@
           z-index: 5 !important;
         }
     </style>
+    
+    <!-- 引入个人资料页面更新脚本 -->
+    <script src="add_profile_styles.js"></script>
 </head>
 <body class="bg-gray-100 p-8">
     <h1 class="text-3xl font-bold text-center mb-8">Mindfood APP 原型设计</h1>
@@ -3326,16 +3331,15 @@
 </script>
 
 <!-- 引入JS脚本 -->
+<script src="clean_html_file.js"></script>
 <script src="replace_navigation.js"></script>
 <script src="create_community_page.js"></script>
 <script src="simple_fix.js"></script>
 <script src="fix_nav_spacing.js"></script>
-<script src="remove_nav_from_ai.js"></script>
-<script src="ai_remove_nav.js"></script>
+<script src="ai_remove_nav_fixed.js"></script>
 <script src="fix_community_nav.js"></script>
 <script src="fix_problematic_html.js"></script>
+<script src="add_update_profile.js"></script>
+<script src="add_nav_fix.js"></script>
 </body>
-</html> 
-< s c r i p t   s r c = " a i _ r e m o v e _ n a v . j s " > < / s c r i p t > 
- 
- 
+</html>
