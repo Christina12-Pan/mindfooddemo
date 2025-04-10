@@ -11,7 +11,7 @@
         
         // 创建脚本元素
         const script = document.createElement('script');
-        script.src = 'ai_remove_nav_fixed.js';
+        script.src = 'frontend/js/ai_remove_nav_fixed.js';
         
         // 脚本加载成功回调
         script.onload = function() {

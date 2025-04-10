@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindfood - Pre-diabetes Diet Management App</title>
     <!-- 先加载HTML修复脚本，确保页面结构正�?-->
-    <script src="fix_prototype_html.js"></script>
+    <script src="frontend/js/fix_prototype_html.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -3217,11 +3217,11 @@
           addReadingBtn.removeEventListener('click', showAddGlucoseModal);
           // 添加新的点击事件处理�?
           addReadingBtn.addEventListener('click', showAddGlucoseModal);
-          console.log('Add Reading按钮事件已绑�?);
+          console.log('Add Reading按钮事件已绑定');
         } else {
           console.log('找不到Add Reading按钮');
           
-          // 尝试通过不同的选择器查找按�?
+          // 尝试通过不同的选择器查找按?
           const alternativeAddReadingBtn = logScreen.querySelector('button:contains("Add Reading")');
           if (alternativeAddReadingBtn) {
             alternativeAddReadingBtn.removeEventListener('click', showAddGlucoseModal);
@@ -3331,15 +3331,16 @@
 </script>
 
 <!-- 引入JS脚本 -->
-<script src="clean_html_file.js"></script>
-<script src="replace_navigation.js"></script>
-<script src="create_community_page.js"></script>
-<script src="simple_fix.js"></script>
-<script src="fix_nav_spacing.js"></script>
-<script src="ai_remove_nav_fixed.js"></script>
-<script src="fix_community_nav.js"></script>
-<script src="fix_problematic_html.js"></script>
-<script src="add_update_profile.js"></script>
-<script src="add_nav_fix.js"></script>
+<script src="frontend/js/clean_html_file.js"></script>
+<script src="frontend/js/replace_navigation.js"></script>
+<script src="frontend/js/create_community_page.js"></script>
+<script src="frontend/js/simple_fix.js"></script>
+<script src="frontend/js/fix_nav_spacing.js"></script>
+<script src="frontend/js/fix_community_nav.js"></script>
+<script src="frontend/js/fix_problematic_html.js"></script>
+<script src="frontend/js/add_update_profile.js"></script>
+<script src="frontend/js/add_nav_fix.js"></script>
+<script src="frontend/js/replace_food_log_with_logo.js"></script>
+<script src="frontend/js/replace_community_with_logo.js"></script>
 </body>
 </html>
