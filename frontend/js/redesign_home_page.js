@@ -13,11 +13,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM已加载，准备重新设计Home主页');
         
-        // 给页面加载一些时间
-        setTimeout(redesignHomePage, 500);
+        // 立即尝试执行重新设计，不需要延迟
+        redesignHomePage();
         
         // 设置MutationObserver监听DOM变化
         setupMutationObserver();
+        
+        // 设置超时，确保最终会注册完成状态
+        setTimeout(function() {
+            if (window.registerScriptCompletion && !hasApplied) {
+                console.log('Home页面重新设计超时，强制完成');
+                window.registerScriptCompletion('homeRedesigned');
+            }
+        }, 2000);
     });
     
     /**
@@ -30,7 +38,10 @@
         let debounceTimer;
         
         const observer = new MutationObserver(function(mutations) {
-            // 仅在发现屏幕可见性变化时执行重新设计
+            // 清除之前的计时器
+            clearTimeout(debounceTimer);
+            
+            // 立即检查是否有屏幕变化
             const screensChanged = mutations.some(function(mutation) {
                 return Array.from(mutation.addedNodes).some(node => 
                     node.nodeType === 1 && 
@@ -40,22 +51,21 @@
             });
             
             if (screensChanged) {
-                // 清除之前的计时器
-                clearTimeout(debounceTimer);
-                
-                // 设置新的计时器，延迟执行重新设计
+                // 设置较短的延迟执行重新设计
                 debounceTimer = setTimeout(function() {
                     console.log('检测到屏幕变化，尝试重新设计');
                     hasApplied = false; // 重置标志，允许重新应用
                     redesignHomePage();
-                }, 300);
+                }, 50); // 减少延迟时间
             }
         });
         
-        // 观察整个文档的变化
+        // 观察整个文档的变化，提高优先级
         observer.observe(document.body, { 
             childList: true, 
-            subtree: true 
+            subtree: true,
+            attributes: true,
+            characterData: true
         });
     }
 
@@ -188,27 +198,36 @@
         const statusBar = homeScreen.querySelector('.ios-status-bar');
         const bottomNav = homeScreen.querySelector('.nav-bottom');
         
-        // 清空内容，但保留状态栏和底部导航栏
-        const tempContainer = document.createElement('div');
+        // 保存可能需要保留的元素
+        const elementsToPreserve = [];
         
         // 保存状态栏（如果存在）
         if (statusBar) {
             console.log('保留现有的iOS状态栏');
-            // 将状态栏移动到临时容器
-            tempContainer.appendChild(statusBar.cloneNode(true));
+            elementsToPreserve.push(statusBar.cloneNode(true));
         }
         
         // 保存底部导航栏（如果存在）
         if (bottomNav) {
             console.log('保留底部导航栏');
-            tempContainer.appendChild(bottomNav.cloneNode(true));
+            elementsToPreserve.push(bottomNav.cloneNode(true));
         }
         
         // 保存页面的data-page属性
         const dataPage = homeScreen.getAttribute('data-page');
         
-        // 替换内容
-        homeScreen.innerHTML = tempContainer.innerHTML;
+        // 优化：创建一个隐藏的容器，进行样式清理
+        homeScreen.style.opacity = "0";
+        
+        // 替换内容，清除所有子元素
+        while (homeScreen.firstChild) {
+            homeScreen.removeChild(homeScreen.firstChild);
+        }
+        
+        // 恢复保留的元素
+        elementsToPreserve.forEach(element => {
+            homeScreen.appendChild(element);
+        });
         
         // 恢复data-page属性
         if (dataPage) {
@@ -229,7 +248,31 @@
     function addHomeContent(homeScreen) {
         // 创建主容器
         const mainContainer = document.createElement('div');
-        mainContainer.className = 'flex flex-col h-full bg-gray-50 home-redesigned-container';
+        mainContainer.className = 'flex flex-col h-full home-redesigned-container';
+        
+        // 设置白色背景，使下方的背景图片在混合模式下具有适当透明度
+        mainContainer.style.backgroundColor = '#ffffff';
+        
+        // 添加背景图片容器
+        const bgContainer = document.createElement('div');
+        bgContainer.style.position = 'absolute';
+        bgContainer.style.top = '0';
+        bgContainer.style.left = '0';
+        bgContainer.style.width = '100%';
+        bgContainer.style.height = '100%';
+        bgContainer.style.backgroundImage = 'url("frontend/resource/appbg.png")';
+        bgContainer.style.backgroundSize = 'cover';
+        bgContainer.style.backgroundPosition = 'center';
+        bgContainer.style.opacity = '0.08'; // 8%的不透明度
+        bgContainer.style.zIndex = '0';
+        bgContainer.style.pointerEvents = 'none'; // 确保不会干扰用户交互
+        
+        // 添加背景容器
+        homeScreen.appendChild(bgContainer);
+        
+        // 确保主容器内容在背景上方
+        mainContainer.style.position = 'relative';
+        mainContainer.style.zIndex = '1';
         
         // 检查页面是否已经有iOS状态栏
         const existingStatusBar = homeScreen.querySelector('.ios-status-bar');
@@ -264,6 +307,17 @@
         
         // 将主容器添加到Home页面
         homeScreen.appendChild(mainContainer);
+        
+        // 在所有内容加载完毕后恢复可见性，防止闪烁
+        setTimeout(() => {
+            homeScreen.style.opacity = "1";
+            homeScreen.style.transition = "opacity 0.2s ease-in-out";
+            
+            // 通知页面优化框架，Home页面重新设计已完成
+            if (window.registerScriptCompletion) {
+                window.registerScriptCompletion('homeRedesigned');
+            }
+        }, 10);
     }
     
     /**
@@ -326,7 +380,10 @@
      */
     function createTopBar() {
         const topBar = document.createElement('div');
-        topBar.className = 'bg-white px-4 py-3 shadow-sm z-10 border-b border-gray-100';
+        topBar.className = 'px-4 py-3 shadow-sm z-10 border-b border-gray-100';
+        topBar.style.background = 'rgba(255, 255, 255, 0.7)';
+        topBar.style.backdropFilter = 'blur(10px)';
+        topBar.style.webkitBackdropFilter = 'blur(10px)';
         
         const topBarContent = document.createElement('div');
         topBarContent.className = 'flex items-center justify-between';
@@ -340,7 +397,7 @@
             </svg>
         `;
         aiAvatar.addEventListener('click', function() {
-            console.log('点击AI助手头像');
+            console.log('AI Assistant avatar clicked');
             // 这里可以添加跳转到AI助手咨询界面的逻辑
         });
         
@@ -403,7 +460,11 @@
         
         // 动态场景卡片
         const sceneCard = document.createElement('div');
-        sceneCard.className = 'w-full rounded-2xl overflow-hidden shadow-sm bg-white relative';
+        sceneCard.className = 'w-full rounded-2xl overflow-hidden shadow-sm relative';
+        sceneCard.style.background = 'rgba(255, 255, 255, 0.85)';
+        sceneCard.style.backdropFilter = 'blur(5px)';
+        sceneCard.style.webkitBackdropFilter = 'blur(5px)';
+        sceneCard.style.border = '1px solid rgba(255, 255, 255, 0.5)';
         
         // 场景图片
         const imageContainer = document.createElement('div');
@@ -464,7 +525,7 @@
         // 标题
         const title = document.createElement('h2');
         title.className = 'text-lg font-semibold text-gray-800 mb-3';
-        title.textContent = 'What\'s your dining scenario?';
+        title.textContent = 'Ready to eat';
         
         container.appendChild(title);
         
@@ -519,7 +580,11 @@
         
         // 标题和查看更多
         const titleContainer = document.createElement('div');
-        titleContainer.className = 'flex justify-between items-center mb-3';
+        titleContainer.className = 'flex justify-between items-center mb-3 px-3 py-2 rounded-lg';
+        titleContainer.style.background = 'rgba(255, 255, 255, 0.6)';
+        titleContainer.style.backdropFilter = 'blur(4px)';
+        titleContainer.style.webkitBackdropFilter = 'blur(4px)';
+        titleContainer.style.border = '1px solid rgba(255, 255, 255, 0.4)';
         
         const title = document.createElement('h2');
         title.className = 'text-lg font-semibold text-gray-800';
@@ -535,40 +600,6 @@
         
         container.appendChild(titleContainer);
         
-        // 推荐卡片列表
-        const recommendationsContainer = document.createElement('div');
-        recommendationsContainer.className = 'space-y-3';
-        
-        // 添加推荐卡片
-        recommendationsContainer.appendChild(
-            createRecommendationCard(
-                'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500&auto=format&fit=crop',
-                'Nutrition',
-                'How protein affects your muscle growth',
-                '3 min read'
-            )
-        );
-        
-        recommendationsContainer.appendChild(
-            createRecommendationCard(
-                'https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?q=80&w=500&auto=format&fit=crop',
-                'Recipe',
-                'Mediterranean salad with grilled chicken',
-                '523 likes'
-            )
-        );
-        
-        recommendationsContainer.appendChild(
-            createRecommendationCard(
-                'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?q=80&w=500&auto=format&fit=crop',
-                'Community',
-                'Morning smoothie challenge: Join now!',
-                '2.3k participants'
-            )
-        );
-        
-        container.appendChild(recommendationsContainer);
-        
         return container;
     }
     
@@ -582,7 +613,25 @@
     function createScenarioCard(title, iconSvg, bgColor) {
         const card = document.createElement('div');
         card.className = 'rounded-xl overflow-hidden shadow-sm flex flex-col items-center cursor-pointer p-3';
-        card.style.backgroundColor = bgColor;
+        
+        // 转换颜色以添加透明度，从实心HEX颜色转为带透明度的RGBA颜色
+        let rgbaColor = hexToRgba(bgColor, 0.85);
+        card.style.backgroundColor = rgbaColor;
+        card.style.backdropFilter = 'blur(3px)';
+        card.style.webkitBackdropFilter = 'blur(3px)';
+        card.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+        card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+        
+        // 添加悬停效果
+        card.addEventListener('mouseenter', function() {
+            card.style.transform = 'translateY(-2px)';
+            card.style.boxShadow = '0 6px 12px rgba(0,0,0,0.1)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '';
+        });
         
         const iconContainer = document.createElement('div');
         iconContainer.className = 'w-12 h-12 rounded-full bg-white flex items-center justify-center mb-2';
@@ -597,11 +646,35 @@
         
         // 添加点击事件
         card.addEventListener('click', function() {
-            console.log(`情景选择: ${title}`);
+            console.log(`Scenario selected: ${title}`);
             // 这里可以添加跳转到相应界面的逻辑
         });
         
         return card;
+    }
+    
+    /**
+     * 将十六进制颜色转换为带透明度的RGBA颜色
+     * @param {string} hex - 十六进制颜色值
+     * @param {number} alpha - 透明度(0-1)
+     * @returns {string} RGBA颜色字符串
+     */
+    function hexToRgba(hex, alpha) {
+        // 移除#号(如果存在)
+        hex = hex.replace('#', '');
+        
+        // 将3位HEX扩展为6位
+        if (hex.length === 3) {
+            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        }
+        
+        // 解析16进制值
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        
+        // 返回rgba值
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
     
     /**
@@ -613,6 +686,7 @@
      * @returns {HTMLElement} 推荐卡片元素
      */
     function createRecommendationCard(imageUrl, category, title, info) {
+        // 保留此函数但不再使用，以便将来需要时可以恢复
         const card = document.createElement('div');
         card.className = 'flex items-center bg-white rounded-xl overflow-hidden shadow-sm cursor-pointer';
         
@@ -653,7 +727,7 @@
         
         // 添加点击事件
         card.addEventListener('click', function() {
-            console.log(`推荐卡片点击: ${title}`);
+            console.log(`Recommendation card clicked: ${title}`);
             // 这里可以添加跳转到详情页的逻辑
         });
         

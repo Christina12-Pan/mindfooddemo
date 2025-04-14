@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindfood - Pre-diabetes Diet Management App</title>
+    <!-- 预加载和优化脚本，防止原始内容闪烁 -->
+    <script src="frontend/js/preload_redesign.js"></script>
+    <script src="frontend/js/optimize_page_loading.js"></script>
     <!-- 先加载HTML修复脚本，确保页面结构正确 -->
     <script src="frontend/js/fix_prototype_html.js"></script>
     <script src="frontend/js/clean_html_end.js"></script>
@@ -3334,6 +3337,11 @@
 </script>
 
 <!-- 引入JS脚本 -->
+<!-- 先加载重新设计相关的脚本 -->
+<script src="frontend/js/redesign_home_page.js"></script>
+<script src="frontend/js/redesign_recommendations.js"></script>
+<script src="frontend/js/redesign_nutrition_summary.js"></script>
+<!-- 然后加载其他功能脚本 -->
 <script src="frontend/js/clean_html_file.js"></script>
 <script src="frontend/js/replace_navigation.js"></script>
 <script src="frontend/js/create_community_page.js"></script>
@@ -3345,9 +3353,6 @@
 <script src="frontend/js/add_nav_fix.js"></script>
 <script src="frontend/js/replace_food_log_with_logo.js"></script>
 <script src="frontend/js/replace_community_with_logo.js"></script>
-<script src="frontend/js/redesign_nutrition_summary.js"></script>
-<script src="frontend/js/redesign_home_page.js"></script>
-<script src="frontend/js/redesign_recommendations.js"></script>
 </body>
 </html>
 

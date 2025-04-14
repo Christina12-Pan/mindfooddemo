@@ -13,11 +13,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM已加载，准备重新设计推荐模块');
         
-        // 给页面加载一些时间，确保所有资源加载完成
-        setTimeout(redesignRecommendations, 500);
+        // 立即尝试重新设计，无需延迟
+        redesignRecommendations();
         
         // 设置MutationObserver监听DOM变化
         setupMutationObserver();
+        
+        // 设置超时，确保最终会注册完成状态
+        setTimeout(function() {
+            if (window.registerScriptCompletion && !hasApplied) {
+                console.log('推荐模块重新设计超时，强制完成');
+                window.registerScriptCompletion('recommendationsRedesigned');
+            }
+        }, 2000);
     });
     
     /**
@@ -30,7 +38,10 @@
         let debounceTimer;
         
         const observer = new MutationObserver(function(mutations) {
-            // 仅在发现屏幕可见性变化时执行重新设计
+            // 清除之前的计时器
+            clearTimeout(debounceTimer);
+            
+            // 检查是否有屏幕变化
             const screensChanged = mutations.some(function(mutation) {
                 return Array.from(mutation.addedNodes).some(node => 
                     node.nodeType === 1 && 
@@ -40,22 +51,20 @@
             });
             
             if (screensChanged) {
-                // 清除之前的计时器
-                clearTimeout(debounceTimer);
-                
-                // 设置新的计时器，延迟执行重新设计
+                // 设置较短的延迟执行重新设计
                 debounceTimer = setTimeout(function() {
                     console.log('检测到屏幕变化，尝试重新设计');
                     hasApplied = false; // 重置标志，允许重新应用
                     redesignRecommendations();
-                }, 300);
+                }, 50); // 减少延迟时间
             }
         });
         
-        // 观察整个文档的变化
+        // 观察整个文档的变化，提高优先级
         observer.observe(document.body, { 
             childList: true, 
-            subtree: true 
+            subtree: true,
+            attributes: true
         });
     }
 
@@ -163,7 +172,7 @@
         for (let i = 0; i < headings.length; i++) {
             const heading = headings[i];
             if (heading.textContent.includes('Recommendation') || 
-                heading.textContent.includes('推荐')) {
+                heading.textContent.includes('recommendation')) {
                 // 返回包含标题的整个部分（通常是一个<div>）
                 return heading.closest('div') || heading.parentElement;
             }
@@ -233,26 +242,26 @@
         const cardsContainer = document.createElement('div');
         cardsContainer.className = 'space-y-4';
         
-        // 添加推荐卡片
+        // 添加推荐卡片 - 移除中文描述
         cardsContainer.appendChild(createRecommendationCard(
             'https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-            '营养学知识',
+            'Nutrition',
             'Why Mediterranean Diet is Perfect for Pre-diabetic Conditions',
-            '基于您的饮食记录，地中海饮食可能适合您的健康状况'
+            ''  // 移除中文描述
         ));
         
         cardsContainer.appendChild(createRecommendationCard(
             'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-            '社区热门',
+            'Community',
             'My 30-Day Journey with Low-Carb Meals: Before & After Results',
-            '3.2k 用户浏览了这篇文章，与您的饮食偏好相似'
+            ''  // 移除中文描述
         ));
         
         cardsContainer.appendChild(createRecommendationCard(
             'https://images.unsplash.com/photo-1536304929831-ee1ca9d44906?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-            '健康指南',
+            'Health Guide',
             'Simple Glucose-Friendly Snacks for Your Busy Workdays',
-            '根据您的日程安排和血糖波动情况推荐'
+            ''  // 移除中文描述
         ));
         
         container.appendChild(cardsContainer);
@@ -298,15 +307,9 @@
         titleElement.className = 'text-base font-medium text-gray-800 mb-1 line-clamp-2';
         titleElement.textContent = title;
         
-        // 描述
-        const descriptionElement = document.createElement('p');
-        descriptionElement.className = 'text-xs text-gray-500 line-clamp-2';
-        descriptionElement.textContent = description;
-        
         // 组合内容
         contentContainer.appendChild(categoryElement);
         contentContainer.appendChild(titleElement);
-        contentContainer.appendChild(descriptionElement);
         
         // 组合卡片
         card.appendChild(imageContainer);
@@ -328,7 +331,27 @@
      */
     function replaceRecommendationsModule(oldModule, newModule) {
         if (oldModule && oldModule.parentNode) {
+            // 为平滑过渡设置样式
+            newModule.style.opacity = "0";
+            
+            // 替换模块
             oldModule.parentNode.replaceChild(newModule, oldModule);
+            
+            // 在短暂延迟后显示新模块，实现平滑过渡
+            setTimeout(() => {
+                newModule.style.opacity = "1";
+                newModule.style.transition = "opacity 0.2s ease-in-out";
+                
+                // 通知页面优化框架，推荐模块重新设计已完成
+                if (window.registerScriptCompletion) {
+                    window.registerScriptCompletion('recommendationsRedesigned');
+                }
+            }, 10);
+        } else {
+            // 如果无法替换，也要通知完成
+            if (window.registerScriptCompletion) {
+                window.registerScriptCompletion('recommendationsRedesigned');
+            }
         }
     }
 })(); 

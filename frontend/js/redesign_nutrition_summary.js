@@ -13,11 +13,19 @@
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM已加载，准备重新设计营养模块');
         
-        // 给页面加载一些时间
-        setTimeout(redesignNutritionModule, 500);
+        // 立即尝试执行重新设计，不需要延迟
+        redesignNutritionModule();
         
         // 设置MutationObserver监听DOM变化，但限制重新设计的频率
         setupMutationObserver();
+        
+        // 设置超时，确保最终会注册完成状态
+        setTimeout(function() {
+            if (window.registerScriptCompletion && !hasApplied) {
+                console.log('营养模块重新设计超时，强制完成');
+                window.registerScriptCompletion('nutritionSummaryRedesigned');
+            }
+        }, 2000);
     });
     
     /**
@@ -30,7 +38,10 @@
         let debounceTimer;
         
         const observer = new MutationObserver(function(mutations) {
-            // 仅在发现屏幕可见性变化时执行重新设计
+            // 清除之前的计时器
+            clearTimeout(debounceTimer);
+            
+            // 检查是否有屏幕变化
             const screensChanged = mutations.some(function(mutation) {
                 return Array.from(mutation.addedNodes).some(node => 
                     node.nodeType === 1 && 
@@ -40,22 +51,20 @@
             });
             
             if (screensChanged) {
-                // 清除之前的计时器
-                clearTimeout(debounceTimer);
-                
-                // 设置新的计时器，延迟执行重新设计
+                // 设置较短的延迟执行重新设计
                 debounceTimer = setTimeout(function() {
                     console.log('检测到屏幕变化，尝试重新设计');
                     hasApplied = false; // 重置标志，允许重新应用
                     redesignNutritionModule();
-                }, 300);
+                }, 50); // 减少延迟时间
             }
         });
         
-        // 观察整个文档的变化
+        // 观察整个文档的变化，提高优先级
         observer.observe(document.body, { 
             childList: true, 
-            subtree: true 
+            subtree: true,
+            attributes: true
         });
     }
 
@@ -135,6 +144,7 @@
                 // 创建新的无卡片结构的容器
                 const newContainer = document.createElement('div');
                 newContainer.className = 'mb-6 nutrition-redesigned-container';
+                newContainer.style.opacity = "0"; // 初始隐藏
                 
                 // 添加重新设计的内容 - 不再传递标题文本
                 addRedesignedContent(newContainer);
@@ -142,16 +152,32 @@
                 // 替换原有模块
                 parentContainer.replaceChild(newContainer, nutritionSummaryModule);
                 
-                // 标记为已应用
-                hasApplied = true;
-                
-                console.log('营养模块重新设计完成');
+                // 使用平滑过渡显示新内容
+                setTimeout(() => {
+                    newContainer.style.opacity = "1";
+                    newContainer.style.transition = "opacity 0.2s ease-in-out";
+                    
+                    // 标记为已应用
+                    hasApplied = true;
+                    
+                    // 通知页面优化框架，营养模块重新设计已完成
+                    if (window.registerScriptCompletion) {
+                        window.registerScriptCompletion('nutritionSummaryRedesigned');
+                    }
+                    
+                    console.log('营养模块重新设计完成');
+                }, 10);
             } catch (error) {
                 console.error('重新设计过程中出错:', error);
                 
                 // 恢复原有内容
                 if (nutritionSummaryModule.parentNode) {
                     nutritionSummaryModule.innerHTML = originalContent;
+                }
+                
+                // 即使出错也要通知完成
+                if (window.registerScriptCompletion) {
+                    window.registerScriptCompletion('nutritionSummaryRedesigned');
                 }
             }
         } else {
