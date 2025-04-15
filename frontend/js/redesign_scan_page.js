@@ -790,7 +790,7 @@
      */
     function createCaptureControls() {
         const controlsContainer = document.createElement('div');
-        controlsContainer.className = 'absolute bottom-20 left-0 right-0 flex justify-center items-center z-30';
+        controlsContainer.className = 'absolute bottom-28 left-0 right-0 flex justify-center items-center z-30';
         
         // Create gallery button
         const galleryButton = createGalleryButton();
