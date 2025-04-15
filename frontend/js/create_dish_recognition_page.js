@@ -1,7 +1,7 @@
 /**
  * @description 创建菜品识别页面，增强用户使用体验
  * @author Senior iOS Engineer
- * @version 1.0.0
+ * @version 2.0.0
  */
 (function() {
   console.log('Dish Recognition page creation script loaded');
@@ -9,7 +9,6 @@
   // 等待DOM完全加载
   document.addEventListener('DOMContentLoaded', function() {
     createDishRecognitionPage();
-    setupScanRedirection();
   });
   
   /**
@@ -58,315 +57,345 @@
         </div>
       </div>
 
-      <!-- 顶部导航栏 - 更简洁现代的设计 -->
+      <!-- 顶部导航栏 - 更现代的设计 -->
       <div class="header bg-white flex justify-between items-center px-4 py-3 border-b border-gray-100">
-        <button class="back-button w-8 h-8 flex items-center justify-center rounded-full active:bg-gray-100">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button class="back-button w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15 19L8 12L15 5" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
-        <h1 class="text-lg font-semibold text-gray-800">Dish Analysis</h1>
-        <button class="w-8 h-8 flex items-center justify-center rounded-full active:bg-gray-100">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <h1 class="text-lg font-bold text-gray-800">Dish Analysis</h1>
+        <button class="share-button w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z" fill="#333333"/>
           </svg>
         </button>
       </div>
 
-      <!-- 主内容区域 -->
-      <div class="dish-recognition-content h-full bg-gray-50 flex flex-col">
-        <!-- 预览区域 -->
-        <div class="preview-section bg-white p-4 border-b border-gray-100">
-          <div class="flex items-center">
-            <div class="preview-thumbnail w-24 h-24 rounded-xl overflow-hidden shadow-sm mr-4">
-              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=200&q=80" alt="Food dish" class="w-full h-full object-cover">
-            </div>
-            <div class="flex-1">
-              <h3 class="font-semibold text-gray-800">Grilled Salmon</h3>
-              <p class="text-sm text-gray-500 mt-1">with mixed vegetables</p>
-              <div class="flex items-center mt-2">
-                <span class="bg-[#FFBE98] bg-opacity-10 text-[#FFBE98] text-xs font-medium px-2 py-0.5 rounded-full">195 cal</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- 分析区域 -->
-        <div class="analysis-section flex-1 overflow-auto px-4 py-4">
-          <!-- 合并的营养与健康评分卡片 -->
-          <div class="bg-white rounded-xl p-4 mb-4 shadow-sm">
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="text-base font-medium text-gray-800">Nutrition & Health</h3>
-              <div class="bg-green-50 rounded-full px-2 py-1 flex items-center">
-                <span class="text-sm font-bold text-green-500 mr-1">85</span>
-                <span class="text-xs text-gray-700">Very Good</span>
-              </div>
-            </div>
-            
-            <div class="flex mb-4">
-              <div class="w-20 h-20 mr-4 bg-gray-50 rounded-full flex items-center justify-center flex-shrink-0">
-                <div class="text-center">
-                  <div class="text-xl font-bold text-gray-800">195</div>
-                  <div class="text-xs text-gray-500">CALORIES</div>
-                </div>
-              </div>
-              <div class="flex-1">
-                <div class="text-xs text-gray-500 mb-2">High protein, low glycemic impact</div>
-                
-                <div class="mb-2">
-                  <div class="flex justify-between text-sm mb-1">
-                    <span>Protein</span>
-                    <span class="flex items-center">
-                      <span class="mr-1">25g</span>
-                      <span class="text-xs text-green-500 font-medium">(High)</span>
-                    </span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-blue-500 rounded-full" style="width: 45%"></div>
-                  </div>
-                </div>
-                
-                <div class="mb-2">
-                  <div class="flex justify-between text-sm mb-1">
-                    <span>Carbs</span>
-                    <span class="flex items-center">
-                      <span class="mr-1">10g</span>
-                      <span class="text-xs text-gray-800 font-medium">(Low)</span>
-                    </span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-yellow-500 rounded-full" style="width: 15%"></div>
-                  </div>
-                </div>
-                
-                <div class="mb-2">
-                  <div class="flex justify-between text-sm mb-1">
-                    <span>Fat</span>
-                    <span class="flex items-center">
-                      <span class="mr-1">9g</span>
-                      <span class="text-xs text-gray-800 font-medium">(Low)</span>
-                    </span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-red-500 rounded-full" style="width: 20%"></div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div class="flex justify-between text-sm mb-1">
-                    <span>Fiber</span>
-                    <span class="flex items-center">
-                      <span class="mr-1">4g</span>
-                      <span class="text-xs text-green-500 font-medium">(Good)</span>
-                    </span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-green-500 rounded-full" style="width: 30%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div class="py-2 px-3 bg-green-50 rounded-lg flex items-center">
-              <svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <span class="text-xs text-gray-700">This dish is balanced, with a good proportion of protein to carbs and moderate fat content.</span>
-            </div>
-          </div>
-          
-          <!-- 血糖影响卡片 -->
-          <div class="bg-white rounded-xl p-4 mb-4 shadow-sm">
-            <h3 class="text-base font-medium text-gray-800 mb-2">Glucose Impact</h3>
-            <div class="flex items-center mb-3">
-              <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-2">
-                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-              </div>
-              <span class="text-sm text-green-700 font-medium">Low glycemic impact</span>
-            </div>
-            <div class="mb-3">
-              <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-green-400 to-yellow-400" style="width: 25%"></div>
-              </div>
-              <div class="flex justify-between mt-1 text-xs text-gray-500">
-                <span>Low</span>
-                <span>Medium</span>
-                <span>High</span>
-              </div>
-            </div>
-            <p class="text-xs text-gray-600">Expected minimal increase in blood glucose levels due to the high protein and low carbohydrate content of this dish.</p>
-          </div>
-          
-          <!-- 智能指导卡片 -->
-          <div class="bg-white rounded-xl p-4 mb-4 shadow-sm">
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="text-base font-medium text-gray-800">Smart Guidance</h3>
-              <div class="bg-[#FFBE98] bg-opacity-10 text-[#FFBE98] text-xs font-medium px-2 py-1 rounded-full">AI Recommended</div>
-            </div>
-            
-            <div class="mb-4">
-              <div class="flex mb-2">
-                <div class="w-8 h-8 rounded-full bg-[#FFBE98] bg-opacity-10 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg class="w-4 h-4 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-800 mb-1">Prioritize Protein</div>
-                  <p class="text-xs text-gray-600">Eat the salmon first to promote better glucose control. The protein helps slow digestion.</p>
-                </div>
-              </div>
-              
-              <div class="flex mb-2">
-                <div class="w-8 h-8 rounded-full bg-[#FFBE98] bg-opacity-10 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg class="w-4 h-4 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <!-- 主内容区域 - 重新设计的滚动容器 -->
+      <div class="dish-recognition-content flex-1 bg-gray-50 flex flex-col h-full">
+        <!-- 顶部菜品图像区域 - 更大的图片展示 -->
+        <div class="dish-image-container h-48 bg-black relative overflow-hidden">
+          <div class="dishes-slider flex h-full w-full overflow-x-hidden snap-x snap-mandatory touch-pan-x">
+            <!-- 菜品1 -->
+            <div class="dish-slide w-full h-full flex-shrink-0 snap-center relative">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 class="font-bold text-lg mb-1">Grilled Salmon with Vegetables</h3>
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                   </svg>
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-800 mb-1">Eat Slowly</div>
-                  <p class="text-xs text-gray-600">Chewing slowly increases satiety and reduces post-meal glucose spikes.</p>
-                </div>
-              </div>
-              
-              <div class="flex">
-                <div class="w-8 h-8 rounded-full bg-[#FFBE98] bg-opacity-10 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg class="w-4 h-4 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                  </svg>
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-800 mb-1">Log After Eating</div>
-                  <p class="text-xs text-gray-600">Record your energy levels and satiety after the meal to understand how this dish affects you.</p>
+                  <span class="text-sm">Captured at 12:30 PM</span>
                 </div>
               </div>
             </div>
             
-            <button class="w-full py-2 bg-gray-50 text-sm text-gray-500 rounded-lg flex items-center justify-center">
-              <span>View More Recommendations</span>
-              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
+            <!-- 菜品2 -->
+            <div class="dish-slide w-full h-full flex-shrink-0 snap-center relative">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 class="font-bold text-lg mb-1">Vegetable Salad</h3>
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span class="text-sm">Captured at 12:30 PM</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- 菜品3 -->
+            <div class="dish-slide w-full h-full flex-shrink-0 snap-center relative">
+              <img src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
+              <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
+              <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
+                <h3 class="font-bold text-lg mb-1">Fruit Platter</h3>
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span class="text-sm">Captured at 12:30 PM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 分页指示器 - iOS样式轮播指示器 -->
+          <div class="absolute bottom-16 left-0 right-0 flex justify-center">
+            <div class="flex space-x-1.5">
+              <div class="w-1.5 h-1.5 rounded-full bg-white opacity-100"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-white opacity-50"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-white opacity-50"></div>
+            </div>
+          </div>
+          
+          <!-- 编辑按钮 -->
+          <button class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <!-- 内容滚动区域 - 卡片式布局 -->
+        <div class="analysis-content flex-1 overflow-auto px-4 py-3">
+          <!-- 卡片：健康评分 -->
+          <div class="health-score-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
+            <div class="flex items-start p-4">
+              <!-- 健康评分可视化 -->
+              <div class="mr-4">
+                <div class="relative w-16 h-16">
+                  <svg class="w-full h-full" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="16" fill="none" stroke="#f3f4f6" stroke-width="2"></circle>
+                    <circle cx="18" cy="18" r="16" fill="none" stroke="#FFBE98" stroke-width="2" stroke-dasharray="85 100" stroke-dashoffset="25" transform="rotate(-90 18 18)"></circle>
+                    <text x="18" y="18" text-anchor="middle" dominant-baseline="middle" fill="#111827" font-size="10" font-weight="bold">8.5</text>
+                    <text x="18" y="24" text-anchor="middle" dominant-baseline="middle" fill="#6b7280" font-size="4">SCORE</text>
+                  </svg>
+                </div>
+              </div>
+              
+              <!-- 健康评估 -->
+              <div class="flex-1">
+                <h3 class="font-bold text-gray-800 mb-1">Very Good for You</h3>
+                <p class="text-sm text-gray-600 mb-2">This dish is high in protein and nutrients, making it suitable for your diabetes management.</p>
+                <div class="flex items-center">
+                  <div class="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs mr-2 inline-flex items-center">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
+                    <span>Low Glycemic</span>
+                  </div>
+                  <div class="px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs inline-flex items-center">
+                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1"></span>
+                    <span>High Protein</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 卡片：营养摘要 -->
+          <div class="nutrition-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
+            <div class="flex items-center justify-between px-4 pt-4 pb-2">
+              <h3 class="font-semibold text-gray-800">Nutrition Summary</h3>
+              <button class="text-[#FFBE98] text-sm font-medium">See Details</button>
+            </div>
+            
+            <!-- 营养数据可视化 -->
+            <div class="px-4 pb-4">
+              <div class="flex mb-4">
+                <!-- 卡路里圆环 -->
+                <div class="calorie-ring w-24 h-24 relative flex items-center justify-center mr-4">
+                  <svg class="w-full h-full" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" stroke-width="8"></circle>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#FFBE98" stroke-width="8" stroke-dasharray="40 100" stroke-linecap="round" stroke-dashoffset="25" transform="rotate(-90 50 50)"></circle>
+                    <text x="50" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#111827">195</text>
+                    <text x="50" y="65" text-anchor="middle" font-size="12" fill="#6b7280">KCAL</text>
+                  </svg>
+                </div>
+                
+                <!-- 营养条 -->
+                <div class="flex-1 flex flex-col justify-around">
+                  <!-- 蛋白质 -->
+                  <div class="nutrient-bar mb-2">
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="text-xs font-medium">Protein</span>
+                      <span class="text-xs">25g</span>
+                    </div>
+                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-blue-500 rounded-full" style="width: 70%"></div>
+                    </div>
+                  </div>
+                  
+                  <!-- 碳水 -->
+                  <div class="nutrient-bar mb-2">
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="text-xs font-medium">Carbs</span>
+                      <span class="text-xs">10g</span>
+                    </div>
+                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-yellow-500 rounded-full" style="width: 15%"></div>
+                    </div>
+                  </div>
+                  
+                  <!-- 脂肪 -->
+                  <div class="nutrient-bar">
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="text-xs font-medium">Fat</span>
+                      <span class="text-xs">9g</span>
+                    </div>
+                    <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div class="h-full bg-green-500 rounded-full" style="width: 30%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- 其他关键营养素 -->
+              <div class="grid grid-cols-3 gap-2 pt-2 border-t border-gray-100">
+                <div class="text-center py-2">
+                  <div class="text-sm font-bold text-gray-800">2g</div>
+                  <div class="text-xs text-gray-500">Sugar</div>
+                </div>
+                <div class="text-center py-2 border-x border-gray-100">
+                  <div class="text-sm font-bold text-gray-800">8g</div>
+                  <div class="text-xs text-gray-500">Fiber</div>
+                </div>
+                <div class="text-center py-2">
+                  <div class="text-sm font-bold text-gray-800">280mg</div>
+                  <div class="text-xs text-gray-500">Sodium</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 卡片：饮食建议 -->
+          <div class="guidance-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 mb-3">Eating Guidance</h3>
+              
+              <!-- 主要建议 -->
+              <div class="guidance-tip flex items-start mb-3 p-3 bg-green-50 rounded-xl">
+                <div class="guidance-icon mr-3 mt-0.5 text-green-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="guidance-content text-sm text-gray-700 flex-1">
+                  Eat the salmon first to promote better glucose control. The protein helps slow digestion and stabilize blood sugar levels.
+                </div>
+              </div>
+              
+              <!-- 额外提示 -->
+              <div class="guidance-tip flex items-start p-3 bg-yellow-50 rounded-xl">
+                <div class="guidance-icon mr-3 mt-0.5 text-yellow-500">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="guidance-content text-sm text-gray-700 flex-1">
+                  Your daily carb intake is at 65%. Consider keeping your total carb intake below 75% for optimal glucose control.
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 卡片：成分细节 -->
+          <div class="ingredients-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-800 mb-3">Ingredients</h3>
+              
+              <div class="grid grid-cols-2 gap-2">
+                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                  <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
+                  <span class="text-sm">Salmon (120g)</span>
+                </div>
+                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                  <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
+                  <span class="text-sm">Broccoli (50g)</span>
+                </div>
+                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                  <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
+                  <span class="text-sm">Sweet Potato (40g)</span>
+                </div>
+                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                  <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
+                  <span class="text-sm">Olive Oil (5g)</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         
-        <!-- 底部操作区 -->
+        <!-- 底部操作区 - 更符合iOS设计规范 -->
         <div class="action-section bg-white border-t border-gray-100 px-4 pt-4 pb-8">
-          <div class="grid grid-cols-3 gap-3 mb-4">
-            <button class="bg-[#FFBE98] rounded-xl py-3 flex flex-col items-center shadow-sm active:bg-[#EDA987] transition-colors">
-              <svg class="w-5 h-5 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <div class="flex justify-between gap-3 mb-1">
+            <!-- 保存记录按钮 - 主要操作 -->
+            <button class="save-button flex-1 py-3.5 bg-[#FFBE98] rounded-xl text-white font-medium text-sm flex items-center justify-center shadow-sm">
+              <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
               </svg>
-              <span class="text-xs text-white font-medium">Log Dish</span>
+              Add to Food Log
             </button>
             
-            <button class="bg-gray-100 rounded-xl py-3 flex flex-col items-center active:bg-gray-200 transition-colors">
-              <svg class="w-5 h-5 text-gray-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <!-- 辅助操作按钮 -->
+            <button class="location-button w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
               </svg>
-              <span class="text-xs text-gray-500 font-medium">Tag Location</span>
             </button>
             
-            <button class="bg-gray-100 rounded-xl py-3 flex flex-col items-center active:bg-gray-200 transition-colors">
-              <svg class="w-5 h-5 text-gray-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <button class="favorite-button w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
               </svg>
-              <span class="text-xs text-gray-500 font-medium">Favorite</span>
+            </button>
+          </div>
+          
+          <!-- 反馈按钮 -->
+          <div class="flex justify-center">
+            <button class="text-gray-500 text-xs flex items-center py-2">
+              <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+              </svg>
+              Adjust dish content or portion
             </button>
           </div>
         </div>
       </div>
       
       <style>
+        /* 添加iOS风格的滚动效果 */
+        .analysis-content {
+          -webkit-overflow-scrolling: touch;
+          scroll-behavior: smooth;
+        }
+        
+        /* 滑动动画 */
+        .dish-slide {
+          transition: transform 0.3s ease;
+        }
+        
+        /* 健康评分圆环动画 */
+        @keyframes circle-fill {
+          0% { stroke-dasharray: 0 100; }
+          100% { stroke-dasharray: 85 100; }
+        }
+        
+        /* 长按效果 */
+        .nutrient-bar {
+          position: relative;
+          transition: background-color 0.2s;
+        }
+        
+        .nutrient-bar:active {
+          background-color: #f3f4f6;
+        }
+        
+        /* 自定义滚动条样式 */
+        .analysis-content::-webkit-scrollbar {
+          width: 4px;
+        }
+        
+        .analysis-content::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .analysis-content::-webkit-scrollbar-thumb {
+          background: rgba(255, 190, 152, 0.5);
+          border-radius: 2px;
+        }
+        
         /* 适配iPhone底部安全区域 */
         .action-section {
-          padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0.5rem));
+          padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0.5rem));
         }
         
-        /* 页面进入动画 */
-        .screen[data-page="dish-recognition"] {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        /* 按钮按压动画 */
-        .button-press-animation {
-          animation: buttonPress 0.2s ease-out;
-        }
-        
-        @keyframes buttonPress {
-          0% { transform: scale(1); }
-          50% { transform: scale(0.95); }
-          100% { transform: scale(1); }
-        }
-        
-        /* iOS风格模态框动画 */
-        .animated-entry {
-          opacity: 0;
-          transition: opacity 0.3s ease-out;
-        }
-        
-        .animated-entry.show {
-          opacity: 1;
-        }
-        
-        .animated-entry.hide {
-          opacity: 0;
-        }
-        
-        .animated-modal {
-          transform: translateY(50px);
-          transition: transform 0.3s ease-out;
-        }
-        
-        .show .animated-modal {
-          transform: translateY(0);
-        }
-        
-        .hide .animated-modal {
-          transform: translateY(50px);
-        }
-        
-        .animated-sheet {
-          transform: translateY(100%);
-          transition: transform 0.3s ease-out;
-        }
-        
-        .show .animated-sheet {
-          transform: translateY(0);
-        }
-        
-        .hide .animated-sheet {
-          transform: translateY(100%);
-        }
-        
-        .animated-toast {
-          opacity: 0;
-          transform: translateY(-20px) translateX(-50%);
-          transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-        }
-        
-        .animated-toast.show {
-          opacity: 1;
-          transform: translateY(0) translateX(-50%);
-        }
-        
-        .animated-toast.hide {
-          opacity: 0;
-          transform: translateY(-20px) translateX(-50%);
-        }
-        
-        /* 安全区域适配 */
-        .mb-safe {
-          margin-bottom: env(safe-area-inset-bottom, 0.5rem);
+        /* 按钮点击动画 */
+        .save-button:active, .location-button:active, .favorite-button:active {
+          transform: scale(0.98);
         }
       </style>
     `;
@@ -374,63 +403,94 @@
     // 将页面添加到DOM中
     document.body.appendChild(dishRecognitionScreen);
     
-    // 添加导航交互事件
-    addNavigationEvents(dishRecognitionScreen);
+    // 添加页面打开的入口点
+    addEntryPoints();
     
-    // 添加卡片交互事件
-    addCardInteractions(dishRecognitionScreen);
+    // 添加互动事件
+    addInteractiveEvents(dishRecognitionScreen);
     
     console.log('Dish Recognition page created successfully');
   }
   
   /**
-   * 设置扫描页面重定向
+   * 向应用中添加打开菜品识别页面的入口点
    */
-  function setupScanRedirection() {
-    // 保存原始的showScreen函数
-    const originalShowScreen = window.showScreen;
-    
-    // 重新定义showScreen函数
-    window.showScreen = function(screenName) {
-      console.log(`尝试切换到页面: ${screenName}`);
+  function addEntryPoints() {
+    // 在首页添加入口
+    const homeScreen = document.querySelector('.screen[data-page="home"]');
+    if (homeScreen) {
+      // 查找合适的位置插入入口按钮
+      const quickActionsContainer = homeScreen.querySelector('.quick-actions') || homeScreen.querySelector('.dynamic-scene-card');
       
-      // 如果是扫描页面，重定向到菜品识别页面
-      if (screenName === 'scan') {
-        console.log('重定向从扫描页面到菜品识别页面');
-        screenName = 'dish-recognition';
-      }
-      
-      // 调用原始showScreen函数或默认实现
-      if (typeof originalShowScreen === 'function') {
-        return originalShowScreen(screenName);
-      } else {
-        // 默认的屏幕切换实现
-        const screens = document.querySelectorAll('.screen');
-        screens.forEach(s => {
-          s.style.display = 'none';
-        });
-        const targetScreen = document.querySelector(`.screen[data-page="${screenName}"]`);
-        if (targetScreen) {
-          targetScreen.style.display = 'flex';
+      if (quickActionsContainer) {
+        // 检查是否已存在入口
+        if (!homeScreen.querySelector('.dish-recognition-entry')) {
+          // 创建入口按钮
+          const entryButton = document.createElement('div');
+          entryButton.className = 'dish-recognition-entry bg-white shadow-md rounded-xl p-4 flex items-center space-x-3 mt-4';
+          entryButton.innerHTML = `
+            <div class="w-12 h-12 rounded-full bg-[#FFBE98] bg-opacity-20 flex items-center justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.5 4H9.5L7 7H4C2.9 7 2 7.9 2 9V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V9C22 7.9 21.1 7 20 7H17L14.5 4Z" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="12" cy="13" r="3" stroke="#FFBE98" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <h3 class="font-medium text-gray-800">Dish Recognition</h3>
+              <p class="text-sm text-gray-500">Scan your meal for instant nutrition info</p>
+            </div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18L15 12L9 6" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          `;
+          
+          // 添加点击事件
+          entryButton.addEventListener('click', function() {
+            showScreen('dish-recognition');
+          });
+          
+          // 添加到容器中
+          quickActionsContainer.parentNode.insertBefore(entryButton, quickActionsContainer.nextSibling);
+          console.log('Added entry point to Home screen');
         }
       }
-    };
+    }
     
-    // 确保导航栏的Scan按钮能正确触发
-    const scanButtons = document.querySelectorAll('[onclick="showScreen(\'scan\')"]');
-    scanButtons.forEach(button => {
-      console.log('找到Scan导航按钮，绑定事件');
-      button.removeAttribute('onclick');
-      button.addEventListener('click', function() {
-        window.showScreen('dish-recognition');
+    // 在扫描按钮中添加入口点
+    const scanNavItem = document.querySelector('.nav-item[data-page="scan"]');
+    if (scanNavItem) {
+      // 修改扫描按钮行为，点击时打开菜品识别页面
+      scanNavItem.addEventListener('click', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        showScreen('dish-recognition');
+        
+        // 更新导航状态
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(item => {
+          item.classList.remove('active');
+          const navIcon = item.querySelector('.nav-icon');
+          const navText = item.querySelector('.nav-text');
+          if (navIcon) navIcon.classList.remove('active');
+          if (navText) navText.classList.remove('active');
+        });
+        
+        scanNavItem.classList.add('active');
+        const navIcon = scanNavItem.querySelector('.nav-icon');
+        const navText = scanNavItem.querySelector('.nav-text');
+        if (navIcon) navIcon.classList.add('active');
+        if (navText) navText.classList.add('active');
       });
-    });
+      
+      console.log('Modified scan button to open Dish Recognition page');
+    }
   }
   
   /**
-   * 添加导航交互事件
+   * 添加页面的交互事件
+   * @param {HTMLElement} screen - 菜品识别页面元素
    */
-  function addNavigationEvents(screen) {
+  function addInteractiveEvents(screen) {
     // 返回按钮事件
     const backButton = screen.querySelector('.back-button');
     if (backButton) {
@@ -439,889 +499,1171 @@
       });
     }
     
-    // 为底部按钮添加点击效果
-    const actionButtons = screen.querySelectorAll('.action-section button');
-    actionButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const buttonText = this.querySelector('span').textContent.trim();
-        
-        // 显示iOS风格的操作反馈
-        showIOSToast(`${buttonText} action saved`);
-        
-        // 添加点击动画
-        this.classList.add('button-press-animation');
-        setTimeout(() => {
-          this.classList.remove('button-press-animation');
-        }, 200);
+    // 初始化菜品滑动功能
+    initDishesSlider(screen);
+    
+    // 菜品缩略图点击事件 - 重拍照片
+    const previewThumbnails = screen.querySelectorAll('.preview-thumbnail');
+    previewThumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        // 显示iOS风格的操作表
+        createIOSActionSheet('Photo Options', [
+          {
+            label: 'Retake Photo',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>`
+          },
+          {
+            label: 'Choose from Photos',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>`
+          },
+          {
+            label: 'Edit Current Photo',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>`
+          }
+        ], (index) => {
+          // 根据选择的选项执行相应的操作
+          createIOSToast('This feature will be available in future updates', 2000);
+        });
       });
     });
+    
+    // 菜品名称编辑按钮
+    const editButton = screen.querySelector('.edit-button');
+    if (editButton) {
+      editButton.addEventListener('click', function() {
+        const dishName = screen.querySelector('.dish-name-container h2');
+        const currentName = dishName.textContent;
+        
+        // 显示iOS风格的输入框
+        createIOSPrompt('Edit Dish Name', 'Please enter a new name for this dish', 'Dish name', currentName, (newName) => {
+          if (newName && newName.trim() !== '') {
+            dishName.textContent = newName;
+            createIOSToast('Dish name updated', 1500);
+          }
+        });
+      });
+    }
+    
+    // 成分轮盘图点击和长按事件
+    const macroItems = screen.querySelectorAll('.macro-item');
+    macroItems.forEach(item => {
+      // 点击显示详情
+      item.addEventListener('click', function() {
+        const macroType = this.querySelector('.text-sm.font-medium').textContent;
+        const macroValue = this.querySelector('.ml-auto.font-bold').textContent;
+        
+        // 显示iOS风格的模态框
+        createIOSModal(macroType, `${macroValue}\n35% of daily recommended intake`, [
+          { label: 'OK', style: 'default' }
+        ]);
+      });
+      
+      // 长按显示来源
+      let pressTimer;
+      
+      item.addEventListener('touchstart', function(e) {
+        pressTimer = setTimeout(() => {
+          const source = this.getAttribute('data-source');
+          if (source) {
+            // 显示iOS风格的模态框
+            createIOSModal('Source Information', source, [
+              { label: 'OK', style: 'default' }
+            ]);
+          }
+        }, 500);
+      });
+      
+      item.addEventListener('touchend', function() {
+        clearTimeout(pressTimer);
+      });
+      
+      // 为桌面浏览器提供类似体验
+      item.addEventListener('mousedown', function() {
+        pressTimer = setTimeout(() => {
+          const source = this.getAttribute('data-source');
+          if (source) {
+            // 显示iOS风格的模态框
+            createIOSModal('Source Information', source, [
+              { label: 'OK', style: 'default' }
+            ]);
+          }
+        }, 500);
+      });
+      
+      item.addEventListener('mouseup', function() {
+        clearTimeout(pressTimer);
+      });
+      
+      item.addEventListener('mouseleave', function() {
+        clearTimeout(pressTimer);
+      });
+    });
+    
+    // 升糖负荷学习更多
+    const learnMoreButton = screen.querySelector('.glycemic-info button');
+    if (learnMoreButton) {
+      learnMoreButton.addEventListener('click', function() {
+        // 显示iOS风格的模态框
+        createIOSModal('Glycemic Load', 'Glycemic Load (GL) measures how much a food affects your blood sugar levels. Low GL values (10 or below) are more friendly for people with diabetes, helping maintain stable blood sugar levels.', [
+          { label: 'Got it', style: 'default' }
+        ]);
+      });
+    }
+    
+    // 底部操作按钮 - 保存记录
+    const saveButton = screen.querySelector('.save-button');
+    if (saveButton) {
+      saveButton.addEventListener('click', function() {
+        // 添加加载效果
+        this.innerHTML = `
+          <svg class="animate-spin w-5 h-5 text-white mb-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-xs text-white font-medium">Saving...</span>
+        `;
+        
+        // 模拟保存过程
+        setTimeout(() => {
+          this.innerHTML = `
+            <svg class="w-5 h-5 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            <span class="text-xs text-white font-medium">Saved</span>
+          `;
+          
+          // 显示iOS风格的模态框
+          createIOSToast('Dish saved to log', 1500);
+          
+          // 1秒后跳转到日志页面
+          setTimeout(() => {
+            showScreen('log');
+          }, 1000);
+        }, 1500);
+      });
+    }
+    
+    // 底部操作按钮 - 标记位置
+    const locationButton = screen.querySelector('.location-button');
+    if (locationButton) {
+      locationButton.addEventListener('click', function() {
+        const originalContent = this.innerHTML;
+        
+        // 显示iOS风格的操作表
+        createIOSActionSheet('Tag Location', [
+          {
+            label: 'Current Location',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>`
+          },
+          {
+            label: 'Washington Center Food Court',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>`
+          },
+          {
+            label: 'Choose Another Location',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="16"></line>
+              <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>`
+          }
+        ], (index) => {
+          // 更改按钮状态
+          this.innerHTML = `
+            <svg class="w-5 h-5 text-[#FFBE98] mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span class="text-xs text-[#FFBE98] font-medium">Tagged</span>
+          `;
+          this.classList.remove('bg-gray-100');
+          this.classList.add('bg-[#FFBE98]/10');
+          
+          // 显示iOS风格的模态框
+          createIOSToast('Location tagged: Washington Center Food Court', 2000);
+        });
+      });
+    }
+    
+    // 底部操作按钮 - 收藏菜品
+    const favoriteButton = screen.querySelector('.favorite-button');
+    if (favoriteButton) {
+      favoriteButton.addEventListener('click', function() {
+        const favoriteIcon = this.querySelector('svg');
+        
+        // 切换收藏状态
+        if (favoriteIcon.getAttribute('fill') === 'none') {
+          // 收藏
+          favoriteIcon.setAttribute('fill', 'currentColor');
+          favoriteIcon.classList.remove('text-gray-500');
+          favoriteIcon.classList.add('text-[#FFBE98]');
+          this.querySelector('span').classList.remove('text-gray-500');
+          this.querySelector('span').classList.add('text-[#FFBE98]');
+          this.classList.remove('bg-gray-100');
+          this.classList.add('bg-[#FFBE98]/10');
+          
+          // 显示iOS风格的模态框
+          createIOSToast('Dish added to favorites', 2000);
+        } else {
+          // 取消收藏
+          favoriteIcon.setAttribute('fill', 'none');
+          favoriteIcon.classList.add('text-gray-500');
+          favoriteIcon.classList.remove('text-[#FFBE98]');
+          this.querySelector('span').classList.add('text-gray-500');
+          this.querySelector('span').classList.remove('text-[#FFBE98]');
+          this.classList.add('bg-gray-100');
+          this.classList.remove('bg-[#FFBE98]/10');
+          
+          // 显示iOS风格的模态框
+          createIOSToast('Dish removed from favorites', 2000);
+        }
+      });
+    }
+    
+    // 反馈机制 - 调整菜品内容
+    const adjustButton = screen.querySelector('.feedback-button button');
+    if (adjustButton) {
+      adjustButton.addEventListener('click', function() {
+        // 显示iOS风格的操作表
+        createIOSActionSheet('Adjust Dish', [
+          {
+            label: 'Adjust Portion Size',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="6" cy="6" r="3"></circle>
+              <circle cx="6" cy="18" r="3"></circle>
+              <line x1="20" y1="4" x2="8.12" y2="15.88"></line>
+              <line x1="14.47" y1="14.48" x2="20" y2="20"></line>
+              <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+            </svg>`
+          },
+          {
+            label: 'Edit Ingredients',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>`
+          },
+          {
+            label: 'Report Incorrect Analysis',
+            icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>`
+          }
+        ], (index) => {
+          // 显示iOS风格的模态框
+          createIOSToast('This feature will be available in future updates', 2000);
+        });
+      });
+    }
+    
+    // 详细营养信息按钮
+    const detailButton = screen.querySelector('button.w-full.text-\\[\\#FFBE98\\].text-sm');
+    if (detailButton) {
+      detailButton.addEventListener('click', function() {
+        // 显示iOS风格的模态框
+        createIOSModal('Complete Nutritional Information', 
+          '· Calories: 195 kcal\n· Protein: 25g\n· Fat: 9g (Saturated Fat: 1.5g)\n· Carbohydrates: 10g (Sugar: 2g)\n· Dietary Fiber: 3g\n· Sodium: 450mg\n· Potassium: 550mg\n· Vitamin A: 15% Daily Value\n· Vitamin C: 45% Daily Value\n· Calcium: 8% Daily Value\n· Iron: 10% Daily Value', 
+          [{ label: 'Close', style: 'default' }]
+        );
+      });
+    }
   }
   
   /**
-   * 添加卡片交互事件
+   * 初始化菜品轮播滑动功能
    * @param {HTMLElement} screen - 菜品识别页面元素
    */
-  function addCardInteractions(screen) {
-    // 营养与健康卡片交互
-    const nutritionHealthCard = screen.querySelector('.analysis-section > div:first-child');
-    if (nutritionHealthCard) {
-      // 点击评分查看详情
-      const healthScore = nutritionHealthCard.querySelector('.bg-green-50.rounded-full');
-      if (healthScore) {
-        healthScore.addEventListener('click', function() {
-          showIOSModal('Health Score Details', `
-            <div class="p-4">
-              <div class="flex justify-center mb-6">
-                <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center">
-                  <span class="text-2xl font-bold text-green-500">85</span>
-                </div>
-              </div>
-              <h3 class="font-medium text-gray-800 mb-2">How is this calculated?</h3>
-              <p class="text-sm text-gray-600 mb-4">
-                This health score is calculated based on the nutritional balance, calorie content, and overall quality of ingredients in this dish. A score of 85 indicates a very healthy option.
-              </p>
-              <div class="space-y-3">
-                <div>
-                  <div class="flex justify-between text-sm mb-1">
-                    <span class="font-medium">Protein Quality</span>
-                    <span>Excellent</span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-green-500 rounded-full" style="width: 90%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="flex justify-between text-sm mb-1">
-                    <span class="font-medium">Nutrient Density</span>
-                    <span>Very Good</span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-green-500 rounded-full" style="width: 80%"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="flex justify-between text-sm mb-1">
-                    <span class="font-medium">Calorie Efficiency</span>
-                    <span>Good</span>
-                  </div>
-                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-blue-500 rounded-full" style="width: 75%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `);
-        });
+  function initDishesSlider(screen) {
+    const slider = screen.querySelector('.dishes-slider');
+    const slides = screen.querySelectorAll('.dish-slide');
+    const leftArrow = screen.querySelector('.slider-arrow-left');
+    const rightArrow = screen.querySelector('.slider-arrow-right');
+    const currentIndexEl = screen.querySelector('.current-dish-index');
+    const totalDishesEl = screen.querySelector('.total-dishes');
+    
+    if (!slider || !slides.length) return;
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    
+    // 更新总菜品数量
+    if (totalDishesEl) {
+      totalDishesEl.textContent = totalSlides;
+    }
+    
+    // 更新滑动状态
+    function updateSliderState() {
+      // 更新当前菜品索引显示
+      if (currentIndexEl) {
+        currentIndexEl.textContent = currentIndex + 1;
       }
       
-      // 长按营养条显示来源信息
-      const nutritionBars = nutritionHealthCard.querySelectorAll('.h-2.bg-gray-100');
-      nutritionBars.forEach(bar => {
-        let pressTimer;
-        const nutrientType = bar.parentElement.previousElementSibling.querySelector('span:first-child').textContent;
-        
-        bar.addEventListener('touchstart', function(e) {
-          pressTimer = setTimeout(function() {
-            showIOSToast(`${nutrientType} data from USDA database`);
-          }, 500);
-        });
-        
-        bar.addEventListener('touchend', function() {
-          clearTimeout(pressTimer);
-        });
-        
-        // 鼠标用户的交互
-        bar.addEventListener('mousedown', function() {
-          pressTimer = setTimeout(function() {
-            showIOSToast(`${nutrientType} data from USDA database`);
-          }, 500);
-        });
-        
-        bar.addEventListener('mouseup', function() {
-          clearTimeout(pressTimer);
-        });
-        
-        bar.addEventListener('mouseleave', function() {
-          clearTimeout(pressTimer);
-        });
+      // 更新左右箭头可见性
+      if (leftArrow) {
+        leftArrow.style.opacity = currentIndex > 0 ? '1' : '0';
+      }
+      
+      if (rightArrow) {
+        rightArrow.style.opacity = currentIndex < totalSlides - 1 ? '1' : '0';
+      }
+      
+      // 更新实际营养成分和饮食建议内容
+      updateDishContents(screen, currentIndex);
+    }
+    
+    // 滑动到指定索引
+    function slideTo(index) {
+      if (index < 0 || index >= totalSlides) return;
+      
+      currentIndex = index;
+      const slideWidth = slider.clientWidth;
+      slider.scrollTo({
+        left: slideWidth * index,
+        behavior: 'smooth'
       });
       
-      // 点击信息提示查看详情
-      const infoTip = nutritionHealthCard.querySelector('.py-2.px-3.bg-green-50');
-      if (infoTip) {
-        infoTip.addEventListener('click', function() {
-          showIOSActionSheet([
-            { text: 'View Full Nutrition Facts', action: () => showNutritionDetails() },
-            { text: 'Understand This Rating', action: () => showIOSToast('Based on macronutrient balance and quality') },
-            { text: 'Compare With Similar Dishes', action: () => showIOSToast('Comparison feature coming soon') }
-          ]);
-        });
+      updateSliderState();
+    }
+    
+    // 添加左右箭头点击事件
+    if (leftArrow) {
+      leftArrow.addEventListener('click', () => {
+        slideTo(currentIndex - 1);
+      });
+    }
+    
+    if (rightArrow) {
+      rightArrow.addEventListener('click', () => {
+        slideTo(currentIndex + 1);
+      });
+    }
+    
+    // 添加触摸滑动功能
+    let startX, isDragging = false;
+    
+    slider.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+    }, { passive: true });
+    
+    slider.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+    }, { passive: true });
+    
+    slider.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      
+      const endX = e.changedTouches[0].clientX;
+      const diffX = endX - startX;
+      
+      if (Math.abs(diffX) > 50) { // 最小滑动距离
+        if (diffX > 0 && currentIndex > 0) {
+          // 向右滑动，显示前一张
+          slideTo(currentIndex - 1);
+        } else if (diffX < 0 && currentIndex < totalSlides - 1) {
+          // 向左滑动，显示下一张
+          slideTo(currentIndex + 1);
+        }
+      }
+      
+      isDragging = false;
+    });
+    
+    // 监听滚动事件，更新当前索引
+    slider.addEventListener('scroll', () => {
+      const slideWidth = slider.clientWidth;
+      const scrollPosition = slider.scrollLeft;
+      
+      // 计算当前索引
+      const newIndex = Math.round(scrollPosition / slideWidth);
+      
+      if (newIndex !== currentIndex) {
+        currentIndex = newIndex;
+        updateSliderState();
+      }
+    });
+    
+    // 初始化滑动状态
+    updateSliderState();
+  }
+  
+  /**
+   * 根据当前选择的菜品更新分析内容
+   * @param {HTMLElement} screen - 菜品识别页面元素
+   * @param {number} dishIndex - 当前菜品索引
+   */
+  function updateDishContents(screen, dishIndex) {
+    // 菜品数据映射（模拟实际应用中的不同菜品数据）
+    const dishesData = [
+      {
+        name: "Grilled Salmon with Vegetables",
+        calories: 195,
+        healthScore: 9.2,
+        glycemicLoad: "Low (8)",
+        nutritionInfo: {
+          protein: 25,
+          carbs: 10,
+          fat: 9,
+          fiber: 3,
+          sugar: 2,
+          sodium: 380
+        },
+        percentages: {
+          protein: 45,
+          carbs: 15,
+          fat: 20,
+          fiber: 20
+        }
+      },
+      {
+        name: "Vegetable Salad",
+        calories: 120,
+        healthScore: 9.5,
+        glycemicLoad: "Very Low (4)",
+        nutritionInfo: {
+          protein: 5,
+          carbs: 15,
+          fat: 7,
+          fiber: 8,
+          sugar: 6,
+          sodium: 180
+        },
+        percentages: {
+          protein: 10,
+          carbs: 25,
+          fat: 15,
+          fiber: 50
+        }
+      },
+      {
+        name: "Fruit Platter",
+        calories: 150,
+        healthScore: 8.0,
+        glycemicLoad: "Medium (12)",
+        nutritionInfo: {
+          protein: 2,
+          carbs: 35,
+          fat: 1,
+          fiber: 6,
+          sugar: 28,
+          sodium: 15
+        },
+        percentages: {
+          protein: 5,
+          carbs: 70,
+          fat: 5,
+          fiber: 20
+        }
+      }
+    ];
+    
+    // 获取当前菜品数据
+    const dishData = dishesData[dishIndex] || dishesData[0];
+    
+    // 更新菜品名称
+    const dishNameEl = screen.querySelector('.dish-name-container h2');
+    if (dishNameEl) {
+      dishNameEl.textContent = dishData.name;
+    }
+    
+    // 更新血糖负荷信息
+    const glycemicLoadEl = screen.querySelector('.glycemic-info .text-green-600');
+    if (glycemicLoadEl) {
+      glycemicLoadEl.textContent = dishData.glycemicLoad;
+    }
+    
+    // 更新卡路里和营养成分内容
+    const nutritionVisualsContainer = screen.querySelector('.macros-section');
+    if (nutritionVisualsContainer) {
+      const donutChartNumber = nutritionVisualsContainer.querySelector('.chart-number');
+      if (donutChartNumber) {
+        donutChartNumber.textContent = dishData.calories;
+      }
+      
+      // 更新宏量营养素
+      const macroItems = nutritionVisualsContainer.querySelectorAll('.macro-item');
+      if (macroItems.length >= 3) {
+        // 蛋白质
+        macroItems[0].querySelector('.font-bold').textContent = `${dishData.nutritionInfo.protein}g`;
+        
+        // 脂肪
+        macroItems[1].querySelector('.font-bold').textContent = `${dishData.nutritionInfo.fat}g`;
+        
+        // 碳水
+        macroItems[2].querySelector('.font-bold').textContent = `${dishData.nutritionInfo.carbs}g`;
       }
     }
     
-    // 血糖影响卡片交互
-    const glucoseCard = screen.querySelector('.analysis-section > div:nth-child(2)');
-    if (glucoseCard) {
-      glucoseCard.addEventListener('click', function() {
-        showIOSModal('Glucose Impact Details', `
-          <div class="p-4">
-            <p class="text-sm text-gray-600 mb-4">
-              This dish has a low glycemic impact, meaning it's unlikely to cause a significant spike in blood sugar.
-            </p>
-            <div class="mb-4">
-              <h4 class="font-medium text-gray-800 mb-2">Why is this important?</h4>
-              <p class="text-sm text-gray-600">
-                Foods with a lower glycemic impact help maintain stable blood sugar levels, which can:
-              </p>
-              <ul class="text-sm text-gray-600 space-y-1 mt-2 ml-4 list-disc">
-                <li>Provide more consistent energy</li>
-                <li>Reduce hunger between meals</li>
-                <li>Lower risk of type 2 diabetes over time</li>
-                <li>Help with weight management</li>
-              </ul>
-            </div>
-            <div>
-              <h4 class="font-medium text-gray-800 mb-2">Key factors in this dish:</h4>
-              <div class="space-y-2">
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-sm">High protein content (25g)</span>
-                </div>
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-sm">Low simple carbohydrates</span>
-                </div>
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                  </svg>
-                  <span class="text-sm">Presence of healthy fats</span>
+    // 更新饮食建议内容（这里简化处理，实际应用中可根据不同菜品使用generateDietaryGuidance函数）
+    const guidanceContentEl = screen.querySelector('.guidance-content');
+    if (guidanceContentEl) {
+      if (dishIndex === 0) {
+        guidanceContentEl.textContent = 'Eat the salmon first to promote better glucose control. The protein helps slow digestion.';
+      } else if (dishIndex === 1) {
+        guidanceContentEl.textContent = 'This salad is rich in dietary fiber, helping maintain blood sugar stability and is an ideal choice for weight management.';
+      } else if (dishIndex === 2) {
+        guidanceContentEl.textContent = 'Fruits contain natural sugars. Consider eating them after protein-rich foods to slow down blood sugar increase.';
+      }
+    }
+  }
+  
+  /**
+   * 显示指定页面
+   * @param {string} pageId - 要显示的页面ID
+   */
+  function showScreen(pageId) {
+    // 隐藏所有页面
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(screen => {
+      screen.style.display = 'none';
+    });
+    
+    // 显示指定页面
+    const targetScreen = document.querySelector(`.screen[data-page="${pageId}"]`);
+    if (targetScreen) {
+      targetScreen.style.display = 'flex';
+      console.log(`Showing screen: ${pageId}`);
+    }
+  }
+
+  /**
+   * 根据菜品分析生成个性化饮食建议
+   * @param {HTMLElement} container - 放置建议的容器元素
+   * @param {Object} analysisData - 菜品分析数据
+   */
+  function generateDietaryGuidance(container, analysisData = {}) {
+    // 默认分析数据
+    const defaultData = {
+      healthScore: 8.5,
+      glycemicLoad: 6,
+      carbPercentage: 15,
+      proteinPercentage: 45,
+      fatPercentage: 20,
+      fiberPercentage: 20,
+      calories: 195,
+      userProfile: {
+        diabetesRisk: 'low',
+        preferredDiet: 'balanced',
+        recentIntake: {
+          protein: 'low',
+          carbs: 'high',
+          fat: 'moderate'
+        }
+      }
+    };
+    
+    // 合并默认数据与传入的数据
+    const data = {...defaultData, ...analysisData};
+    
+    // 根据数据生成建议内容
+    let guidance = '';
+    
+    // 基于健康评分的建议
+    if (data.healthScore >= 8.0) {
+      guidance += `<div class="guidance-item mb-3">
+        <div class="flex items-center text-green-600 mb-1">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-medium text-sm">Nutritionally Balanced Choice</span>
+        </div>
+        <p class="text-xs text-gray-600">This dish is rich in protein and fiber, making it suitable as part of your regular diet.</p>
+      </div>`;
+    } else if (data.healthScore >= 6.0) {
+      guidance += `<div class="guidance-item mb-3">
+        <div class="flex items-center text-yellow-600 mb-1">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+          <span class="font-medium text-sm">Moderate Consumption</span>
+        </div>
+        <p class="text-xs text-gray-600">This dish has moderate nutritional value. Consider pairing with more vegetables and fruits to improve overall nutrition.</p>
+      </div>`;
+    } else {
+      guidance += `<div class="guidance-item mb-3">
+        <div class="flex items-center text-red-600 mb-1">
+          <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-medium text-sm">Consume with Caution</span>
+        </div>
+        <p class="text-xs text-gray-600">This dish has a low health score. Consider reducing consumption frequency and choosing healthier alternatives.</p>
+      </div>`;
+    }
+    
+    // 基于血糖负荷的建议
+    // ... (保持不变)
+  }
+
+  /**
+   * @function createNutritionVisuals
+   * @description 创建营养数据可视化元素
+   * @param {HTMLElement} container - 要添加可视化元素的容器
+   * @param {Object} dishData - 菜品营养数据
+   * @param {number} dishData.calories - 卡路里数量
+   * @param {Object} dishData.nutritionInfo - 营养素详细信息
+   * @param {Object} dishData.percentages - 各营养素占比
+   * @param {Object} dishData.goal - 每日营养目标
+   */
+  function createNutritionVisuals(container, dishData) {
+    // 设置默认值
+    const data = {
+      calories: dishData.calories || 0,
+      nutritionInfo: dishData.nutritionInfo || {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0,
+        sugar: 0,
+        sodium: 0
+      },
+      percentages: dishData.percentages || {
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        fiber: 0
+      },
+      goal: dishData.goal || {
+        calories: 2000,
+        protein: 50,
+        carbs: 275,
+        fat: 70
+      }
+    };
+    
+    // 计算每日目标百分比
+    const caloriePercentage = Math.min(Math.round((data.calories / data.goal.calories) * 100), 100);
+    const proteinPercentage = Math.min(Math.round((data.nutritionInfo.protein / data.goal.protein) * 100), 100);
+    const carbsPercentage = Math.min(Math.round((data.nutritionInfo.carbs / data.goal.carbs) * 100), 100);
+    const fatPercentage = Math.min(Math.round((data.nutritionInfo.fat / data.goal.fat) * 100), 100);
+    
+    // 创建HTML结构
+    const html = `
+      <div class="nutrition-visuals p-4">
+        <div class="flex flex-wrap">
+          <!-- 卡路里可视化部分 -->
+          <div class="w-full md:w-2/5 mb-4 md:mb-0 pr-0 md:pr-4">
+            <div class="calorie-ring relative">
+              <div class="flex flex-col items-center justify-center">
+                <svg class="w-32 h-32" viewBox="0 0 36 36">
+                  <path class="circle-bg"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#E5E7EB"
+                    stroke-width="2"
+                  />
+                  <path class="circle"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    stroke="#22C55E"
+                    stroke-width="2"
+                    stroke-dasharray="${caloriePercentage}, 100"
+                    stroke-dashoffset="25"
+                  />
+                  <text x="18" y="17" class="calorie-text" text-anchor="middle" alignment-baseline="middle" fill="#111827" font-size="8" font-weight="bold">${data.calories}</text>
+                  <text x="18" y="23" class="calorie-unit" text-anchor="middle" alignment-baseline="middle" fill="#6B7280" font-size="3">CALORIES</text>
+                </svg>
+                <div class="text-center mt-2">
+                  <div class="text-sm text-gray-500">${caloriePercentage}% of daily goal</div>
                 </div>
               </div>
             </div>
           </div>
-        `);
-      });
-    }
-    
-    // 智能指导卡片交互
-    const guidanceCard = screen.querySelector('.analysis-section > div:nth-child(3)');
-    if (guidanceCard) {
-      // 点击"查看更多建议"按钮
-      const moreGuidanceButton = guidanceCard.querySelector('button');
-      if (moreGuidanceButton) {
-        moreGuidanceButton.addEventListener('click', function() {
-          showIOSModal('More Recommendations', `
-            <div class="p-4 space-y-4">
-              <div class="flex">
-                <div class="w-8 h-8 rounded-full bg-[#FFBE98] bg-opacity-10 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg class="w-4 h-4 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-800 mb-1">Time Your Meal Carefully</div>
-                  <p class="text-xs text-gray-600">For optimal metabolism, try to eat this meal at least 3 hours before bedtime.</p>
-                </div>
-              </div>
-              
-              <div class="flex">
-                <div class="w-8 h-8 rounded-full bg-[#FFBE98] bg-opacity-10 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg class="w-4 h-4 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
-                  </svg>
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-800 mb-1">Add Lemon or Herbs</div>
-                  <p class="text-xs text-gray-600">Enhance flavor without extra calories by adding lemon juice or fresh herbs.</p>
-                </div>
-              </div>
-              
-              <div class="flex">
-                <div class="w-8 h-8 rounded-full bg-[#FFBE98] bg-opacity-10 flex items-center justify-center mr-3 flex-shrink-0">
-                  <svg class="w-4 h-4 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"></path>
-                  </svg>
-                </div>
-                <div>
-                  <div class="text-sm font-medium text-gray-800 mb-1">Hydration Pairing</div>
-                  <p class="text-xs text-gray-600">Drink water with this protein-rich meal to support optimal digestion.</p>
-                </div>
-              </div>
-            </div>
-          `);
-        });
-      }
-      
-      // 点击各项建议查看详情
-      const guidanceItems = guidanceCard.querySelectorAll('.flex.mb-2, .flex:last-child');
-      guidanceItems.forEach(item => {
-        item.addEventListener('click', function() {
-          const guidanceTitle = this.querySelector('.text-sm.font-medium').textContent;
-          const guidanceDesc = this.querySelector('.text-xs.text-gray-600').textContent;
           
-          showIOSModal(guidanceTitle, `
-            <div class="p-4">
-              <p class="text-sm text-gray-600 mb-4">${guidanceDesc}</p>
-              <h4 class="font-medium text-gray-800 mb-2">Why this matters:</h4>
-              <p class="text-sm text-gray-600 mb-4">
-                This recommendation is personalized based on your meal composition and helps optimize your nutritional intake and metabolic response.
-              </p>
-              <div class="bg-blue-50 p-3 rounded-lg">
-                <h4 class="font-medium text-blue-800 text-sm mb-1">Did you know?</h4>
-                <p class="text-xs text-blue-700">
-                  Research shows that implementing these small changes can improve satiety by up to 23% and help maintain more stable energy levels throughout the day.
-                </p>
+          <!-- 营养素分布条 -->
+          <div class="w-full md:w-3/5">
+            <h3 class="text-sm font-medium text-gray-700 mb-3">Nutrient Distribution</h3>
+            
+            <!-- 蛋白质 -->
+            <div class="nutrient-bar mb-3" data-nutrient="protein">
+              <div class="flex justify-between items-center mb-1">
+                <div class="flex items-center">
+                  <div class="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
+                  <span class="text-xs font-medium">Protein</span>
+                </div>
+                <span class="text-xs text-gray-500">${data.nutritionInfo.protein}g</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 relative">
+                <div class="absolute left-0 bg-blue-500 h-2 rounded-full" style="width: ${proteinPercentage}%"></div>
               </div>
             </div>
-          `);
-        });
-      });
-    }
-  }
-  
-  /**
-   * 显示iOS风格的模态框
-   * @param {string} title - 模态框标题
-   * @param {string} content - 模态框内容HTML
-   */
-  function showIOSModal(title, content, confirmText = '确认', cancelText = '取消', onConfirm = null) {
-    // 检查是否已存在模态窗口，如果存在则移除
-    const existingModal = document.querySelector('.ios-modal');
-    if (existingModal) {
-      document.body.removeChild(existingModal);
-    }
-    
-    // 创建模态窗口容器
-    const modalContainer = document.createElement('div');
-    modalContainer.className = 'ios-modal animated-entry';
-    
-    // 创建模态窗口内容
-    const modalContent = document.createElement('div');
-    modalContent.className = 'animated-modal';
-    modalContent.style.width = '270px';
-    modalContent.style.backgroundColor = '#fff';
-    modalContent.style.borderRadius = '13px';
-    modalContent.style.overflow = 'hidden';
-    modalContent.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.15)';
-    
-    // 创建标题
-    const titleElement = document.createElement('div');
-    titleElement.style.padding = '18px 16px 0';
-    titleElement.style.fontSize = '17px';
-    titleElement.style.fontWeight = '600';
-    titleElement.style.textAlign = 'center';
-    titleElement.textContent = title;
-    
-    // 创建消息
-    const messageElement = document.createElement('div');
-    messageElement.style.padding = '10px 16px 18px';
-    messageElement.style.fontSize = '13px';
-    messageElement.style.color = '#666';
-    messageElement.style.textAlign = 'center';
-    messageElement.style.wordBreak = 'break-word';
-    messageElement.textContent = content;
-    
-    // 创建按钮容器
-    const buttonContainer = document.createElement('div');
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.borderTop = '1px solid #e1e1e1';
-    
-    // 创建取消按钮
-    const cancelButton = document.createElement('button');
-    cancelButton.className = 'ripple';
-    cancelButton.style.flex = '1';
-    cancelButton.style.padding = '13px 0';
-    cancelButton.style.fontSize = '16px';
-    cancelButton.style.fontWeight = '500';
-    cancelButton.style.color = '#007aff';
-    cancelButton.style.backgroundColor = 'transparent';
-    cancelButton.style.border = 'none';
-    cancelButton.style.outline = 'none';
-    if (confirmText) {
-      cancelButton.style.borderRight = '1px solid #e1e1e1';
-    }
-    cancelButton.textContent = cancelText;
-    
-    // 添加取消按钮点击事件
-    cancelButton.addEventListener('click', () => {
-      closeModal();
-    });
-    
-    // 将取消按钮添加到按钮容器
-    buttonContainer.appendChild(cancelButton);
-    
-    // 如果有确认按钮文本，则创建确认按钮
-    if (confirmText) {
-      const confirmButton = document.createElement('button');
-      confirmButton.className = 'ripple';
-      confirmButton.style.flex = '1';
-      confirmButton.style.padding = '13px 0';
-      confirmButton.style.fontSize = '16px';
-      confirmButton.style.fontWeight = '600';
-      confirmButton.style.color = '#007aff';
-      confirmButton.style.backgroundColor = 'transparent';
-      confirmButton.style.border = 'none';
-      confirmButton.style.outline = 'none';
-      confirmButton.textContent = confirmText;
-      
-      // 添加确认按钮点击事件
-      confirmButton.addEventListener('click', () => {
-        if (onConfirm) {
-          onConfirm();
-        }
-        closeModal();
-      });
-      
-      // 将确认按钮添加到按钮容器
-      buttonContainer.appendChild(confirmButton);
-    }
-    
-    // 组装模态窗口
-    modalContent.appendChild(titleElement);
-    modalContent.appendChild(messageElement);
-    modalContent.appendChild(buttonContainer);
-    modalContainer.appendChild(modalContent);
-    
-    // 添加背景遮罩
-    modalContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
-    
-    // 添加模态窗口到页面
-    document.body.appendChild(modalContainer);
-    
-    // 动画展示模态窗口
-    setTimeout(() => {
-      modalContainer.classList.add('show');
-    }, 10);
-    
-    // 关闭模态窗口的函数
-    function closeModal() {
-      modalContainer.classList.add('hide');
-      modalContainer.classList.remove('show');
-      
-      // 动画结束后移除模态窗口
-      setTimeout(() => {
-        if (modalContainer.parentNode) {
-          document.body.removeChild(modalContainer);
-        }
-      }, 300);
-    }
-  }
-  
-  /**
-   * 创建iOS风格操作表单
-   * @param {string} title - 操作表单标题
-   * @param {Array} actions - 操作项数组，格式：[{text: '操作文本', action: 回调函数}]
-   */
-  function createIOSActionSheet(title, actions) {
-    // 检查是否已存在操作表单，如果存在则移除
-    const existingSheet = document.querySelector('.ios-action-sheet');
-    if (existingSheet) {
-      document.body.removeChild(existingSheet);
-    }
-    
-    // 创建操作表单容器
-    const sheetContainer = document.createElement('div');
-    sheetContainer.className = 'ios-action-sheet animated-entry';
-    
-    // 创建操作表单内容
-    const sheetContent = document.createElement('div');
-    sheetContent.className = 'sheet-content';
-    sheetContent.style.position = 'fixed';
-    sheetContent.style.bottom = '0';
-    sheetContent.style.left = '0';
-    sheetContent.style.right = '0';
-    sheetContent.style.display = 'flex';
-    sheetContent.style.flexDirection = 'column';
-    sheetContent.style.padding = '8px 8px calc(8px + env(safe-area-inset-bottom, 8px))';
-    sheetContent.style.backgroundColor = 'transparent';
-    sheetContent.style.transform = 'translateY(100%)';
-    sheetContent.style.transition = 'transform 0.3s cubic-bezier(0.23, 1, 0.32, 1)';
-    sheetContent.style.zIndex = '1000';
-    
-    // 如果有标题，创建标题元素
-    if (title) {
-      const titleElement = document.createElement('div');
-      titleElement.style.margin = '8px 0';
-      titleElement.style.paddingTop = '8px';
-      titleElement.style.paddingBottom = '8px';
-      titleElement.style.paddingLeft = '12px';
-      titleElement.style.paddingRight = '12px';
-      titleElement.style.fontSize = '13px';
-      titleElement.style.color = '#8e8e93';
-      titleElement.style.textAlign = 'center';
-      titleElement.style.backgroundColor = 'rgba(248, 248, 248, 0.95)';
-      titleElement.style.borderRadius = '10px';
-      titleElement.style.backdropFilter = 'blur(10px)';
-      titleElement.style.webkitBackdropFilter = 'blur(10px)';
-      titleElement.textContent = title;
-      sheetContent.appendChild(titleElement);
-    }
-    
-    // 创建操作按钮
-    actions.forEach(action => {
-      const actionButton = document.createElement('button');
-      actionButton.className = 'ripple';
-      actionButton.style.margin = '4px 0';
-      actionButton.style.padding = '16px';
-      actionButton.style.fontSize = '16px';
-      actionButton.style.fontWeight = action.destructive ? '600' : '400';
-      actionButton.style.color = action.destructive ? '#ff3b30' : '#007aff';
-      actionButton.style.backgroundColor = 'rgba(248, 248, 248, 0.95)';
-      actionButton.style.border = 'none';
-      actionButton.style.borderRadius = '10px';
-      actionButton.style.textAlign = 'center';
-      actionButton.style.backdropFilter = 'blur(10px)';
-      actionButton.style.webkitBackdropFilter = 'blur(10px)';
-      actionButton.style.opacity = action.disabled ? '0.5' : '1';
-      actionButton.disabled = action.disabled;
-      actionButton.textContent = action.text;
-      
-      // 添加图标（如果有）
-      if (action.icon) {
-        actionButton.style.display = 'flex';
-        actionButton.style.alignItems = 'center';
-        actionButton.style.justifyContent = 'center';
+            
+            <!-- 碳水化合物 -->
+            <div class="nutrient-bar mb-3" data-nutrient="carbs">
+              <div class="flex justify-between items-center mb-1">
+                <div class="flex items-center">
+                  <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                  <span class="text-xs font-medium">Carbohydrates</span>
+                </div>
+                <span class="text-xs text-gray-500">${data.nutritionInfo.carbs}g</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 relative">
+                <div class="absolute left-0 bg-yellow-500 h-2 rounded-full" style="width: ${carbsPercentage}%"></div>
+              </div>
+            </div>
+            
+            <!-- 脂肪 -->
+            <div class="nutrient-bar mb-3" data-nutrient="fat">
+              <div class="flex justify-between items-center mb-1">
+                <div class="flex items-center">
+                  <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                  <span class="text-xs font-medium">Fat</span>
+                </div>
+                <span class="text-xs text-gray-500">${data.nutritionInfo.fat}g</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 relative">
+                <div class="absolute left-0 bg-red-500 h-2 rounded-full" style="width: ${fatPercentage}%"></div>
+              </div>
+            </div>
+            
+            <!-- 营养素比例图 -->
+            <div class="flex justify-between mt-4">
+              <div class="nutrient-percentage" style="width: ${data.percentages.protein}%" data-nutrient="protein">
+                <div class="h-4 bg-blue-500 rounded-l-full"></div>
+              </div>
+              <div class="nutrient-percentage" style="width: ${data.percentages.carbs}%" data-nutrient="carbs">
+                <div class="h-4 bg-yellow-500"></div>
+              </div>
+              <div class="nutrient-percentage" style="width: ${data.percentages.fat}%" data-nutrient="fat">
+                <div class="h-4 bg-red-500"></div>
+              </div>
+              <div class="nutrient-percentage" style="width: ${data.percentages.fiber}%" data-nutrient="fiber">
+                <div class="h-4 bg-green-500 rounded-r-full"></div>
+              </div>
+            </div>
+            <div class="text-xs text-gray-500 text-center mt-1">Nutrient Ratio</div>
+          </div>
+        </div>
         
-        const iconElement = document.createElement('span');
-        iconElement.className = action.icon;
-        iconElement.style.marginRight = '8px';
-        actionButton.prepend(iconElement);
-      }
-      
-      // 添加按钮点击事件
-      if (!action.disabled) {
-        actionButton.addEventListener('click', () => {
-          closeSheet();
-          if (action.handler) {
-            action.handler();
-          }
-        });
-      }
-      
-      sheetContent.appendChild(actionButton);
-    });
-    
-    // 创建取消按钮
-    const cancelButton = document.createElement('button');
-    cancelButton.className = 'ripple';
-    cancelButton.style.margin = '4px 0';
-    cancelButton.style.padding = '16px';
-    cancelButton.style.fontSize = '16px';
-    cancelButton.style.fontWeight = '600';
-    cancelButton.style.color = '#007aff';
-    cancelButton.style.backgroundColor = 'rgba(248, 248, 248, 0.95)';
-    cancelButton.style.border = 'none';
-    cancelButton.style.borderRadius = '10px';
-    cancelButton.style.textAlign = 'center';
-    cancelButton.style.backdropFilter = 'blur(10px)';
-    cancelButton.style.webkitBackdropFilter = 'blur(10px)';
-    cancelButton.textContent = '取消';
-    
-    // 添加取消按钮点击事件
-    cancelButton.addEventListener('click', closeSheet);
-    
-    sheetContent.appendChild(cancelButton);
-    
-    // 创建背景遮罩
-    const backdrop = document.createElement('div');
-    backdrop.style.position = 'fixed';
-    backdrop.style.top = '0';
-    backdrop.style.left = '0';
-    backdrop.style.right = '0';
-    backdrop.style.bottom = '0';
-    backdrop.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-    backdrop.style.transition = 'background-color 0.3s ease';
-    backdrop.style.zIndex = '999';
-    
-    // 添加背景点击事件
-    backdrop.addEventListener('click', closeSheet);
-    
-    // 组装操作表单
-    sheetContainer.appendChild(backdrop);
-    sheetContainer.appendChild(sheetContent);
-    
-    // 添加操作表单到页面
-    document.body.appendChild(sheetContainer);
-    
-    // 显示操作表单
-    setTimeout(() => {
-      backdrop.style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
-      sheetContent.style.transform = 'translateY(0)';
-    }, 10);
-    
-    // 关闭操作表单的函数
-    function closeSheet() {
-      backdrop.style.backgroundColor = 'rgba(0, 0, 0, 0)';
-      sheetContent.style.transform = 'translateY(100%)';
-      
-      // 动画结束后移除操作表单
-      setTimeout(() => {
-        if (sheetContainer.parentNode) {
-          document.body.removeChild(sheetContainer);
-        }
-      }, 300);
-    }
-    
-    return {
-      close: closeSheet
-    };
-  }
-  
-  /**
-   * 显示iOS风格的Toast提示
-   * @param {Object} options - Toast配置选项
-   * @param {string} options.message - 显示的消息内容
-   * @param {string} [options.icon] - 可选的图标类名
-   * @param {string} [options.type='default'] - 提示类型 (default, success, error, warning, info)
-   * @param {number} [options.duration=2000] - 显示持续时间(毫秒)
-   * @param {boolean} [options.showProgress=false] - 是否显示进度条
-   * @param {function} [options.onClose] - 关闭时的回调函数
-   * @returns {Object} 带有close方法的对象，用于手动关闭Toast
-   */
-  function showIOSToast(options) {
-    // 设置默认值
-    const {
-      message,
-      icon,
-      type = 'default',
-      duration = 2000,
-      showProgress = false,
-      onClose
-    } = typeof options === 'string' ? { message: options } : options;
-    
-    // 移除现有的Toast通知
-    const existingToasts = document.querySelectorAll('.ios-toast');
-    existingToasts.forEach(toast => {
-      toast.classList.add('hide');
-      setTimeout(() => toast.remove(), 300);
-    });
-    
-    // 创建Toast容器
-    const toast = document.createElement('div');
-    toast.classList.add('ios-toast');
-    
-    // 根据类型设置样式
-    let backgroundColor, iconClass;
-    switch (type) {
-      case 'success':
-        backgroundColor = 'rgba(52, 199, 89, 0.95)';
-        iconClass = icon || 'checkmark-circle';
-        break;
-      case 'error':
-        backgroundColor = 'rgba(255, 59, 48, 0.95)';
-        iconClass = icon || 'close-circle';
-        break;
-      case 'warning':
-        backgroundColor = 'rgba(255, 149, 0, 0.95)';
-        iconClass = icon || 'warning';
-        break;
-      case 'info':
-        backgroundColor = 'rgba(0, 122, 255, 0.95)';
-        iconClass = icon || 'information-circle';
-        break;
-      default:
-        backgroundColor = 'rgba(58, 58, 60, 0.95)';
-        iconClass = icon || '';
-    }
-    
-    toast.style.backgroundColor = backgroundColor;
-    
-    // 构建Toast内容
-    let toastContent = '';
-    
-    if (iconClass) {
-      toastContent += `<span class="toast-icon ${iconClass}" style="margin-right: 8px; display: inline-flex; align-items: center;"></span>`;
-    }
-    
-    toastContent += `<span>${message}</span>`;
-    
-    if (showProgress) {
-      toastContent += `
-        <div class="toast-progress" style="position: absolute; bottom: 0; left: 0; height: 3px; width: 0; background-color: rgba(255, 255, 255, 0.7); transition: width ${duration}ms linear;"></div>
-      `;
-    }
-    
-    toast.innerHTML = toastContent;
-    
-    // Toast样式
-    toast.style.position = 'fixed';
-    toast.style.left = '50%';
-    toast.style.top = '10%';
-    toast.style.display = 'flex';
-    toast.style.alignItems = 'center';
-    toast.style.justifyContent = 'center';
-    toast.style.paddingTop = '10px';
-    toast.style.paddingBottom = '10px';
-    toast.style.paddingLeft = '16px';
-    toast.style.paddingRight = '16px';
-    toast.style.borderRadius = '12px';
-    toast.style.boxShadow = '0 4px 23px 0 rgba(0, 0, 0, 0.2)';
-    toast.style.maxWidth = '90%';
-    toast.style.minWidth = '160px';
-    toast.style.fontSize = '14px';
-    toast.style.fontWeight = '500';
-    toast.style.lineHeight = '1.4';
-    toast.style.transform = 'translate(-50%, -20px) scale(0.8)';
-    toast.style.opacity = '0';
-    toast.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-    toast.style.backdropFilter = 'blur(10px)';
-    toast.style.webkitBackdropFilter = 'blur(10px)';
-    toast.style.zIndex = '9999';
-    
-    // 添加到DOM
-    document.body.appendChild(toast);
-    
-    // 显示Toast
-    setTimeout(() => {
-      toast.style.transform = 'translate(-50%, 0) scale(1)';
-      toast.style.opacity = '1';
-      
-      if (showProgress) {
-        const progressBar = toast.querySelector('.toast-progress');
-        if (progressBar) {
-          progressBar.style.width = '100%';
-        }
-      }
-    }, 10);
-    
-    // 自动关闭
-    let timeoutId;
-    
-    const closeToast = () => {
-      clearTimeout(timeoutId);
-      toast.style.transform = 'translate(-50%, -20px) scale(0.8)';
-      toast.style.opacity = '0';
-      
-      setTimeout(() => {
-        if (document.body.contains(toast)) {
-          document.body.removeChild(toast);
-          if (typeof onClose === 'function') {
-            onClose();
-          }
-        }
-      }, 300);
-    };
-    
-    timeoutId = setTimeout(closeToast, duration);
-    
-    // 点击关闭
-    toast.addEventListener('click', () => {
-      closeToast();
-    });
-    
-    // 返回手动关闭方法
-    return {
-      close: closeToast
-    };
-  }
-  
-  /**
-   * 显示营养详情
-   */
-  function showNutritionDetails() {
-    showIOSModal('Complete Nutrition Facts', `
-      <div class="p-4">
-        <div class="nutrient-details">
-          <h3 class="text-lg font-semibold mb-3">详细营养成分</h3>
-          <div class="grid grid-cols-2 gap-3">
-            <div class="nutrient-item">
-              <span class="text-gray-600">热量</span>
-              <span class="font-medium">320 kcal</span>
+        <!-- 详细营养素信息 -->
+        <div class="detailed-nutrients mt-4 pt-4 border-t border-gray-200">
+          <div class="grid grid-cols-3 gap-2">
+            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center" data-nutrient="fiber">
+              <div class="text-sm font-medium">${data.nutritionInfo.fiber}g</div>
+              <div class="text-xs text-gray-500">Dietary Fiber</div>
             </div>
-            <div class="nutrient-item">
-              <span class="text-gray-600">蛋白质</span>
-              <span class="font-medium">12g</span>
+            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center" data-nutrient="sugar">
+              <div class="text-sm font-medium">${data.nutritionInfo.sugar}g</div>
+              <div class="text-xs text-gray-500">Sugar</div>
             </div>
-            <div class="nutrient-item">
-              <span class="text-gray-600">脂肪</span>
-              <span class="font-medium">15g</span>
+            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center" data-nutrient="sodium">
+              <div class="text-sm font-medium">${data.nutritionInfo.sodium}mg</div>
+              <div class="text-xs text-gray-500">Sodium</div>
             </div>
-            <div class="nutrient-item">
-              <span class="text-gray-600">碳水化合物</span>
-              <span class="font-medium">36g</span>
-            </div>
-            <div class="nutrient-item">
-              <span class="text-gray-600">纤维素</span>
-              <span class="font-medium">4g</span>
-            </div>
-            <div class="nutrient-item">
-              <span class="text-gray-600">糖</span>
-              <span class="font-medium">8g</span>
-            </div>
+          </div>
+          <div class="text-center mt-3">
+            <button class="show-more-nutrients text-xs text-blue-500">View more nutrition information ↓</button>
           </div>
         </div>
       </div>
-    `, '确定', '取消');
-  }
-
-  // 添加CSS样式
-  function addAnimationStyles() {
-    const styleElement = document.createElement('style');
-    styleElement.textContent = `
-      /* 动画基础类 */
-      .animated-entry {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 50;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s ease-out;
-      }
-      
-      .animated-entry.show {
-        opacity: 1;
-      }
-      
-      .animated-entry.hide {
-        opacity: 0;
-      }
-      
-      /* 模态框动画 */
-      .ios-modal {
-        align-items: center;
-        justify-content: center;
-      }
-      
-      .animated-modal {
-        transform: scale(0.95);
-        opacity: 0;
-        transition: transform 0.3s ease-out, opacity 0.3s ease-out;
-      }
-      
-      .ios-modal.show .animated-modal {
-        transform: scale(1);
-        opacity: 1;
-      }
-      
-      .ios-modal.hide .animated-modal {
-        transform: scale(0.95);
-        opacity: 0;
-      }
-      
-      /* 操作表动画 */
-      .ios-action-sheet {
-        align-items: flex-end;
-      }
-      
-      .animated-sheet {
-        transform: translateY(100%);
-        transition: transform 0.3s ease-out;
-      }
-      
-      .ios-action-sheet.show .animated-sheet {
-        transform: translateY(0);
-      }
-      
-      .ios-action-sheet.hide .animated-sheet {
-        transform: translateY(100%);
-      }
-      
-      /* 提示框动画 */
-      .ios-toast {
-        position: fixed;
-        top: 48px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-20px);
-        z-index: 60;
-        background-color: rgba(51, 51, 51, 0.9);
-        color: white;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 500;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-      }
-      
-      .ios-toast.show {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
-      
-      .ios-toast.hide {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-      }
-      
-      /* 底部安全区域 */
-      .mb-safe {
-        margin-bottom: env(safe-area-inset-bottom, 20px);
-      }
-      
-      /* 按钮触感反馈 */
-      .btn-feedback {
-        position: relative;
-        overflow: hidden;
-      }
-      
-      .btn-feedback::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.05);
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-      
-      .btn-feedback:active::after {
-        opacity: 1;
-      }
-      
-      /* 卡片上升动画 */
-      .card-rise {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      
-      .card-rise:active {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      }
-      
-      /* 按钮点击波纹效果 */
-      .ripple {
-        position: relative;
-        overflow: hidden;
-        transform: translate3d(0, 0, 0);
-      }
-      
-      .ripple::after {
-        content: "";
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        background-image: radial-gradient(circle, #000 10%, transparent 10.01%);
-        background-repeat: no-repeat;
-        background-position: 50%;
-        transform: scale(10, 10);
-        opacity: 0;
-        transition: transform .5s, opacity 1s;
-      }
-      
-      .ripple:active::after {
-        transform: scale(0, 0);
-        opacity: 0.1;
-        transition: 0s;
-      }
     `;
     
-    document.head.appendChild(styleElement);
+    // 添加HTML到容器
+    container.innerHTML = html;
+    
+    // 添加点击展开更多营养素信息的功能
+    const showMoreButton = container.querySelector('.show-more-nutrients');
+    if (showMoreButton) {
+      showMoreButton.addEventListener('click', function() {
+        const detailedNutrients = container.querySelector('.detailed-nutrients');
+        // 这里可以添加更多营养素信息
+        const moreNutrientsHTML = `
+          <div class="grid grid-cols-3 gap-2 mt-3">
+            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center">
+              <div class="text-sm font-medium">3.5g</div>
+              <div class="text-xs text-gray-500">Saturated Fat</div>
+            </div>
+            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center">
+              <div class="text-sm font-medium">58mg</div>
+              <div class="text-xs text-gray-500">Cholesterol</div>
+            </div>
+            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center">
+              <div class="text-sm font-medium">12mg</div>
+              <div class="text-xs text-gray-500">Vitamin C</div>
+            </div>
+          </div>
+        `;
+        
+        // 在按钮前插入更多营养素信息
+        const buttonContainer = showMoreButton.parentNode;
+        buttonContainer.insertAdjacentHTML('beforebegin', moreNutrientsHTML);
+        
+        // 隐藏按钮
+        buttonContainer.style.display = 'none';
+      });
+    }
+    
+    // 添加营养素条的悬停和点击事件
+    const nutrientBars = container.querySelectorAll('.nutrient-bar');
+    nutrientBars.forEach(bar => {
+      const nutrientType = bar.getAttribute('data-nutrient');
+      
+      // 展示详细信息的函数
+      function showDetails() {
+        let detailText = '';
+        let goalText = '';
+        
+        switch(nutrientType) {
+          case 'protein':
+            detailText = `Protein helps with muscle growth and repair.`;
+            goalText = `Daily Goal: ${data.goal.protein}g`;
+            break;
+          case 'carbs':
+            detailText = `Carbohydrates are the body's main energy source.`;
+            goalText = `Daily Goal: ${data.goal.carbs}g`;
+            break;
+          case 'fat':
+            detailText = `Healthy fats are essential for hormones and cell function.`;
+            goalText = `Daily Goal: ${data.goal.fat}g`;
+            break;
+        }
+        
+        // 创建详情弹窗
+        const detailPopup = document.createElement('div');
+        detailPopup.className = 'nutrient-detail-popup absolute bg-white shadow-lg rounded-lg p-3 z-10';
+        detailPopup.style.width = '200px';
+        detailPopup.style.top = `${bar.offsetTop - 10}px`;
+        detailPopup.style.left = `${bar.offsetLeft + bar.offsetWidth / 2 - 100}px`;
+        detailPopup.innerHTML = `
+          <div class="text-sm font-medium mb-1">${nutrientType === 'protein' ? 'Protein' : nutrientType === 'carbs' ? 'Carbohydrates' : 'Fat'}</div>
+          <div class="text-xs text-gray-600 mb-2">${detailText}</div>
+          <div class="text-xs text-gray-500">${goalText}</div>
+        `;
+        
+        // 添加点击关闭功能
+        detailPopup.addEventListener('click', function() {
+          detailPopup.remove();
+        });
+        
+        // 添加到页面
+        document.body.appendChild(detailPopup);
+        
+        // 5秒后自动关闭
+        setTimeout(() => {
+          if (document.body.contains(detailPopup)) {
+            detailPopup.remove();
+          }
+        }, 5000);
+      }
+      
+      // 桌面端使用悬停
+      bar.addEventListener('mouseenter', showDetails);
+      
+      // 移动端使用长按
+      let pressTimer;
+      bar.addEventListener('touchstart', function() {
+        pressTimer = setTimeout(showDetails, 500);
+      });
+      
+      bar.addEventListener('touchend', function() {
+        clearTimeout(pressTimer);
+      });
+    });
+  }
+
+  /**
+   * 创建iOS风格的模态框
+   * @param {string} title - 模态框标题
+   * @param {string} message - 模态框内容
+   * @param {Array} buttons - 按钮配置，格式: [{label: '取消', style: 'cancel'}, {label: '确定', style: 'default'}]
+   * @param {Function} callback - 点击按钮后的回调函数，参数为按钮索引
+   */
+  function createIOSModal(title, message, buttons, callback) {
+    // 创建遮罩层
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
+    
+    // 创建模态框容器
+    const modal = document.createElement('div');
+    modal.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden';
+    
+    // 创建模态框内容
+    let modalHTML = '';
+    
+    // 添加标题和消息
+    if (title) {
+      modalHTML += `<div class="px-4 pt-4 pb-2">
+        <h3 class="font-semibold text-center text-lg">${title}</h3>
+      </div>`;
+    }
+    
+    if (message) {
+      modalHTML += `<div class="px-4 pb-4">
+        <p class="text-center text-gray-600 text-sm">${message}</p>
+      </div>`;
+    }
+    
+    // 添加按钮
+    if (buttons && buttons.length) {
+      modalHTML += `<div class="border-t border-gray-200">`;
+      
+      buttons.forEach((button, index) => {
+        let buttonClasses = 'block w-full py-3 text-center font-medium';
+        
+        if (button.style === 'cancel') {
+          buttonClasses += ' text-gray-500';
+        } else if (button.style === 'destructive') {
+          buttonClasses += ' text-red-500';
+        } else {
+          buttonClasses += ' text-[#FFBE98]';
+        }
+        
+        if (index > 0) {
+          modalHTML += `<div class="border-t border-gray-200"></div>`;
+        }
+        
+        modalHTML += `<button data-index="${index}" class="${buttonClasses}">${button.label}</button>`;
+      });
+      
+      modalHTML += `</div>`;
+    }
+    
+    modal.innerHTML = modalHTML;
+    
+    // 添加按钮点击事件
+    modal.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', function() {
+        const index = parseInt(this.getAttribute('data-index'));
+        document.body.removeChild(overlay);
+        if (callback) callback(index);
+      });
+    });
+    
+    // 添加到页面
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+    
+    // 添加动画效果
+    overlay.style.opacity = 0;
+    modal.style.transform = 'scale(0.9)';
+    modal.style.transition = 'transform 0.2s ease-out';
+    overlay.style.transition = 'opacity 0.2s ease-out';
+    
+    setTimeout(() => {
+      overlay.style.opacity = 1;
+      modal.style.transform = 'scale(1)';
+    }, 10);
+    
+    return overlay;
+  }
+  
+  /**
+   * 创建iOS风格的操作表单
+   * @param {string} title - 操作表单标题
+   * @param {Array} options - 选项配置，格式: [{label: '选项1', icon: 'svg内容'}, {label: '选项2', icon: 'svg内容'}]
+   * @param {Function} callback - 点击选项后的回调函数，参数为选项索引
+   */
+  function createIOSActionSheet(title, options, callback) {
+    // 创建遮罩层
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 bg-black bg-opacity-40 z-50 flex items-end';
+    
+    // 创建操作表单容器
+    const actionSheet = document.createElement('div');
+    actionSheet.className = 'bg-gray-100 rounded-t-xl w-full pb-8 transform translate-y-full transition-transform duration-300 ease-out';
+    
+    // 创建操作表单内容
+    let actionSheetHTML = '';
+    
+    // 添加标题
+    if (title) {
+      actionSheetHTML += `<div class="px-4 py-3 bg-gray-50 rounded-t-xl">
+        <h3 class="font-medium text-center text-gray-500 text-sm">${title}</h3>
+      </div>`;
+    }
+    
+    // 添加选项
+    if (options && options.length) {
+      options.forEach((option, index) => {
+        actionSheetHTML += `
+          <div data-index="${index}" class="flex items-center px-4 py-3 bg-white border-b border-gray-100 active:bg-gray-50">
+            ${option.icon ? `<div class="mr-3">${option.icon}</div>` : ''}
+            <span class="text-base">${option.label}</span>
+          </div>
+        `;
+      });
+    }
+    
+    // 添加取消按钮
+    actionSheetHTML += `
+      <div class="mt-2">
+        <div data-index="-1" class="flex items-center justify-center px-4 py-3 bg-white rounded-lg mx-2 active:bg-gray-50">
+          <span class="text-base font-medium text-[#FFBE98]">Cancel</span>
+        </div>
+      </div>
+    `;
+    
+    actionSheet.innerHTML = actionSheetHTML;
+    
+    // 添加选项点击事件
+    actionSheet.querySelectorAll('[data-index]').forEach(option => {
+      option.addEventListener('click', function() {
+        const index = parseInt(this.getAttribute('data-index'));
+        closeActionSheet();
+        if (callback && index >= 0) callback(index);
+      });
+    });
+    
+    // 添加遮罩层点击事件
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) {
+        closeActionSheet();
+      }
+    });
+    
+    function closeActionSheet() {
+      actionSheet.style.transform = 'translateY(100%)';
+      overlay.style.opacity = 0;
+      
+      setTimeout(() => {
+        if (document.body.contains(overlay)) {
+          document.body.removeChild(overlay);
+        }
+      }, 300);
+    }
+    
+    // 添加到页面
+    overlay.appendChild(actionSheet);
+    document.body.appendChild(overlay);
+    
+    // 添加动画效果
+    setTimeout(() => {
+      actionSheet.style.transform = 'translateY(0)';
+    }, 10);
+    
+    return overlay;
+  }
+  
+  /**
+   * 创建iOS风格的轻提示
+   * @param {string} message - 提示内容
+   * @param {number} duration - 显示时长，单位ms
+   */
+  function createIOSToast(message, duration = 2000) {
+    // 创建提示容器
+    const toast = document.createElement('div');
+    toast.className = 'fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-lg z-50 opacity-0 transition-opacity duration-300';
+    toast.textContent = message;
+    
+    // 添加到页面
+    document.body.appendChild(toast);
+    
+    // 添加动画效果
+    setTimeout(() => {
+      toast.style.opacity = 1;
+      
+      setTimeout(() => {
+        toast.style.opacity = 0;
+        
+        setTimeout(() => {
+          if (document.body.contains(toast)) {
+            document.body.removeChild(toast);
+          }
+        }, 300);
+      }, duration);
+    }, 10);
+    
+    return toast;
+  }
+  
+  /**
+   * 创建iOS风格的输入框
+   * @param {string} title - 输入框标题
+   * @param {string} message - 输入框提示信息
+   * @param {string} placeholder - 输入框占位文本
+   * @param {string} defaultValue - 默认值
+   * @param {Function} callback - 点击按钮后的回调函数，参数为输入的文本内容
+   */
+  function createIOSPrompt(title, message, placeholder, defaultValue, callback) {
+    // 创建遮罩层
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
+    
+    // 创建输入框容器
+    const prompt = document.createElement('div');
+    prompt.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden';
+    
+    // 创建输入框内容
+    prompt.innerHTML = `
+      <div class="px-4 pt-4 pb-2">
+        <h3 class="font-semibold text-center text-lg">${title}</h3>
+      </div>
+      <div class="px-4 pb-4">
+        <p class="text-center text-gray-600 text-sm mb-3">${message}</p>
+        <input type="text" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#FFBE98] focus:border-transparent" placeholder="${placeholder}" value="${defaultValue || ''}">
+      </div>
+      <div class="border-t border-gray-200 flex">
+        <button class="cancel-button flex-1 py-3 text-center font-medium text-gray-500 border-r border-gray-200">Cancel</button>
+        <button class="confirm-button flex-1 py-3 text-center font-medium text-[#FFBE98]">OK</button>
+      </div>
+    `;
+    
+    // 获取输入框和按钮元素
+    const input = prompt.querySelector('input');
+    const cancelButton = prompt.querySelector('.cancel-button');
+    const confirmButton = prompt.querySelector('.confirm-button');
+    
+    // 添加按钮点击事件
+    cancelButton.addEventListener('click', function() {
+      document.body.removeChild(overlay);
+    });
+    
+    confirmButton.addEventListener('click', function() {
+      const value = input.value.trim();
+      document.body.removeChild(overlay);
+      if (callback) callback(value);
+    });
+    
+    // 添加键盘事件
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const value = input.value.trim();
+        document.body.removeChild(overlay);
+        if (callback) callback(value);
+      }
+    });
+    
+    // 添加到页面
+    overlay.appendChild(prompt);
+    document.body.appendChild(overlay);
+    
+    // 添加动画效果
+    overlay.style.opacity = 0;
+    prompt.style.transform = 'scale(0.9)';
+    prompt.style.transition = 'transform 0.2s ease-out';
+    overlay.style.transition = 'opacity 0.2s ease-out';
+    
+    setTimeout(() => {
+      overlay.style.opacity = 1;
+      prompt.style.transform = 'scale(1)';
+      input.focus();
+    }, 10);
+    
+    return overlay;
   }
 })(); 
