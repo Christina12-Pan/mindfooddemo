@@ -34,6 +34,39 @@
     function setupMutationObserver() {
         console.log('设置DOM变化观察器');
         
+        // 创建一个style元素来添加必要的CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            /* 淡入淡出动画 */
+            .fade-in {
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+            }
+            
+            .fade-out {
+                opacity: 0 !important;
+                transition: opacity 0.3s ease-in-out;
+            }
+            
+            /* 滑动进入动画 */
+            @keyframes slide-in {
+                0% {
+                    transform: translateY(20px);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            /* 应用到模态框内容 */
+            .nutrition-details-modal > div {
+                animation: slide-in 0.3s ease-out forwards;
+            }
+        `;
+        document.head.appendChild(style);
+        
         // 使用防抖函数限制触发频率
         let debounceTimer;
         
@@ -277,6 +310,12 @@
         viewMoreLink.textContent = 'View Details';
         viewMoreLink.href = '#';
         
+        // 添加点击事件
+        viewMoreLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showNutritionDetails();
+        });
+        
         viewMoreContainer.appendChild(viewMoreLink);
         unifiedCard.appendChild(viewMoreContainer);
         
@@ -414,5 +453,879 @@
         container.appendChild(descriptionElement);
         
         return container;
+    }
+    
+    /**
+     * 显示完整的营养详情模态框
+     */
+    function showNutritionDetails() {
+        // 创建模态框容器
+        const modalContainer = document.createElement('div');
+        modalContainer.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center nutrition-details-modal';
+        modalContainer.style.backdropFilter = 'blur(2px)';
+        modalContainer.style.opacity = '0'; // 初始设置为透明
+        
+        // 创建模态框内容
+        const modalContent = document.createElement('div');
+        modalContent.className = 'bg-white rounded-2xl max-w-md w-11/12 max-h-[80vh] overflow-hidden flex flex-col shadow-xl';
+        
+        // 创建模态框头部
+        const modalHeader = document.createElement('div');
+        modalHeader.className = 'p-4 border-b border-gray-100 flex justify-between items-center';
+        
+        const modalTitle = document.createElement('h3');
+        modalTitle.className = 'font-semibold text-gray-800';
+        modalTitle.textContent = 'Complete Nutrition Information';
+        
+        const closeButton = document.createElement('button');
+        closeButton.className = 'text-gray-400 hover:text-gray-600';
+        closeButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        `;
+        
+        modalHeader.appendChild(modalTitle);
+        modalHeader.appendChild(closeButton);
+        
+        // 创建模态框内容区域
+        const modalBody = document.createElement('div');
+        modalBody.className = 'p-4 overflow-y-auto flex-1';
+        
+        // 添加日期选择器
+        const dateSelector = document.createElement('div');
+        dateSelector.className = 'flex items-center justify-between mb-6';
+        
+        const prevDateButton = document.createElement('button');
+        prevDateButton.className = 'p-1 text-gray-400 hover:text-gray-600';
+        prevDateButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        `;
+        
+        const dateDisplay = document.createElement('div');
+        dateDisplay.className = 'flex items-center text-sm font-medium';
+        
+        const calendarIcon = document.createElement('span');
+        calendarIcon.className = 'mr-2 text-orange-400';
+        calendarIcon.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        `;
+        
+        const dateText = document.createElement('span');
+        dateText.textContent = 'Today - ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        dateDisplay.appendChild(calendarIcon);
+        dateDisplay.appendChild(dateText);
+        
+        const nextDateButton = document.createElement('button');
+        nextDateButton.className = 'p-1 text-gray-400 hover:text-gray-600';
+        nextDateButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        `;
+        
+        dateSelector.appendChild(prevDateButton);
+        dateSelector.appendChild(dateDisplay);
+        dateSelector.appendChild(nextDateButton);
+        
+        // 添加卡路里摘要
+        const caloriesSummary = document.createElement('div');
+        caloriesSummary.className = 'bg-gray-50 rounded-xl p-4 mb-6';
+        
+        caloriesSummary.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-sm font-medium text-gray-700">Daily Calories</div>
+                <div class="text-sm text-gray-500">Target: 1,399 kcal</div>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Consumed</div>
+                    <div class="text-lg font-bold text-gray-800">404</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Remaining</div>
+                    <div class="text-lg font-bold" style="color: #FFBE98;">995</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Burned</div>
+                    <div class="text-lg font-bold text-green-500">250</div>
+                </div>
+            </div>
+        `;
+        
+        // 添加营养素详情
+        const nutrientsTitle = document.createElement('h4');
+        nutrientsTitle.className = 'font-medium text-gray-700 mb-4';
+        nutrientsTitle.textContent = 'Macronutrients';
+        
+        const nutrientsList = document.createElement('div');
+        nutrientsList.className = 'space-y-4 mb-6';
+        
+        // 添加主要营养素
+        const macronutrients = [
+            { name: 'Protein', value: '23g', goal: '77g', percentage: 30, color: '#006D77' },
+            { name: 'Carbs', value: '53g', goal: '171g', percentage: 31, color: '#83C5BE' },
+            { name: 'Fats', value: '30g', goal: '67g', percentage: 45, color: '#EE6C4D' },
+            { name: 'Sugar', value: '12g', goal: '45g', percentage: 26, color: '#E29578' },
+            { name: 'Fiber', value: '8g', goal: '30g', percentage: 27, color: '#607D8B' }
+        ];
+        
+        macronutrients.forEach(nutrient => {
+            const nutrientItem = document.createElement('div');
+            nutrientItem.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full mr-2" style="background-color: ${nutrient.color}"></div>
+                        <span class="text-sm font-medium text-gray-700">${nutrient.name}</span>
+                    </div>
+                    <span class="text-sm text-gray-500">${nutrient.value} / ${nutrient.goal}</span>
+                </div>
+                <div class="relative h-2 bg-gray-200 rounded-full">
+                    <div class="absolute h-full rounded-full" style="width: ${nutrient.percentage}%; background-color: ${nutrient.color}"></div>
+                </div>
+            `;
+            nutrientsList.appendChild(nutrientItem);
+        });
+        
+        // 添加微量营养素标题
+        const micronutrientsTitle = document.createElement('h4');
+        micronutrientsTitle.className = 'font-medium text-gray-700 mb-4 mt-6';
+        micronutrientsTitle.textContent = 'Micronutrients';
+        
+        // 添加微量营养素网格
+        const micronutrientsGrid = document.createElement('div');
+        micronutrientsGrid.className = 'grid grid-cols-2 gap-3';
+        
+        const micronutrients = [
+            { name: 'Sodium', value: '455mg', percentage: 20 },
+            { name: 'Potassium', value: '644mg', percentage: 14 },
+            { name: 'Vitamin A', value: '347μg', percentage: 39 },
+            { name: 'Vitamin C', value: '25mg', percentage: 28 },
+            { name: 'Calcium', value: '201mg', percentage: 15 },
+            { name: 'Iron', value: '2.7mg', percentage: 15 },
+            { name: 'Vitamin D', value: '3.1μg', percentage: 21 },
+            { name: 'Cholesterol', value: '58mg', percentage: 19 }
+        ];
+        
+        micronutrients.forEach(nutrient => {
+            const microItem = document.createElement('div');
+            microItem.className = 'bg-gray-50 rounded-lg p-3';
+            microItem.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-xs font-medium text-gray-700">${nutrient.name}</span>
+                    <span class="text-xs text-gray-500">${nutrient.value}</span>
+                </div>
+                <div class="relative h-1.5 bg-gray-200 rounded-full">
+                    <div class="absolute h-full bg-gray-500 rounded-full" style="width: ${nutrient.percentage}%"></div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">${nutrient.percentage}% of daily need</div>
+            `;
+            micronutrientsGrid.appendChild(microItem);
+        });
+        
+        // 组装模态框内容
+        modalBody.appendChild(dateSelector);
+        modalBody.appendChild(caloriesSummary);
+        modalBody.appendChild(nutrientsTitle);
+        modalBody.appendChild(nutrientsList);
+        modalBody.appendChild(micronutrientsTitle);
+        modalBody.appendChild(micronutrientsGrid);
+        
+        // 创建模态框底部
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'p-4 border-t border-gray-100';
+        
+        const exportButton = document.createElement('button');
+        exportButton.className = 'w-full py-2.5 bg-[#FFBE98] text-white rounded-lg font-medium text-sm flex items-center justify-center';
+        exportButton.innerHTML = `
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Export Nutrition Report
+        `;
+        
+        modalFooter.appendChild(exportButton);
+        
+        // 组装模态框
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalBody);
+        modalContent.appendChild(modalFooter);
+        modalContainer.appendChild(modalContent);
+        
+        // 添加到文档
+        document.body.appendChild(modalContainer);
+        
+        // 添加关闭事件
+        closeButton.addEventListener('click', function() {
+            modalContainer.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.removeChild(modalContainer);
+            }, 300);
+        });
+        
+        // 添加点击背景关闭功能
+        modalContainer.addEventListener('click', function(e) {
+            if (e.target === modalContainer) {
+                modalContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    document.body.removeChild(modalContainer);
+                }, 300);
+            }
+        });
+        
+        // 添加导出按钮功能
+        exportButton.addEventListener('click', function() {
+            alert('Nutrition report exported successfully!');
+            modalContainer.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.removeChild(modalContainer);
+            }, 300);
+        });
+        
+        // 添加上一天/下一天功能
+        prevDateButton.addEventListener('click', function() {
+            alert('Viewing previous day...');
+        });
+        
+        nextDateButton.addEventListener('click', function() {
+            alert('Viewing next day...');
+        });
+        
+        // 添加淡入效果
+        setTimeout(() => {
+            modalContainer.style.opacity = '1';
+            modalContainer.style.transition = 'opacity 0.3s ease-in-out';
+        }, 10);
+    }
+})(); 
+     * @param {number} percentage - 进度百分比
+     * @param {string} value - 数值
+     * @param {string} description - 描述
+     * @returns {HTMLElement} 营养素进度条元素
+     */
+    function createNutrientProgressBar(name, color, percentage, value, description) {
+        const container = document.createElement('div');
+        container.className = 'mb-3 last:mb-0';
+        
+        // 创建标题行
+        const titleRow = document.createElement('div');
+        titleRow.className = 'flex justify-between items-center mb-1';
+        
+        // 创建左侧标签
+        const labelContainer = document.createElement('div');
+        labelContainer.className = 'flex items-center';
+        
+        // 创建颜色指示器
+        const colorIndicator = document.createElement('div');
+        colorIndicator.className = 'w-3 h-3 rounded-full mr-2';
+        colorIndicator.style.backgroundColor = color;
+        
+        // 创建名称
+        const nameElement = document.createElement('span');
+        nameElement.className = 'text-sm font-medium text-gray-700';
+        nameElement.textContent = name;
+        
+        // 组合左侧标签
+        labelContainer.appendChild(colorIndicator);
+        labelContainer.appendChild(nameElement);
+        
+        // 创建数值
+        const valueElement = document.createElement('span');
+        valueElement.className = 'text-xs text-gray-500';
+        valueElement.textContent = value;
+        
+        // 组合标题行
+        titleRow.appendChild(labelContainer);
+        titleRow.appendChild(valueElement);
+        
+        // 创建进度条
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'w-full h-2 bg-white rounded-full mb-1';
+        
+        const progressBar = document.createElement('div');
+        progressBar.className = 'h-full rounded-full';
+        progressBar.style.width = `${percentage}%`;
+        progressBar.style.backgroundColor = color;
+        
+        // 组合进度条
+        progressContainer.appendChild(progressBar);
+        
+        // 创建描述
+        const descriptionElement = document.createElement('div');
+        descriptionElement.className = 'text-xs text-gray-400';
+        descriptionElement.textContent = description;
+        
+        // 组合元素
+        container.appendChild(titleRow);
+        container.appendChild(progressContainer);
+        container.appendChild(descriptionElement);
+        
+        return container;
+    }
+    
+    /**
+     * 显示完整的营养详情模态框
+     */
+    function showNutritionDetails() {
+        // 创建模态框容器
+        const modalContainer = document.createElement('div');
+        modalContainer.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center nutrition-details-modal';
+        modalContainer.style.backdropFilter = 'blur(2px)';
+        modalContainer.style.opacity = '0'; // 初始设置为透明
+        
+        // 创建模态框内容
+        const modalContent = document.createElement('div');
+        modalContent.className = 'bg-white rounded-2xl max-w-md w-11/12 max-h-[80vh] overflow-hidden flex flex-col shadow-xl';
+        
+        // 创建模态框头部
+        const modalHeader = document.createElement('div');
+        modalHeader.className = 'p-4 border-b border-gray-100 flex justify-between items-center';
+        
+        const modalTitle = document.createElement('h3');
+        modalTitle.className = 'font-semibold text-gray-800';
+        modalTitle.textContent = 'Complete Nutrition Information';
+        
+        const closeButton = document.createElement('button');
+        closeButton.className = 'text-gray-400 hover:text-gray-600';
+        closeButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        `;
+        
+        modalHeader.appendChild(modalTitle);
+        modalHeader.appendChild(closeButton);
+        
+        // 创建模态框内容区域
+        const modalBody = document.createElement('div');
+        modalBody.className = 'p-4 overflow-y-auto flex-1';
+        
+        // 添加日期选择器
+        const dateSelector = document.createElement('div');
+        dateSelector.className = 'flex items-center justify-between mb-6';
+        
+        const prevDateButton = document.createElement('button');
+        prevDateButton.className = 'p-1 text-gray-400 hover:text-gray-600';
+        prevDateButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        `;
+        
+        const dateDisplay = document.createElement('div');
+        dateDisplay.className = 'flex items-center text-sm font-medium';
+        
+        const calendarIcon = document.createElement('span');
+        calendarIcon.className = 'mr-2 text-orange-400';
+        calendarIcon.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        `;
+        
+        const dateText = document.createElement('span');
+        dateText.textContent = 'Today - ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        dateDisplay.appendChild(calendarIcon);
+        dateDisplay.appendChild(dateText);
+        
+        const nextDateButton = document.createElement('button');
+        nextDateButton.className = 'p-1 text-gray-400 hover:text-gray-600';
+        nextDateButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        `;
+        
+        dateSelector.appendChild(prevDateButton);
+        dateSelector.appendChild(dateDisplay);
+        dateSelector.appendChild(nextDateButton);
+        
+        // 添加卡路里摘要
+        const caloriesSummary = document.createElement('div');
+        caloriesSummary.className = 'bg-gray-50 rounded-xl p-4 mb-6';
+        
+        caloriesSummary.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-sm font-medium text-gray-700">Daily Calories</div>
+                <div class="text-sm text-gray-500">Target: 1,399 kcal</div>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Consumed</div>
+                    <div class="text-lg font-bold text-gray-800">404</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Remaining</div>
+                    <div class="text-lg font-bold" style="color: #FFBE98;">995</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Burned</div>
+                    <div class="text-lg font-bold text-green-500">250</div>
+                </div>
+            </div>
+        `;
+        
+        // 添加营养素详情
+        const nutrientsTitle = document.createElement('h4');
+        nutrientsTitle.className = 'font-medium text-gray-700 mb-4';
+        nutrientsTitle.textContent = 'Macronutrients';
+        
+        const nutrientsList = document.createElement('div');
+        nutrientsList.className = 'space-y-4 mb-6';
+        
+        // 添加主要营养素
+        const macronutrients = [
+            { name: 'Protein', value: '23g', goal: '77g', percentage: 30, color: '#006D77' },
+            { name: 'Carbs', value: '53g', goal: '171g', percentage: 31, color: '#83C5BE' },
+            { name: 'Fats', value: '30g', goal: '67g', percentage: 45, color: '#EE6C4D' },
+            { name: 'Sugar', value: '12g', goal: '45g', percentage: 26, color: '#E29578' },
+            { name: 'Fiber', value: '8g', goal: '30g', percentage: 27, color: '#607D8B' }
+        ];
+        
+        macronutrients.forEach(nutrient => {
+            const nutrientItem = document.createElement('div');
+            nutrientItem.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full mr-2" style="background-color: ${nutrient.color}"></div>
+                        <span class="text-sm font-medium text-gray-700">${nutrient.name}</span>
+                    </div>
+                    <span class="text-sm text-gray-500">${nutrient.value} / ${nutrient.goal}</span>
+                </div>
+                <div class="relative h-2 bg-gray-200 rounded-full">
+                    <div class="absolute h-full rounded-full" style="width: ${nutrient.percentage}%; background-color: ${nutrient.color}"></div>
+                </div>
+            `;
+            nutrientsList.appendChild(nutrientItem);
+        });
+        
+        // 添加微量营养素标题
+        const micronutrientsTitle = document.createElement('h4');
+        micronutrientsTitle.className = 'font-medium text-gray-700 mb-4 mt-6';
+        micronutrientsTitle.textContent = 'Micronutrients';
+        
+        // 添加微量营养素网格
+        const micronutrientsGrid = document.createElement('div');
+        micronutrientsGrid.className = 'grid grid-cols-2 gap-3';
+        
+        const micronutrients = [
+            { name: 'Sodium', value: '455mg', percentage: 20 },
+            { name: 'Potassium', value: '644mg', percentage: 14 },
+            { name: 'Vitamin A', value: '347μg', percentage: 39 },
+            { name: 'Vitamin C', value: '25mg', percentage: 28 },
+            { name: 'Calcium', value: '201mg', percentage: 15 },
+            { name: 'Iron', value: '2.7mg', percentage: 15 },
+            { name: 'Vitamin D', value: '3.1μg', percentage: 21 },
+            { name: 'Cholesterol', value: '58mg', percentage: 19 }
+        ];
+        
+        micronutrients.forEach(nutrient => {
+            const microItem = document.createElement('div');
+            microItem.className = 'bg-gray-50 rounded-lg p-3';
+            microItem.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-xs font-medium text-gray-700">${nutrient.name}</span>
+                    <span class="text-xs text-gray-500">${nutrient.value}</span>
+                </div>
+                <div class="relative h-1.5 bg-gray-200 rounded-full">
+                    <div class="absolute h-full bg-gray-500 rounded-full" style="width: ${nutrient.percentage}%"></div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">${nutrient.percentage}% of daily need</div>
+            `;
+            micronutrientsGrid.appendChild(microItem);
+        });
+        
+        // 组装模态框内容
+        modalBody.appendChild(dateSelector);
+        modalBody.appendChild(caloriesSummary);
+        modalBody.appendChild(nutrientsTitle);
+        modalBody.appendChild(nutrientsList);
+        modalBody.appendChild(micronutrientsTitle);
+        modalBody.appendChild(micronutrientsGrid);
+        
+        // 创建模态框底部
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'p-4 border-t border-gray-100';
+        
+        const exportButton = document.createElement('button');
+        exportButton.className = 'w-full py-2.5 bg-[#FFBE98] text-white rounded-lg font-medium text-sm flex items-center justify-center';
+        exportButton.innerHTML = `
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Export Nutrition Report
+        `;
+        
+        modalFooter.appendChild(exportButton);
+        
+        // 组装模态框
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalBody);
+        modalContent.appendChild(modalFooter);
+        modalContainer.appendChild(modalContent);
+        
+        // 添加到文档
+        document.body.appendChild(modalContainer);
+        
+        // 添加关闭事件
+        closeButton.addEventListener('click', function() {
+            modalContainer.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.removeChild(modalContainer);
+            }, 300);
+        });
+        
+        // 添加点击背景关闭功能
+        modalContainer.addEventListener('click', function(e) {
+            if (e.target === modalContainer) {
+                modalContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    document.body.removeChild(modalContainer);
+                }, 300);
+            }
+        });
+        
+        // 添加导出按钮功能
+        exportButton.addEventListener('click', function() {
+            alert('Nutrition report exported successfully!');
+            modalContainer.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.removeChild(modalContainer);
+            }, 300);
+        });
+        
+        // 添加上一天/下一天功能
+        prevDateButton.addEventListener('click', function() {
+            alert('Viewing previous day...');
+        });
+        
+        nextDateButton.addEventListener('click', function() {
+            alert('Viewing next day...');
+        });
+        
+        // 添加淡入效果
+        setTimeout(() => {
+            modalContainer.style.opacity = '1';
+            modalContainer.style.transition = 'opacity 0.3s ease-in-out';
+        }, 10);
+    }
+})(); 
+     * @param {number} percentage - 进度百分比
+     * @param {string} value - 数值
+     * @param {string} description - 描述
+     * @returns {HTMLElement} 营养素进度条元素
+     */
+    function createNutrientProgressBar(name, color, percentage, value, description) {
+        const container = document.createElement('div');
+        container.className = 'mb-3 last:mb-0';
+        
+        // 创建标题行
+        const titleRow = document.createElement('div');
+        titleRow.className = 'flex justify-between items-center mb-1';
+        
+        // 创建左侧标签
+        const labelContainer = document.createElement('div');
+        labelContainer.className = 'flex items-center';
+        
+        // 创建颜色指示器
+        const colorIndicator = document.createElement('div');
+        colorIndicator.className = 'w-3 h-3 rounded-full mr-2';
+        colorIndicator.style.backgroundColor = color;
+        
+        // 创建名称
+        const nameElement = document.createElement('span');
+        nameElement.className = 'text-sm font-medium text-gray-700';
+        nameElement.textContent = name;
+        
+        // 组合左侧标签
+        labelContainer.appendChild(colorIndicator);
+        labelContainer.appendChild(nameElement);
+        
+        // 创建数值
+        const valueElement = document.createElement('span');
+        valueElement.className = 'text-xs text-gray-500';
+        valueElement.textContent = value;
+        
+        // 组合标题行
+        titleRow.appendChild(labelContainer);
+        titleRow.appendChild(valueElement);
+        
+        // 创建进度条
+        const progressContainer = document.createElement('div');
+        progressContainer.className = 'w-full h-2 bg-white rounded-full mb-1';
+        
+        const progressBar = document.createElement('div');
+        progressBar.className = 'h-full rounded-full';
+        progressBar.style.width = `${percentage}%`;
+        progressBar.style.backgroundColor = color;
+        
+        // 组合进度条
+        progressContainer.appendChild(progressBar);
+        
+        // 创建描述
+        const descriptionElement = document.createElement('div');
+        descriptionElement.className = 'text-xs text-gray-400';
+        descriptionElement.textContent = description;
+        
+        // 组合元素
+        container.appendChild(titleRow);
+        container.appendChild(progressContainer);
+        container.appendChild(descriptionElement);
+        
+        return container;
+    }
+    
+    /**
+     * 显示完整的营养详情模态框
+     */
+    function showNutritionDetails() {
+        // 创建模态框容器
+        const modalContainer = document.createElement('div');
+        modalContainer.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center nutrition-details-modal';
+        modalContainer.style.backdropFilter = 'blur(2px)';
+        modalContainer.style.opacity = '0'; // 初始设置为透明
+        
+        // 创建模态框内容
+        const modalContent = document.createElement('div');
+        modalContent.className = 'bg-white rounded-2xl max-w-md w-11/12 max-h-[80vh] overflow-hidden flex flex-col shadow-xl';
+        
+        // 创建模态框头部
+        const modalHeader = document.createElement('div');
+        modalHeader.className = 'p-4 border-b border-gray-100 flex justify-between items-center';
+        
+        const modalTitle = document.createElement('h3');
+        modalTitle.className = 'font-semibold text-gray-800';
+        modalTitle.textContent = 'Complete Nutrition Information';
+        
+        const closeButton = document.createElement('button');
+        closeButton.className = 'text-gray-400 hover:text-gray-600';
+        closeButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        `;
+        
+        modalHeader.appendChild(modalTitle);
+        modalHeader.appendChild(closeButton);
+        
+        // 创建模态框内容区域
+        const modalBody = document.createElement('div');
+        modalBody.className = 'p-4 overflow-y-auto flex-1';
+        
+        // 添加日期选择器
+        const dateSelector = document.createElement('div');
+        dateSelector.className = 'flex items-center justify-between mb-6';
+        
+        const prevDateButton = document.createElement('button');
+        prevDateButton.className = 'p-1 text-gray-400 hover:text-gray-600';
+        prevDateButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+        `;
+        
+        const dateDisplay = document.createElement('div');
+        dateDisplay.className = 'flex items-center text-sm font-medium';
+        
+        const calendarIcon = document.createElement('span');
+        calendarIcon.className = 'mr-2 text-orange-400';
+        calendarIcon.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+        `;
+        
+        const dateText = document.createElement('span');
+        dateText.textContent = 'Today - ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        dateDisplay.appendChild(calendarIcon);
+        dateDisplay.appendChild(dateText);
+        
+        const nextDateButton = document.createElement('button');
+        nextDateButton.className = 'p-1 text-gray-400 hover:text-gray-600';
+        nextDateButton.innerHTML = `
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+        `;
+        
+        dateSelector.appendChild(prevDateButton);
+        dateSelector.appendChild(dateDisplay);
+        dateSelector.appendChild(nextDateButton);
+        
+        // 添加卡路里摘要
+        const caloriesSummary = document.createElement('div');
+        caloriesSummary.className = 'bg-gray-50 rounded-xl p-4 mb-6';
+        
+        caloriesSummary.innerHTML = `
+            <div class="flex justify-between items-center mb-2">
+                <div class="text-sm font-medium text-gray-700">Daily Calories</div>
+                <div class="text-sm text-gray-500">Target: 1,399 kcal</div>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Consumed</div>
+                    <div class="text-lg font-bold text-gray-800">404</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Remaining</div>
+                    <div class="text-lg font-bold" style="color: #FFBE98;">995</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-xs text-gray-500">Burned</div>
+                    <div class="text-lg font-bold text-green-500">250</div>
+                </div>
+            </div>
+        `;
+        
+        // 添加营养素详情
+        const nutrientsTitle = document.createElement('h4');
+        nutrientsTitle.className = 'font-medium text-gray-700 mb-4';
+        nutrientsTitle.textContent = 'Macronutrients';
+        
+        const nutrientsList = document.createElement('div');
+        nutrientsList.className = 'space-y-4 mb-6';
+        
+        // 添加主要营养素
+        const macronutrients = [
+            { name: 'Protein', value: '23g', goal: '77g', percentage: 30, color: '#006D77' },
+            { name: 'Carbs', value: '53g', goal: '171g', percentage: 31, color: '#83C5BE' },
+            { name: 'Fats', value: '30g', goal: '67g', percentage: 45, color: '#EE6C4D' },
+            { name: 'Sugar', value: '12g', goal: '45g', percentage: 26, color: '#E29578' },
+            { name: 'Fiber', value: '8g', goal: '30g', percentage: 27, color: '#607D8B' }
+        ];
+        
+        macronutrients.forEach(nutrient => {
+            const nutrientItem = document.createElement('div');
+            nutrientItem.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 rounded-full mr-2" style="background-color: ${nutrient.color}"></div>
+                        <span class="text-sm font-medium text-gray-700">${nutrient.name}</span>
+                    </div>
+                    <span class="text-sm text-gray-500">${nutrient.value} / ${nutrient.goal}</span>
+                </div>
+                <div class="relative h-2 bg-gray-200 rounded-full">
+                    <div class="absolute h-full rounded-full" style="width: ${nutrient.percentage}%; background-color: ${nutrient.color}"></div>
+                </div>
+            `;
+            nutrientsList.appendChild(nutrientItem);
+        });
+        
+        // 添加微量营养素标题
+        const micronutrientsTitle = document.createElement('h4');
+        micronutrientsTitle.className = 'font-medium text-gray-700 mb-4 mt-6';
+        micronutrientsTitle.textContent = 'Micronutrients';
+        
+        // 添加微量营养素网格
+        const micronutrientsGrid = document.createElement('div');
+        micronutrientsGrid.className = 'grid grid-cols-2 gap-3';
+        
+        const micronutrients = [
+            { name: 'Sodium', value: '455mg', percentage: 20 },
+            { name: 'Potassium', value: '644mg', percentage: 14 },
+            { name: 'Vitamin A', value: '347μg', percentage: 39 },
+            { name: 'Vitamin C', value: '25mg', percentage: 28 },
+            { name: 'Calcium', value: '201mg', percentage: 15 },
+            { name: 'Iron', value: '2.7mg', percentage: 15 },
+            { name: 'Vitamin D', value: '3.1μg', percentage: 21 },
+            { name: 'Cholesterol', value: '58mg', percentage: 19 }
+        ];
+        
+        micronutrients.forEach(nutrient => {
+            const microItem = document.createElement('div');
+            microItem.className = 'bg-gray-50 rounded-lg p-3';
+            microItem.innerHTML = `
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-xs font-medium text-gray-700">${nutrient.name}</span>
+                    <span class="text-xs text-gray-500">${nutrient.value}</span>
+                </div>
+                <div class="relative h-1.5 bg-gray-200 rounded-full">
+                    <div class="absolute h-full bg-gray-500 rounded-full" style="width: ${nutrient.percentage}%"></div>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">${nutrient.percentage}% of daily need</div>
+            `;
+            micronutrientsGrid.appendChild(microItem);
+        });
+        
+        // 组装模态框内容
+        modalBody.appendChild(dateSelector);
+        modalBody.appendChild(caloriesSummary);
+        modalBody.appendChild(nutrientsTitle);
+        modalBody.appendChild(nutrientsList);
+        modalBody.appendChild(micronutrientsTitle);
+        modalBody.appendChild(micronutrientsGrid);
+        
+        // 创建模态框底部
+        const modalFooter = document.createElement('div');
+        modalFooter.className = 'p-4 border-t border-gray-100';
+        
+        const exportButton = document.createElement('button');
+        exportButton.className = 'w-full py-2.5 bg-[#FFBE98] text-white rounded-lg font-medium text-sm flex items-center justify-center';
+        exportButton.innerHTML = `
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+            </svg>
+            Export Nutrition Report
+        `;
+        
+        modalFooter.appendChild(exportButton);
+        
+        // 组装模态框
+        modalContent.appendChild(modalHeader);
+        modalContent.appendChild(modalBody);
+        modalContent.appendChild(modalFooter);
+        modalContainer.appendChild(modalContent);
+        
+        // 添加到文档
+        document.body.appendChild(modalContainer);
+        
+        // 添加关闭事件
+        closeButton.addEventListener('click', function() {
+            modalContainer.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.removeChild(modalContainer);
+            }, 300);
+        });
+        
+        // 添加点击背景关闭功能
+        modalContainer.addEventListener('click', function(e) {
+            if (e.target === modalContainer) {
+                modalContainer.classList.add('fade-out');
+                setTimeout(() => {
+                    document.body.removeChild(modalContainer);
+                }, 300);
+            }
+        });
+        
+        // 添加导出按钮功能
+        exportButton.addEventListener('click', function() {
+            alert('Nutrition report exported successfully!');
+            modalContainer.classList.add('fade-out');
+            setTimeout(() => {
+                document.body.removeChild(modalContainer);
+            }, 300);
+        });
+        
+        // 添加上一天/下一天功能
+        prevDateButton.addEventListener('click', function() {
+            alert('Viewing previous day...');
+        });
+        
+        nextDateButton.addEventListener('click', function() {
+            alert('Viewing next day...');
+        });
+        
+        // 添加淡入效果
+        setTimeout(() => {
+            modalContainer.style.opacity = '1';
+            modalContainer.style.transition = 'opacity 0.3s ease-in-out';
+        }, 10);
     }
 })(); 

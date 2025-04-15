@@ -74,102 +74,180 @@
 
       <!-- 主内容区域 - 重新设计的滚动容器 -->
       <div class="dish-recognition-content flex-1 bg-gray-50 flex flex-col h-full">
-        <!-- 顶部菜品图像区域 - 更大的图片展示 -->
+        <!-- 顶部菜品图像区域 - 更大的图片展示，支持滑动多个菜品 -->
         <div class="dish-image-container h-48 bg-black relative overflow-hidden">
           <div class="dishes-slider flex h-full w-full overflow-x-hidden snap-x snap-mandatory touch-pan-x">
             <!-- 菜品1 -->
             <div class="dish-slide w-full h-full flex-shrink-0 snap-center relative">
               <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
               <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
+              
+              <!-- 菜品定位标记 - 圆形 -->
+              <div class="dish-marker absolute top-1/4 left-1/4 w-8 h-8 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+                  <span class="text-white font-bold">1</span>
+                </div>
+                <div class="marker-pulse absolute inset-0 rounded-full border-2 border-white animate-ping opacity-75"></div>
+              </div>
+              
+              <!-- 重新拍摄按钮 -->
+              <button class="retake-photo-button absolute top-4 right-4 flex items-center px-3 py-2 bg-black bg-opacity-60 rounded-full text-white text-xs font-medium">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Retake this dish
+              </button>
+              
               <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 class="font-bold text-lg mb-1">Grilled Salmon with Vegetables</h3>
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  <span class="text-sm">Captured at 12:30 PM</span>
+                <div class="flex items-center justify-between">
+                  <h3 class="dish-name font-bold text-lg mb-1 cursor-pointer active:opacity-70">Grilled Salmon with Vegetables</h3>
+                  <div class="px-2 py-1 rounded-full bg-yellow-500 bg-opacity-20 text-yellow-100 text-xs">
+                    <span>3 dishes detected</span>
+                  </div>
                 </div>
               </div>
             </div>
             
-            <!-- 菜品2 -->
+            <!-- 菜品2 - 同一张照片中的不同菜品 -->
             <div class="dish-slide w-full h-full flex-shrink-0 snap-center relative">
-              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
               <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
+              
+              <!-- 菜品定位标记 - 圆形 -->
+              <div class="dish-marker absolute top-1/2 right-1/3 w-8 h-8 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+                  <span class="text-white font-bold">2</span>
+                </div>
+                <div class="marker-pulse absolute inset-0 rounded-full border-2 border-white animate-ping opacity-75"></div>
+              </div>
+              
+              <!-- 重新拍摄按钮 -->
+              <button class="retake-photo-button absolute top-4 right-4 flex items-center px-3 py-2 bg-black bg-opacity-60 rounded-full text-white text-xs font-medium">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Retake this dish
+              </button>
+              
               <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 class="font-bold text-lg mb-1">Vegetable Salad</h3>
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  <span class="text-sm">Captured at 12:30 PM</span>
+                <div class="flex items-center justify-between">
+                  <h3 class="dish-name font-bold text-lg mb-1 cursor-pointer active:opacity-70">Vegetable Salad</h3>
+                  <div class="px-2 py-1 rounded-full bg-yellow-500 bg-opacity-20 text-yellow-100 text-xs">
+                    <span>3 dishes detected</span>
+                  </div>
                 </div>
               </div>
             </div>
             
-            <!-- 菜品3 -->
+            <!-- 菜品3 - 同一张照片中的不同菜品 -->
             <div class="dish-slide w-full h-full flex-shrink-0 snap-center relative">
-              <img src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" alt="Food dish" class="w-full h-full object-cover">
               <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-60"></div>
+              
+              <!-- 菜品定位标记 - 圆形 -->
+              <div class="dish-marker absolute bottom-1/3 right-1/4 w-8 h-8 transform -translate-x-1/2 -translate-y-1/2">
+                <div class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center">
+                  <span class="text-white font-bold">3</span>
+                </div>
+                <div class="marker-pulse absolute inset-0 rounded-full border-2 border-white animate-ping opacity-75"></div>
+              </div>
+              
+              <!-- 重新拍摄按钮 -->
+              <button class="retake-photo-button absolute top-4 right-4 flex items-center px-3 py-2 bg-black bg-opacity-60 rounded-full text-white text-xs font-medium">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Retake this dish
+              </button>
+              
               <div class="absolute bottom-0 left-0 right-0 p-4 text-white">
-                <h3 class="font-bold text-lg mb-1">Fruit Platter</h3>
-                <div class="flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  <span class="text-sm">Captured at 12:30 PM</span>
+                <div class="flex items-center justify-between">
+                  <h3 class="dish-name font-bold text-lg mb-1 cursor-pointer active:opacity-70">Fruit Dessert</h3>
+                  <div class="px-2 py-1 rounded-full bg-yellow-500 bg-opacity-20 text-yellow-100 text-xs">
+                    <span>3 dishes detected</span>
+                  </div>
                 </div>
               </div>
+            </div>
+          </div>
+          
+          <!-- 滑动提示 -->
+          <div class="swipe-hint absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white px-3 py-1.5 rounded-full text-sm opacity-0 pointer-events-none animate-fade-out">
+            <div class="flex items-center">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              <span>Swipe to view other dishes</span>
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
             </div>
           </div>
           
           <!-- 分页指示器 - iOS样式轮播指示器 -->
-          <div class="absolute bottom-16 left-0 right-0 flex justify-center">
-            <div class="flex space-x-1.5">
-              <div class="w-1.5 h-1.5 rounded-full bg-white opacity-100"></div>
-              <div class="w-1.5 h-1.5 rounded-full bg-white opacity-50"></div>
-              <div class="w-1.5 h-1.5 rounded-full bg-white opacity-50"></div>
+          <div class="absolute bottom-4 left-0 right-0 flex justify-center z-10">
+            <div class="dish-indicators flex items-center justify-center space-x-2 bg-black bg-opacity-30 px-3 py-1.5 rounded-full">
+              <div class="w-3 h-3 rounded-full bg-white opacity-100 transition-all duration-300 ease-in-out"></div>
+              <div class="w-2 h-2 rounded-full bg-white opacity-50 transition-all duration-300 ease-in-out"></div>
+              <div class="w-2 h-2 rounded-full bg-white opacity-50 transition-all duration-300 ease-in-out"></div>
             </div>
           </div>
-          
-          <!-- 编辑按钮 -->
-          <button class="absolute top-4 right-4 w-8 h-8 rounded-full bg-black bg-opacity-50 flex items-center justify-center">
-            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-            </svg>
-          </button>
+        </div>
+        
+        <!-- 内容区域标签指示当前查看的菜品 -->
+        <div class="dish-indicator flex items-center px-4 py-2 bg-white border-b border-gray-100">
+          <div class="dish-indicator-dot w-3 h-3 rounded-full bg-[#FFBE98] mr-2"></div>
+          <div class="text-sm text-gray-600">
+            <span class="font-medium">Viewing dish <span class="current-dish-index">1</span> of <span class="total-dishes">3</span></span>
+            <button class="ml-1 text-[#FFBE98]">View all dishes in photo</button>
+          </div>
         </div>
         
         <!-- 内容滚动区域 - 卡片式布局 -->
         <div class="analysis-content flex-1 overflow-auto px-4 py-3">
           <!-- 卡片：健康评分 -->
           <div class="health-score-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
-            <div class="flex items-start p-4">
-              <!-- 健康评分可视化 -->
-              <div class="mr-4">
-                <div class="relative w-16 h-16">
-                  <svg class="w-full h-full" viewBox="0 0 36 36">
-                    <circle cx="18" cy="18" r="16" fill="none" stroke="#f3f4f6" stroke-width="2"></circle>
-                    <circle cx="18" cy="18" r="16" fill="none" stroke="#FFBE98" stroke-width="2" stroke-dasharray="85 100" stroke-dashoffset="25" transform="rotate(-90 18 18)"></circle>
-                    <text x="18" y="18" text-anchor="middle" dominant-baseline="middle" fill="#111827" font-size="10" font-weight="bold">8.5</text>
-                    <text x="18" y="24" text-anchor="middle" dominant-baseline="middle" fill="#6b7280" font-size="4">SCORE</text>
+            <div class="p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="font-semibold text-gray-800">Health Score</h3>
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 text-[#FFBE98] mr-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
+                  <span class="font-bold text-lg text-gray-800">8.5</span>
+                  <span class="text-xs text-gray-500 ml-1">/10</span>
+                </div>
+              </div>
+              
+              <!-- iOS风格评分条 -->
+              <div class="mb-4">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-xs font-medium text-gray-500">Poor</span>
+                  <span class="text-xs font-medium text-gray-500">Excellent</span>
+                </div>
+                <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-green-400 to-[#FFBE98] rounded-full" style="width: 85%"></div>
                 </div>
               </div>
               
               <!-- 健康评估 -->
-              <div class="flex-1">
-                <h3 class="font-bold text-gray-800 mb-1">Very Good for You</h3>
-                <p class="text-sm text-gray-600 mb-2">This dish is high in protein and nutrients, making it suitable for your diabetes management.</p>
-                <div class="flex items-center">
-                  <div class="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs mr-2 inline-flex items-center">
-                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
-                    <span>Low Glycemic</span>
-                  </div>
-                  <div class="px-2 py-1 rounded-full bg-blue-100 text-blue-800 text-xs inline-flex items-center">
-                    <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1"></span>
-                    <span>High Protein</span>
-                  </div>
+              <h3 class="font-bold text-gray-800 mb-1.5">Very Good for You</h3>
+              <p class="text-sm text-gray-600 mb-3">This dish is high in protein and nutrients, making it suitable for your diabetes management.</p>
+              <div class="flex flex-wrap gap-2">
+                <div class="px-2.5 py-1.5 rounded-full bg-green-100 text-green-800 text-xs inline-flex items-center">
+                  <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1"></span>
+                  <span>Low Glycemic</span>
+                </div>
+                <div class="px-2.5 py-1.5 rounded-full bg-blue-100 text-blue-800 text-xs inline-flex items-center">
+                  <span class="w-1.5 h-1.5 bg-blue-500 rounded-full mr-1"></span>
+                  <span>High Protein</span>
+                </div>
+                <div class="px-2.5 py-1.5 rounded-full bg-purple-100 text-purple-800 text-xs inline-flex items-center">
+                  <span class="w-1.5 h-1.5 bg-purple-500 rounded-full mr-1"></span>
+                  <span>Nutrient Rich</span>
                 </div>
               </div>
             </div>
@@ -189,10 +267,16 @@
                 <div class="calorie-ring w-24 h-24 relative flex items-center justify-center mr-4">
                   <svg class="w-full h-full" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" stroke-width="8"></circle>
-                    <circle cx="50" cy="50" r="45" fill="none" stroke="#FFBE98" stroke-width="8" stroke-dasharray="40 100" stroke-linecap="round" stroke-dashoffset="25" transform="rotate(-90 50 50)"></circle>
-                    <text x="50" y="45" text-anchor="middle" font-size="24" font-weight="bold" fill="#111827">195</text>
-                    <text x="50" y="65" text-anchor="middle" font-size="12" fill="#6b7280">KCAL</text>
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="#FFBE98" stroke-width="8" stroke-dasharray="14 100" stroke-linecap="round" stroke-dashoffset="25" transform="rotate(-90 50 50)"></circle>
+                    <text x="50" y="40" text-anchor="middle" font-size="22" font-weight="bold" fill="#111827">195</text>
+                    <text x="50" y="58" text-anchor="middle" font-size="10" fill="#6b7280">of 1,399</text>
+                    <text x="50" y="72" text-anchor="middle" font-size="8" fill="#9ca3af">KCAL</text>
                   </svg>
+                  
+                  <!-- 卡路里百分比指示 -->
+                  <div class="absolute -bottom-1 left-0 right-0 text-center">
+                    <span class="text-xs text-[#FFBE98] font-medium"></span>
+                  </div>
                 </div>
                 
                 <!-- 营养条 -->
@@ -253,29 +337,36 @@
           <!-- 卡片：饮食建议 -->
           <div class="guidance-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
             <div class="p-4">
-              <h3 class="font-semibold text-gray-800 mb-3">Eating Guidance</h3>
-              
-              <!-- 主要建议 -->
-              <div class="guidance-tip flex items-start mb-3 p-3 bg-green-50 rounded-xl">
-                <div class="guidance-icon mr-3 mt-0.5 text-green-500">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                </div>
-                <div class="guidance-content text-sm text-gray-700 flex-1">
-                  Eat the salmon first to promote better glucose control. The protein helps slow digestion and stabilize blood sugar levels.
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-semibold text-gray-800 text-lg">Smart Guidance</h3>
+                <div class="px-2.5 py-1 rounded-full bg-[#FFBE98]/10 text-[#FFBE98] text-xs font-medium">
+                  AI Recommended
                 </div>
               </div>
               
-              <!-- 额外提示 -->
-              <div class="guidance-tip flex items-start p-3 bg-yellow-50 rounded-xl">
-                <div class="guidance-icon mr-3 mt-0.5 text-yellow-500">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              <!-- 建议项目 - 优先蛋白质 -->
+              <div class="guidance-item flex items-start mb-5">
+                <div class="guidance-icon flex-shrink-0 w-10 h-10 rounded-full bg-[#FFBE98]/10 flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                   </svg>
                 </div>
-                <div class="guidance-content text-sm text-gray-700 flex-1">
-                  Your daily carb intake is at 65%. Consider keeping your total carb intake below 75% for optimal glucose control.
+                <div class="flex-1">
+                  <h4 class="font-medium text-gray-800 mb-1">Prioritize Protein</h4>
+                  <p class="text-gray-600 text-sm">Eat the salmon first to promote better glucose control. The protein helps slow digestion.</p>
+                </div>
+              </div>
+              
+              <!-- 建议项目 - 慢慢咀嚼 -->
+              <div class="guidance-item flex items-start mb-5">
+                <div class="guidance-icon flex-shrink-0 w-10 h-10 rounded-full bg-[#FFBE98]/10 flex items-center justify-center mr-3">
+                  <svg class="w-5 h-5 text-[#FFBE98]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-medium text-gray-800 mb-1">Eat Slowly</h4>
+                  <p class="text-gray-600 text-sm">Chewing slowly increases satiety and reduces post-meal glucose spikes.</p>
                 </div>
               </div>
             </div>
@@ -284,24 +375,31 @@
           <!-- 卡片：成分细节 -->
           <div class="ingredients-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
             <div class="p-4">
-              <h3 class="font-semibold text-gray-800 mb-3">Ingredients</h3>
+              <div class="flex justify-between items-center mb-3">
+                <h3 class="font-semibold text-gray-800">Ingredients</h3>
+                <button class="edit-ingredients-button p-1 rounded-full hover:bg-gray-100">
+                  <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                  </svg>
+                </button>
+              </div>
               
-              <div class="grid grid-cols-2 gap-2">
-                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+              <div class="ingredients-grid grid grid-cols-2 gap-2">
+                <div class="ingredient-item flex items-center p-2 bg-gray-50 rounded-lg">
                   <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
-                  <span class="text-sm">Salmon (120g)</span>
+                  <span class="text-sm ingredient-name">Salmon (120g)</span>
                 </div>
-                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                <div class="ingredient-item flex items-center p-2 bg-gray-50 rounded-lg">
                   <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
-                  <span class="text-sm">Broccoli (50g)</span>
+                  <span class="text-sm ingredient-name">Broccoli (50g)</span>
                 </div>
-                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                <div class="ingredient-item flex items-center p-2 bg-gray-50 rounded-lg">
                   <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
-                  <span class="text-sm">Sweet Potato (40g)</span>
+                  <span class="text-sm ingredient-name">Sweet Potato (40g)</span>
                 </div>
-                <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                <div class="ingredient-item flex items-center p-2 bg-gray-50 rounded-lg">
                   <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
-                  <span class="text-sm">Olive Oil (5g)</span>
+                  <span class="text-sm ingredient-name">Olive Oil (5g)</span>
                 </div>
               </div>
             </div>
@@ -396,6 +494,119 @@
         /* 按钮点击动画 */
         .save-button:active, .location-button:active, .favorite-button:active {
           transform: scale(0.98);
+        }
+        
+        /* 菜品标记动画 */
+        .dish-marker {
+          transition: all 0.3s ease;
+        }
+        
+        /* 滑动提示动画 */
+        @keyframes fade-in {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        
+        @keyframes fade-out {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        
+        .animate-fade-in {
+          animation: fade-in 0.5s ease forwards;
+        }
+        
+        .animate-fade-out {
+          animation: fade-out 0.5s ease forwards;
+        }
+        
+        /* 菜品指示器点击效果 */
+        .dish-indicators > div {
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .dish-indicators > div:hover {
+          transform: scale(1.2);
+        }
+        
+        /* 菜品标记脉冲效果 */
+        @keyframes marker-pulse {
+          0% { transform: scale(1); opacity: 0.7; }
+          70% { transform: scale(1.1); opacity: 0.2; }
+          100% { transform: scale(1); opacity: 0; }
+        }
+        
+        .marker-pulse {
+          animation: marker-pulse 2s infinite;
+        }
+        
+        /* 重拍按钮样式 */
+        .retake-photo-button {
+          transition: all 0.2s ease;
+          opacity: 0.9;
+          backdrop-filter: blur(4px);
+          transform: translateY(0);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .retake-photo-button:hover {
+          opacity: 1;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+        }
+        
+        .retake-photo-button:active {
+          transform: translateY(1px);
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* 菜品名称样式 */
+        .dish-name {
+          position: relative;
+          transition: all 0.2s ease;
+        }
+        
+        .dish-name::after {
+          content: '';
+          position: absolute;
+          bottom: -2px;
+          left: 0;
+          width: 0;
+          height: 1px;
+          background-color: white;
+          transition: width 0.3s ease;
+        }
+        
+        .dish-name:hover::after {
+          width: 100%;
+        }
+        
+        .dish-name.active::after {
+          width: 100%;
+        }
+        
+        /* 当前活跃菜品标记效果 */
+        .dish-marker.scale-125 {
+          transform: scale(1.25) translate(-40%, -40%);
+          border-color: #FFBE98;
+          z-index: 20;
+        }
+        
+        /* 菜品标记数字颜色变化 */
+        .dish-marker.scale-125 span {
+          color: white;
+        }
+        
+        /* 菜品指示器 */
+        .dish-indicator {
+          opacity: 0;
+          animation: slide-in 0.3s ease forwards;
+        }
+        
+        @keyframes slide-in {
+          0% { opacity: 0; transform: translateY(-100%); }
+          100% { opacity: 1; transform: translateY(0); }
         }
       </style>
     `;
@@ -501,6 +712,51 @@
     
     // 初始化菜品滑动功能
     initDishesSlider(screen);
+    
+    // 为每个菜品幻灯片的重拍按钮添加点击事件
+    const retakeButtons = screen.querySelectorAll('.retake-photo-button');
+    retakeButtons.forEach((button, index) => {
+      button.addEventListener('click', function() {
+        const currentDishIndex = index + 1; // 菜品索引从1开始显示
+        const dishName = screen.querySelector(`.dish-slide:nth-child(${index + 1}) h3`).textContent;
+        
+        // 显示iOS风格的确认对话框
+        createIOSModal('Retake Photo', `Are you sure you want to retake "${dishName}"?`, [
+          { label: 'Cancel', style: 'cancel' },
+          { label: 'Retake', style: 'destructive' }
+        ], (buttonIndex) => {
+          if (buttonIndex === 1) { // 用户点击了"重拍"
+            // 显示相机界面或重拍确认UI
+            createIOSActionSheet('Retake Options', [
+              {
+                label: 'Use Camera',
+                icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                  <circle cx="12" cy="13" r="4"></circle>
+                </svg>`
+              },
+              {
+                label: 'Choose from Gallery',
+                icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FFBE98" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                  <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>`
+              }
+            ], (optionIndex) => {
+              // 显示操作进行中提示
+              createIOSToast(`Preparing to retake ${dishName}...`, 1500);
+              
+              // 这里可以添加调用相机或图库的逻辑
+              setTimeout(() => {
+                // 模拟调用相机后的效果，实际应用中应连接到相机功能
+                createIOSToast('This feature will be available in future updates', 2000);
+              }, 1500);
+            });
+          }
+        });
+      });
+    });
     
     // 菜品缩略图点击事件 - 重拍照片
     const previewThumbnails = screen.querySelectorAll('.preview-thumbnail');
@@ -788,6 +1044,15 @@
         );
       });
     }
+    
+    // 成分编辑功能
+    const editIngredientsButton = screen.querySelector('.edit-ingredients-button');
+    if (editIngredientsButton) {
+      editIngredientsButton.addEventListener('click', function() {
+        // 打开编辑模式
+        openIngredientsEditor(screen);
+      });
+    }
   }
   
   /**
@@ -797,10 +1062,10 @@
   function initDishesSlider(screen) {
     const slider = screen.querySelector('.dishes-slider');
     const slides = screen.querySelectorAll('.dish-slide');
-    const leftArrow = screen.querySelector('.slider-arrow-left');
-    const rightArrow = screen.querySelector('.slider-arrow-right');
+    const indicators = screen.querySelectorAll('.dish-indicators > div');
     const currentIndexEl = screen.querySelector('.current-dish-index');
     const totalDishesEl = screen.querySelector('.total-dishes');
+    const swipeHint = screen.querySelector('.swipe-hint');
     
     if (!slider || !slides.length) return;
     
@@ -819,17 +1084,39 @@
         currentIndexEl.textContent = currentIndex + 1;
       }
       
-      // 更新左右箭头可见性
-      if (leftArrow) {
-        leftArrow.style.opacity = currentIndex > 0 ? '1' : '0';
-      }
-      
-      if (rightArrow) {
-        rightArrow.style.opacity = currentIndex < totalSlides - 1 ? '1' : '0';
-      }
+      // 更新指示器状态
+      indicators.forEach((indicator, index) => {
+        if (index === currentIndex) {
+          indicator.classList.remove('opacity-50');
+          indicator.classList.add('opacity-100');
+          indicator.classList.remove('w-2');
+          indicator.classList.add('w-3');
+          indicator.classList.remove('h-2');
+          indicator.classList.add('h-3');
+        } else {
+          indicator.classList.remove('opacity-100');
+          indicator.classList.add('opacity-50');
+          indicator.classList.remove('w-3');
+          indicator.classList.add('w-2');
+          indicator.classList.remove('h-3');
+          indicator.classList.add('h-2');
+        }
+      });
       
       // 更新实际营养成分和饮食建议内容
       updateDishContents(screen, currentIndex);
+      
+      // 突出显示当前菜品的标记
+      const markers = screen.querySelectorAll('.dish-marker');
+      markers.forEach((marker, index) => {
+        if (index === currentIndex) {
+          marker.classList.add('scale-125');
+          marker.classList.add('z-20');
+        } else {
+          marker.classList.remove('scale-125');
+          marker.classList.remove('z-20');
+        }
+      });
     }
     
     // 滑动到指定索引
@@ -844,19 +1131,6 @@
       });
       
       updateSliderState();
-    }
-    
-    // 添加左右箭头点击事件
-    if (leftArrow) {
-      leftArrow.addEventListener('click', () => {
-        slideTo(currentIndex - 1);
-      });
-    }
-    
-    if (rightArrow) {
-      rightArrow.addEventListener('click', () => {
-        slideTo(currentIndex + 1);
-      });
     }
     
     // 添加触摸滑动功能
@@ -903,6 +1177,27 @@
         updateSliderState();
       }
     });
+    
+    // 给分页指示器添加点击事件
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener('click', () => {
+        slideTo(index);
+      });
+    });
+    
+    // 显示滑动提示（首次显示）
+    if (swipeHint && totalSlides > 1) {
+      setTimeout(() => {
+        swipeHint.classList.add('opacity-100');
+        swipeHint.classList.add('animate-fade-in');
+        
+        // 3秒后淡出
+        setTimeout(() => {
+          swipeHint.classList.remove('opacity-100');
+          swipeHint.classList.add('opacity-0');
+        }, 3000);
+      }, 1000);
+    }
     
     // 初始化滑动状态
     updateSliderState();
@@ -957,7 +1252,7 @@
         }
       },
       {
-        name: "Fruit Platter",
+        name: "Fruit Dessert",
         calories: 150,
         healthScore: 8.0,
         glycemicLoad: "Medium (12)",
@@ -1188,96 +1483,54 @@
                   <text x="18" y="17" class="calorie-text" text-anchor="middle" alignment-baseline="middle" fill="#111827" font-size="8" font-weight="bold">${data.calories}</text>
                   <text x="18" y="23" class="calorie-unit" text-anchor="middle" alignment-baseline="middle" fill="#6B7280" font-size="3">CALORIES</text>
                 </svg>
-                <div class="text-center mt-2">
-                  <div class="text-sm text-gray-500">${caloriePercentage}% of daily goal</div>
-                </div>
+                <!-- 完全删除百分比显示 -->
               </div>
             </div>
           </div>
           
-          <!-- 营养素分布条 -->
+          <!-- 营养分布部分 -->
           <div class="w-full md:w-3/5">
-            <h3 class="text-sm font-medium text-gray-700 mb-3">Nutrient Distribution</h3>
-            
-            <!-- 蛋白质 -->
-            <div class="nutrient-bar mb-3" data-nutrient="protein">
-              <div class="flex justify-between items-center mb-1">
-                <div class="flex items-center">
-                  <div class="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-                  <span class="text-xs font-medium">Protein</span>
+            <div class="nutrient-bars">
+              <!-- 蛋白质 -->
+              <div class="nutrient-bar-container mb-3" data-nutrient="protein">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-sm font-medium text-gray-700">蛋白质</span>
+                  <span class="text-sm text-gray-500">${data.nutritionInfo.protein}g</span>
                 </div>
-                <span class="text-xs text-gray-500">${data.nutritionInfo.protein}g</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-2 relative">
-                <div class="absolute left-0 bg-blue-500 h-2 rounded-full" style="width: ${proteinPercentage}%"></div>
-              </div>
-            </div>
-            
-            <!-- 碳水化合物 -->
-            <div class="nutrient-bar mb-3" data-nutrient="carbs">
-              <div class="flex justify-between items-center mb-1">
-                <div class="flex items-center">
-                  <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                  <span class="text-xs font-medium">Carbohydrates</span>
+                <div class="relative h-3 bg-gray-200 rounded-full">
+                  <div class="absolute h-full bg-blue-500 rounded-full" style="width: ${proteinPercentage}%"></div>
                 </div>
-                <span class="text-xs text-gray-500">${data.nutritionInfo.carbs}g</span>
               </div>
-              <div class="w-full bg-gray-200 rounded-full h-2 relative">
-                <div class="absolute left-0 bg-yellow-500 h-2 rounded-full" style="width: ${carbsPercentage}%"></div>
-              </div>
-            </div>
-            
-            <!-- 脂肪 -->
-            <div class="nutrient-bar mb-3" data-nutrient="fat">
-              <div class="flex justify-between items-center mb-1">
-                <div class="flex items-center">
-                  <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                  <span class="text-xs font-medium">Fat</span>
+              
+              <!-- 碳水化合物 -->
+              <div class="nutrient-bar-container mb-3" data-nutrient="carbs">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-sm font-medium text-gray-700">碳水化合物</span>
+                  <span class="text-sm text-gray-500">${data.nutritionInfo.carbs}g</span>
                 </div>
-                <span class="text-xs text-gray-500">${data.nutritionInfo.fat}g</span>
+                <div class="relative h-3 bg-gray-200 rounded-full">
+                  <div class="absolute h-full bg-yellow-500 rounded-full" style="width: ${carbsPercentage}%"></div>
+                </div>
               </div>
-              <div class="w-full bg-gray-200 rounded-full h-2 relative">
-                <div class="absolute left-0 bg-red-500 h-2 rounded-full" style="width: ${fatPercentage}%"></div>
+              
+              <!-- 脂肪 -->
+              <div class="nutrient-bar-container" data-nutrient="fat">
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-sm font-medium text-gray-700">脂肪</span>
+                  <span class="text-sm text-gray-500">${data.nutritionInfo.fat}g</span>
+                </div>
+                <div class="relative h-3 bg-gray-200 rounded-full">
+                  <div class="absolute h-full bg-red-500 rounded-full" style="width: ${fatPercentage}%"></div>
+                </div>
               </div>
             </div>
             
-            <!-- 营养素比例图 -->
-            <div class="flex justify-between mt-4">
-              <div class="nutrient-percentage" style="width: ${data.percentages.protein}%" data-nutrient="protein">
-                <div class="h-4 bg-blue-500 rounded-l-full"></div>
-              </div>
-              <div class="nutrient-percentage" style="width: ${data.percentages.carbs}%" data-nutrient="carbs">
-                <div class="h-4 bg-yellow-500"></div>
-              </div>
-              <div class="nutrient-percentage" style="width: ${data.percentages.fat}%" data-nutrient="fat">
-                <div class="h-4 bg-red-500"></div>
-              </div>
-              <div class="nutrient-percentage" style="width: ${data.percentages.fiber}%" data-nutrient="fiber">
-                <div class="h-4 bg-green-500 rounded-r-full"></div>
-              </div>
+            <!-- 查看更多营养素的按钮 -->
+            <div class="mt-4">
+              <button class="expand-nutrients text-sm text-indigo-600 hover:text-indigo-800">
+                查看更多营养素 →
+              </button>
             </div>
-            <div class="text-xs text-gray-500 text-center mt-1">Nutrient Ratio</div>
-          </div>
-        </div>
-        
-        <!-- 详细营养素信息 -->
-        <div class="detailed-nutrients mt-4 pt-4 border-t border-gray-200">
-          <div class="grid grid-cols-3 gap-2">
-            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center" data-nutrient="fiber">
-              <div class="text-sm font-medium">${data.nutritionInfo.fiber}g</div>
-              <div class="text-xs text-gray-500">Dietary Fiber</div>
-            </div>
-            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center" data-nutrient="sugar">
-              <div class="text-sm font-medium">${data.nutritionInfo.sugar}g</div>
-              <div class="text-xs text-gray-500">Sugar</div>
-            </div>
-            <div class="nutrient-detail p-2 bg-gray-50 rounded text-center" data-nutrient="sodium">
-              <div class="text-sm font-medium">${data.nutritionInfo.sodium}mg</div>
-              <div class="text-xs text-gray-500">Sodium</div>
-            </div>
-          </div>
-          <div class="text-center mt-3">
-            <button class="show-more-nutrients text-xs text-blue-500">View more nutrition information ↓</button>
           </div>
         </div>
       </div>
@@ -1665,5 +1918,355 @@
     }, 10);
     
     return overlay;
+  }
+
+  // 为菜品名称添加长按编辑功能
+  const dishNames = screen.querySelectorAll('.dish-name');
+  dishNames.forEach((nameElement, index) => {
+    let pressTimer;
+    let isLongPressing = false;
+    const longPressTime = 500; // 长按500毫秒触发
+    
+    // 触摸设备的长按事件
+    nameElement.addEventListener('touchstart', function(e) {
+      pressTimer = setTimeout(() => {
+        isLongPressing = true;
+        this.classList.add('active');
+        // 提供触觉反馈（如果设备支持）
+        if (window.navigator && window.navigator.vibrate) {
+          window.navigator.vibrate(50);
+        }
+        // 显示编辑对话框
+        showDishNameEditor(this, index);
+      }, longPressTime);
+    });
+    
+    nameElement.addEventListener('touchend', function() {
+      clearTimeout(pressTimer);
+      if (isLongPressing) {
+        this.classList.remove('active');
+        isLongPressing = false;
+      }
+    });
+    
+    nameElement.addEventListener('touchmove', function() {
+      clearTimeout(pressTimer);
+    });
+    
+    // 桌面设备的长按事件模拟
+    nameElement.addEventListener('mousedown', function() {
+      pressTimer = setTimeout(() => {
+        isLongPressing = true;
+        this.classList.add('active');
+        // 显示编辑对话框
+        showDishNameEditor(this, index);
+      }, longPressTime);
+    });
+    
+    nameElement.addEventListener('mouseup', function() {
+      clearTimeout(pressTimer);
+      if (isLongPressing) {
+        this.classList.remove('active');
+        isLongPressing = false;
+      }
+    });
+    
+    nameElement.addEventListener('mouseleave', function() {
+      clearTimeout(pressTimer);
+      this.classList.remove('active');
+    });
+  });
+
+  // 显示菜品名称编辑对话框
+  function showDishNameEditor(nameElement, index) {
+    const currentName = nameElement.textContent;
+    const slideName = `Dish ${index + 1}`;
+    
+    // 显示iOS风格的编辑对话框
+    createIOSPrompt('Edit Dish Name', 'Press and hold to edit the dish name', 'Dish name', currentName, (newName) => {
+      if (newName && newName.trim() !== '') {
+        // 更新当前显示的名称
+        nameElement.textContent = newName;
+        
+        // 更新对应菜品数据（如果有的话）
+        updateDishNameInData(index, newName);
+        
+        // 显示成功提示
+        createIOSToast('Dish name updated', 1500);
+      }
+    });
+  }
+
+  // 更新菜品数据中的名称
+  function updateDishNameInData(index, newName) {
+    // 根据实际数据模型来操作，这里只是示例
+    const dishesData = window.dishesData || [];
+    if (dishesData[index]) {
+      dishesData[index].name = newName;
+    }
+  }
+
+  function createCalorieRing(calories, goalCalories) {
+    const percentage = Math.min(Math.round((calories / goalCalories) * 100), 100);
+    
+    // 计算角度和坐标，以便创建圆弧
+    const calculateCoordinates = (percent) => {
+      // 将百分比转换为弧度
+      const radians = (percent / 100) * 2 * Math.PI;
+      // 计算终点坐标
+      const x = 50 + 45 * Math.sin(radians);
+      const y = 50 - 45 * Math.cos(radians);
+      // 确定是否是大弧（大于180度）
+      const largeArcFlag = percent > 50 ? 1 : 0;
+      
+      return { x, y, largeArcFlag };
+    };
+    
+    const coords = calculateCoordinates(percentage);
+    
+    return `
+      <div class="calorie-ring flex flex-col items-center justify-center">
+        <div class="relative w-32 h-32">
+          <svg class="w-full h-full" viewBox="0 0 100 100">
+            <!-- 背景圆环 -->
+            <circle 
+              cx="50" 
+              cy="50" 
+              r="45" 
+              fill="none" 
+              stroke="#e5e7eb" 
+              stroke-width="8"
+            />
+            
+            <!-- 进度圆环 - 使用SVG路径完全控制圆弧 -->
+            ${percentage > 0 ? `
+            <path
+              d="M 50,5 A 45,45 0 ${coords.largeArcFlag},1 ${coords.x},${coords.y}"
+              fill="none"
+              stroke="#4f46e5"
+              stroke-width="8"
+              stroke-linecap="round"
+            />` : ''}
+          </svg>
+          
+          <!-- 中心文本 -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <div class="text-2xl font-bold">${calories}</div>
+            <div class="text-xs text-gray-500">of ${goalCalories}</div>
+            <div class="text-xs text-gray-500">KCAL</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * 打开成分编辑器
+   * @param {HTMLElement} screen - 当前屏幕元素 
+   */
+  function openIngredientsEditor(screen) {
+    // 获取当前成分列表容器
+    const ingredientsContainer = screen.querySelector('.ingredients-grid');
+    if (!ingredientsContainer) return;
+    
+    // 获取所有成分项
+    const ingredients = [];
+    ingredientsContainer.querySelectorAll('.ingredient-item').forEach(item => {
+      const nameEl = item.querySelector('.ingredient-name');
+      if (nameEl) {
+        // 提取名称和重量 (例如: "Salmon (120g)" -> name: "Salmon", weight: "120g")
+        const text = nameEl.textContent;
+        const match = text.match(/(.*)\s*\((\d+g)\)/);
+        if (match) {
+          ingredients.push({
+            name: match[1].trim(),
+            weight: match[2]
+          });
+        } else {
+          ingredients.push({
+            name: text,
+            weight: ''
+          });
+        }
+      }
+    });
+    
+    // 创建编辑模式的HTML
+    let ingredientsEditHTML = `
+      <div class="ingredients-editor-modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white rounded-2xl w-11/12 max-w-md max-h-[80vh] overflow-hidden flex flex-col">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="font-semibold text-gray-800 text-center">Edit Ingredients</h3>
+          </div>
+          
+          <div class="p-4 overflow-y-auto flex-1">
+            <div class="ingredients-edit-list space-y-2">
+    `;
+    
+    // 添加所有成分项
+    ingredients.forEach((ingredient, index) => {
+      ingredientsEditHTML += `
+        <div class="ingredient-edit-item flex items-center bg-gray-50 rounded-lg p-2" data-index="${index}">
+          <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2 flex-shrink-0"></div>
+          <div class="flex-1 flex gap-2">
+            <input type="text" class="ingredient-name-input flex-1 py-1 px-2 text-sm border border-gray-200 rounded" value="${ingredient.name}" placeholder="Ingredient">
+            <input type="text" class="ingredient-weight-input w-16 py-1 px-2 text-sm border border-gray-200 rounded" value="${ingredient.weight}" placeholder="Weight">
+          </div>
+          <button class="delete-ingredient-button ml-2 p-1 text-red-500 rounded-full hover:bg-red-50">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+          </button>
+        </div>
+      `;
+    });
+    
+    // 添加"添加成分"按钮和底部操作区
+    ingredientsEditHTML += `
+            </div>
+            
+            <button class="add-ingredient-button w-full mt-4 py-2 px-4 bg-gray-100 text-gray-600 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              Add Ingredient
+            </button>
+          </div>
+          
+          <div class="p-4 border-t border-gray-100 flex justify-between">
+            <button class="cancel-ingredients-edit py-2 px-6 bg-gray-100 text-gray-700 rounded-lg">Cancel</button>
+            <button class="save-ingredients-edit py-2 px-6 bg-[#FFBE98] text-white rounded-lg">Save</button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // 添加编辑模态框到屏幕
+    const modalContainer = document.createElement('div');
+    modalContainer.innerHTML = ingredientsEditHTML;
+    screen.appendChild(modalContainer.firstElementChild);
+    
+    // 获取编辑模态框引用
+    const modal = screen.querySelector('.ingredients-editor-modal');
+    
+    // 添加新成分的功能
+    const addIngredientButton = modal.querySelector('.add-ingredient-button');
+    if (addIngredientButton) {
+      addIngredientButton.addEventListener('click', function() {
+        const editList = modal.querySelector('.ingredients-edit-list');
+        const newIndex = editList.querySelectorAll('.ingredient-edit-item').length;
+        
+        const newItem = document.createElement('div');
+        newItem.className = 'ingredient-edit-item flex items-center bg-gray-50 rounded-lg p-2';
+        newItem.setAttribute('data-index', newIndex);
+        
+        newItem.innerHTML = `
+          <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2 flex-shrink-0"></div>
+          <div class="flex-1 flex gap-2">
+            <input type="text" class="ingredient-name-input flex-1 py-1 px-2 text-sm border border-gray-200 rounded" placeholder="Ingredient">
+            <input type="text" class="ingredient-weight-input w-16 py-1 px-2 text-sm border border-gray-200 rounded" placeholder="Weight">
+          </div>
+          <button class="delete-ingredient-button ml-2 p-1 text-red-500 rounded-full hover:bg-red-50">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+            </svg>
+          </button>
+        `;
+        
+        editList.appendChild(newItem);
+        
+        // 给新添加的删除按钮添加事件监听
+        const deleteButton = newItem.querySelector('.delete-ingredient-button');
+        if (deleteButton) {
+          deleteButton.addEventListener('click', function() {
+            newItem.remove();
+          });
+        }
+        
+        // 聚焦到新添加的输入框
+        const nameInput = newItem.querySelector('.ingredient-name-input');
+        if (nameInput) {
+          nameInput.focus();
+        }
+      });
+    }
+    
+    // 为所有删除按钮添加事件监听
+    const deleteButtons = modal.querySelectorAll('.delete-ingredient-button');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const item = this.closest('.ingredient-edit-item');
+        if (item) {
+          item.remove();
+        }
+      });
+    });
+    
+    // 取消按钮
+    const cancelButton = modal.querySelector('.cancel-ingredients-edit');
+    if (cancelButton) {
+      cancelButton.addEventListener('click', function() {
+        modal.remove();
+      });
+    }
+    
+    // 保存按钮
+    const saveButton = modal.querySelector('.save-ingredients-edit');
+    if (saveButton) {
+      saveButton.addEventListener('click', function() {
+        // 收集所有成分数据
+        const updatedIngredients = [];
+        const ingredientItems = modal.querySelectorAll('.ingredient-edit-item');
+        
+        ingredientItems.forEach(item => {
+          const nameInput = item.querySelector('.ingredient-name-input');
+          const weightInput = item.querySelector('.ingredient-weight-input');
+          
+          if (nameInput && nameInput.value.trim()) {
+            updatedIngredients.push({
+              name: nameInput.value.trim(),
+              weight: weightInput ? weightInput.value.trim() : ''
+            });
+          }
+        });
+        
+        // 更新UI
+        updateIngredientsUI(screen, updatedIngredients);
+        
+        // 关闭模态框
+        modal.remove();
+        
+        // 显示成功提示
+        createIOSToast('Ingredients updated successfully', 1500);
+      });
+    }
+  }
+  
+  /**
+   * 更新成分列表UI
+   * @param {HTMLElement} screen - 当前屏幕元素
+   * @param {Array} ingredients - 更新后的成分列表
+   */
+  function updateIngredientsUI(screen, ingredients) {
+    const ingredientsGrid = screen.querySelector('.ingredients-grid');
+    if (!ingredientsGrid) return;
+    
+    // 清空现有内容
+    ingredientsGrid.innerHTML = '';
+    
+    // 添加更新后的成分
+    ingredients.forEach(ingredient => {
+      const displayText = ingredient.weight ? `${ingredient.name} (${ingredient.weight})` : ingredient.name;
+      
+      const item = document.createElement('div');
+      item.className = 'ingredient-item flex items-center p-2 bg-gray-50 rounded-lg';
+      
+      item.innerHTML = `
+        <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2"></div>
+        <span class="text-sm ingredient-name">${displayText}</span>
+      `;
+      
+      ingredientsGrid.appendChild(item);
+    });
   }
 })(); 
