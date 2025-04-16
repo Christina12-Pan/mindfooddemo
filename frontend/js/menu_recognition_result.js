@@ -32,6 +32,9 @@
         // 添加菜品添加按钮事件
         addDishActionEvents(menuResultPage);
         
+        // 添加底部操作栏事件
+        addBottomActionEvents(menuResultPage);
+        
         // 添加菜单识别页面打开的入口点
         addEntryPoints();
     }
@@ -266,26 +269,30 @@
     }
     
     /**
-     * 底部操作栏按钮事件函数保留但不使用
+     * 添加底部操作栏事件
      * @param {HTMLElement} page - 菜单结果页面元素
      */
     function addBottomActionEvents(page) {
         // 查看完整菜单按钮
-        const viewMenuButton = page.querySelector('.action-section button:first-child');
+        const viewMenuButton = page.querySelector('.fixed button:first-child');
         if (viewMenuButton) {
             viewMenuButton.addEventListener('click', function() {
                 console.log('View full menu button clicked');
                 showFullMenuModal();
             });
+        } else {
+            console.log('View menu button not found');
         }
         
         // 立即点餐按钮
-        const orderButton = page.querySelector('.action-section button:last-child');
+        const orderButton = page.querySelector('.fixed button:last-child');
         if (orderButton) {
             orderButton.addEventListener('click', function() {
                 console.log('Order now button clicked');
                 showOrderModal();
             });
+        } else {
+            console.log('Order button not found');
         }
     }
     
@@ -632,11 +639,55 @@
         if (menuResultPage) {
             menuResultPage.style.display = 'flex';
             
+            // 设置背景为白色，确保没有灰色背景遮挡
+            menuResultPage.style.backgroundColor = '#ffffff';
+            menuResultPage.classList.add('bg-white');
+            menuResultPage.classList.remove('bg-gray-50', 'bg-gray-100');
+            
+            // 确保内容区域背景正确
+            const scrollableContent = menuResultPage.querySelector('.scrollable-content');
+            if (scrollableContent) {
+                scrollableContent.style.backgroundColor = '#f9fafb';
+                
+                // 增加底部内容区域的底部填充，避免被底部栏遮挡
+                const contentContainer = scrollableContent.querySelector('.px-6.space-y-4');
+                if (contentContainer) {
+                    contentContainer.style.paddingBottom = '100px';
+                }
+            }
+            
+            // 确保底部操作栏背景为白色
+            const bottomActionBar = menuResultPage.querySelector('div[style*="position: absolute; bottom: 0"]');
+            if (bottomActionBar) {
+                bottomActionBar.style.backgroundColor = '#ffffff';
+                // 添加轻微阴影效果，增强视觉区分度
+                bottomActionBar.style.boxShadow = '0 -2px 10px rgba(0,0,0,0.05)';
+                // 确保底部栏背景色优先级最高
+                bottomActionBar.setAttribute('style', bottomActionBar.getAttribute('style') + ' background-color: #ffffff !important;');
+            }
+            
+            // 移除所有灰色背景元素
+            const grayElements = menuResultPage.querySelectorAll('[class*="bg-gray"]');
+            grayElements.forEach(el => {
+                // 仅处理非内容区域和非菜品类别标签的灰色元素
+                if (!el.classList.contains('scrollable-content') && 
+                    !el.classList.contains('bg-gray-100') && 
+                    el.tagName !== 'BUTTON') {
+                    el.classList.remove('bg-gray-50', 'bg-gray-100', 'bg-gray-200');
+                    el.style.backgroundColor = 'transparent';
+                }
+            });
+            
             // 添加出场动画
             menuResultPage.style.animation = 'fadeIn 0.3s ease-out';
             
             // 重置筛选器和菜品状态
             resetPageState(menuResultPage);
+            
+            // 延迟执行一次背景冲突修复
+            if (typeof window.fixBackgroundConflicts === 'function') {
+                setTimeout(window.fixBackgroundConflicts, 200);
+            }
         }
     }
     

@@ -6,6 +6,53 @@
 (function() {
     console.log('Enhanced menu page script loaded');
     
+    // 添加全局样式，修复灰色背景问题
+    (function addGlobalStyles() {
+        const styleId = 'menu-page-global-styles';
+        if (document.getElementById(styleId)) return;
+        
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.textContent = `
+            /* 全局背景控制 */
+            body, html {
+                background-color: #ffffff !important;
+            }
+            
+            /* 菜单页面样式修复 */
+            .screen[data-page="menu-result"] {
+                background-color: #ffffff !important;
+                position: relative !important;
+                height: 100% !important;
+                overflow: hidden !important;
+            }
+            
+            /* 内容区域样式 */
+            .screen[data-page="menu-result"] .scrollable-content {
+                background-color: #f9fafb !important;
+                height: 100% !important;
+                padding-bottom: 0 !important;
+                overflow-y: auto !important;
+            }
+            
+            /* 移除任何可能存在的灰色底部区域 */
+            .screen[data-page="menu-result"] > div:not(.scrollable-content):not(.ios-status-bar) {
+                background-color: transparent !important;
+            }
+            
+            /* 灰色背景控制 - 只保留按钮和筛选器的灰色背景 */
+            .screen[data-page="menu-result"] [class*="bg-gray"]:not(button):not(.category-filter) {
+                background-color: transparent !important;
+            }
+            
+            /* 确保菜单容器有足够的底部内边距 */
+            .menu-result-container {
+                padding-bottom: 50px !important;
+            }
+        `;
+        document.head.appendChild(style);
+    })();
+    
     // Initialize after DOM is fully loaded
     document.addEventListener('DOMContentLoaded', function() {
         initMenuPage();
@@ -15,12 +62,17 @@
      * Initialize the menu recognition page
      */
     function initMenuPage() {
+        // 修复底部灰色区域问题
+        fixBottomGrayArea();
+        
         // Check if menu result page exists
         const checkExistence = setInterval(() => {
             const menuResultPage = document.querySelector('.screen[data-page="menu-result"]');
             if (menuResultPage) {
                 clearInterval(checkExistence);
                 console.log('Menu page found, applying enhanced design');
+                // 再次修复底部灰色区域问题
+                fixBottomGrayArea();
                 rebuildMenuPage(menuResultPage);
             }
         }, 100);
@@ -32,13 +84,110 @@
     }
     
     /**
+     * 修复菜单页面底部灰色区域问题
+     */
+    function fixBottomGrayArea() {
+        const menuResultPage = document.querySelector('.screen[data-page="menu-result"]');
+        if (!menuResultPage) return;
+        
+        console.log('Fixing menu page bottom gray area');
+        
+        // 修复1: 设置页面背景为白色
+        menuResultPage.style.backgroundColor = '#ffffff';
+        menuResultPage.style.position = 'relative';
+        menuResultPage.classList.add('bg-white');
+        menuResultPage.classList.remove('bg-gray-50', 'bg-gray-100', 'bg-gray-200');
+        
+        // 移除底部操作栏，因为新设计不需要
+        const bottomBar = menuResultPage.querySelector('div[style*="position: absolute; bottom: 0"]');
+        if (bottomBar) {
+            bottomBar.remove();
+        }
+        
+        // 修复2: 处理内容区域
+        const scrollableContent = menuResultPage.querySelector('.scrollable-content');
+        if (scrollableContent) {
+            // 确保内容区域背景色正确
+            scrollableContent.style.backgroundColor = '#f9fafb';
+            scrollableContent.style.height = '100%'; // 占满整个屏幕高度
+            scrollableContent.style.paddingBottom = '0'; // 去除底部内边距
+            
+            // 给内容容器添加足够的底部内边距
+            const contentContainer = scrollableContent.querySelector('.menu-result-container');
+            if (contentContainer) {
+                contentContainer.style.paddingBottom = '50px';
+            } else {
+                // 如果没有找到新设计的容器，则处理旧设计的容器
+                const oldContainer = scrollableContent.querySelector('.px-6.space-y-4');
+                if (oldContainer) {
+                    oldContainer.style.paddingBottom = '50px';
+                }
+            }
+        }
+        
+        // 修复3: 删除所有多余的灰色背景元素
+        const grayElements = menuResultPage.querySelectorAll('[class*="bg-gray"]');
+        grayElements.forEach(el => {
+            // 只处理非按钮、非内容区域的灰色元素
+            if (el.tagName !== 'BUTTON' && 
+                !el.classList.contains('scrollable-content') && 
+                !el.classList.contains('dishes-list') &&
+                !el.classList.contains('category-filter')) {
+                // 移除灰色背景类
+                el.classList.remove('bg-gray-50', 'bg-gray-100', 'bg-gray-200', 'bg-gray-300');
+                el.style.backgroundColor = 'transparent';
+            }
+        });
+        
+        // 修复4: 动态添加全局CSS样式，确保灰色区域问题不再出现
+        const styleId = 'bottom-gray-fix-style';
+        if (!document.getElementById(styleId)) {
+            const style = document.createElement('style');
+            style.id = styleId;
+            style.textContent = `
+                .screen[data-page="menu-result"] {
+                    background-color: #ffffff !important;
+                    position: relative !important;
+                }
+                
+                body {
+                    background-color: #ffffff !important;
+                }
+                
+                /* 移除所有不需要的灰色背景 */
+                .screen[data-page="menu-result"] > div:not(.scrollable-content):not(.ios-status-bar):not(.menu-header):not(.category-filter-section):not(.dishes-list) {
+                    background-color: transparent !important;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+    }
+    
+    /**
      * Rebuild the menu page with enhanced UI/UX
      * @param {HTMLElement} page - The menu result page element
      */
     function rebuildMenuPage(page) {
+        // 首先移除可能存在的灰色背景
+        page.style.backgroundColor = '#ffffff';
+        page.classList.add('bg-white');
+        page.classList.remove('bg-gray-50', 'bg-gray-100', 'bg-gray-200', 'bg-gray-300');
+        
+        // 移除底部操作栏
+        const bottomBar = page.querySelector('div[style*="position: absolute; bottom: 0"]');
+        if (bottomBar) {
+            bottomBar.remove();
+        }
+        
         // Clear current content area, preserving status bar
         const contentArea = page.querySelector('.scrollable-content');
         if (contentArea) {
+            // 设置滚动区域样式
+            contentArea.style.backgroundColor = '#f9fafb';
+            contentArea.style.height = '100%'; // 调整高度占满整个页面
+            contentArea.classList.remove('bg-gray-50', 'bg-gray-100', 'bg-gray-200');
+            
+            // 清除内容
             contentArea.innerHTML = '';
             
             // Create main container
@@ -85,9 +234,54 @@
                 <div class="dishes-list">
                     ${generateDishItems()}
                 </div>
+                
+                <!-- 底部填充，防止内容被底部灰色区域遮挡 -->
+                <div style="height: 30px;"></div>
             `;
             
             contentArea.appendChild(container);
+            
+            // 添加CSS修复灰色区域
+            const styleId = 'menu-page-fix-style';
+            if (!document.getElementById(styleId)) {
+                const style = document.createElement('style');
+                style.id = styleId;
+                style.textContent = `
+                    .screen[data-page="menu-result"] {
+                        background-color: #ffffff !important;
+                        position: relative;
+                    }
+                    
+                    .screen[data-page="menu-result"] .scrollable-content {
+                        background-color: #f9fafb !important;
+                        height: 100% !important;
+                        padding-bottom: 0 !important;
+                    }
+                    
+                    .screen[data-page="menu-result"] .menu-result-container {
+                        padding-bottom: 50px !important;
+                    }
+                    
+                    /* 移除所有在menu-result页面中的灰色背景 */
+                    .screen[data-page="menu-result"] [class*="bg-gray"] {
+                        background-color: transparent !important;
+                    }
+                    
+                    /* 除了显式设置的按钮背景 */
+                    .screen[data-page="menu-result"] button[class*="bg-gray"] {
+                        background-color: #f3f4f6 !important;
+                    }
+                    
+                    .screen[data-page="menu-result"] .category-filter {
+                        background-color: #f3f4f6 !important;
+                    }
+                    
+                    .screen[data-page="menu-result"] .category-filter.active {
+                        background-color: #FFBE98 !important;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
             
             // Add event listeners
             addEventListeners(page);
@@ -584,4 +778,20 @@
             }
         });
     }
+    
+    // 添加页面显示和隐藏事件监听，确保每次显示菜单页面时都修复底部灰色区域
+    document.addEventListener('pageChanged', function(e) {
+        if (e.detail && e.detail.page === 'menu-result') {
+            console.log('Menu page displayed, fixing bottom gray area');
+            setTimeout(fixBottomGrayArea, 100);
+        }
+    });
+    
+    // 初始延迟执行修复，确保DOM完全加载
+    setTimeout(fixBottomGrayArea, 500);
+    
+    // 页面加载完成后再次执行修复
+    window.addEventListener('load', function() {
+        setTimeout(fixBottomGrayArea, 800);
+    });
 })(); 

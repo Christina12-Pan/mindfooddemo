@@ -56,6 +56,9 @@
         // 修复dish-recognition页面背景
         fixDishRecognitionBackground();
         
+        // 修复menu-result页面背景
+        fixMenuResultBackground();
+        
         // 确保背景设置正确应用
         if (window.reapplyAppBackground) {
             console.log('重新应用全局背景设置');
@@ -168,6 +171,58 @@
         });
     }
 
+    /**
+     * 修复菜单识别结果页面的背景问题
+     */
+    function fixMenuResultBackground() {
+        const menuResultScreen = document.querySelector('.screen[data-page="menu-result"]');
+        if (!menuResultScreen) {
+            console.log('未找到菜单识别结果页面');
+            return;
+        }
+        
+        console.log('修复菜单识别结果页面背景');
+        
+        // 确保页面背景为白色
+        menuResultScreen.style.backgroundColor = '#ffffff';
+        menuResultScreen.classList.add('bg-white');
+        menuResultScreen.classList.remove('bg-gray-50', 'bg-gray-100');
+        
+        // 修复内容容器的背景
+        const scrollableContent = menuResultScreen.querySelector('.scrollable-content');
+        if (scrollableContent) {
+            scrollableContent.style.backgroundColor = '#f9fafb';
+            scrollableContent.classList.remove('bg-gray-50');
+            
+            // 确保内容区域下方没有灰色背景遮挡
+            const contentItems = scrollableContent.querySelectorAll('.px-6.space-y-4');
+            if (contentItems.length > 0) {
+                contentItems.forEach(item => {
+                    item.style.paddingBottom = '100px'; // 增加底部内边距，确保内容不被底部操作栏遮挡
+                });
+            }
+        }
+        
+        // 确保底部操作栏背景为白色
+        const bottomActionBar = menuResultScreen.querySelector('div[style*="position: absolute; bottom: 0"]');
+        if (bottomActionBar) {
+            bottomActionBar.style.backgroundColor = '#ffffff';
+            bottomActionBar.style.boxShadow = '0 -2px 10px rgba(0,0,0,0.05)';
+            // 添加重要标记确保样式优先级
+            bottomActionBar.setAttribute('style', bottomActionBar.getAttribute('style') + ' background-color: #ffffff !important;');
+        }
+        
+        // 检查并移除可能存在的背景遮挡元素
+        const bgOverlays = menuResultScreen.querySelectorAll('div[class*="bg-gray"]');
+        bgOverlays.forEach(overlay => {
+            if (!overlay.classList.contains('scrollable-content') && 
+                !overlay.classList.contains('bg-gray-100') && 
+                overlay.style.position !== 'absolute') {
+                overlay.style.backgroundColor = 'transparent';
+            }
+        });
+    }
+
     // 暴露重新修复函数，可从外部调用
     window.fixBackgroundConflicts = fixBackgroundConflicts;
     
@@ -182,4 +237,7 @@
         console.log('页面加载完成，最终修复背景冲突');
         setTimeout(fixBackgroundConflicts, 800);
     });
+    
+    // 立即执行一次背景修复
+    setTimeout(fixBackgroundConflicts, 100);
 })(); 
