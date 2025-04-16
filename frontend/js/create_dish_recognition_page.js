@@ -216,11 +216,24 @@
               <div class="flex items-center justify-between mb-3">
                 <h3 class="font-semibold text-gray-800">Health Score</h3>
                 <div class="flex items-center">
-                  <svg class="w-4 h-4 text-[#FFBE98] mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span class="font-bold text-lg text-gray-800">8.5</span>
-                  <span class="text-xs text-gray-500 ml-1">/10</span>
+                  <!-- 五星评分系统 -->
+                  <div class="flex items-center">
+                    <svg class="w-5 h-5 text-[#FFBE98]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg class="w-5 h-5 text-[#FFBE98]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg class="w-5 h-5 text-[#FFBE98]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg class="w-5 h-5 text-[#FFBE98]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                    <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  </div>
                 </div>
               </div>
               
@@ -231,7 +244,7 @@
                   <span class="text-xs font-medium text-gray-500">Excellent</span>
                 </div>
                 <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div class="h-full bg-gradient-to-r from-green-400 to-[#FFBE98] rounded-full" style="width: 85%"></div>
+                  <div class="h-full bg-gradient-to-r from-red-400 to-green-500 rounded-full" style="width: 85%"></div>
                 </div>
               </div>
               
@@ -1298,6 +1311,37 @@
       dishNameEl.textContent = dishData.name;
     }
     
+    // 更新健康评分的星星显示
+    const healthScoreStars = screen.querySelectorAll('.health-score-card .flex.items-center > div svg');
+    if (healthScoreStars && healthScoreStars.length === 5) {
+      // 将10分制的健康评分转换为5分制
+      const fiveStarScore = Math.round((dishData.healthScore / 10) * 5);
+      
+      // 更新星星显示
+      healthScoreStars.forEach((star, index) => {
+        if (index < fiveStarScore) {
+          // 亮星
+          star.classList.remove('text-gray-300');
+          star.classList.add('text-[#FFBE98]');
+        } else {
+          // 灰星
+          star.classList.remove('text-[#FFBE98]');
+          star.classList.add('text-gray-300');
+        }
+      });
+      
+      // 更新进度条
+      const progressBar = screen.querySelector('.health-score-card .bg-gradient-to-r');
+      if (progressBar) {
+        // 设置进度条宽度
+        progressBar.style.width = `${(dishData.healthScore / 10) * 100}%`;
+        
+        // 确保进度条使用正确的渐变颜色
+        progressBar.classList.remove('from-green-400', 'to-[#FFBE98]');
+        progressBar.classList.add('from-red-400', 'to-green-500');
+      }
+    }
+    
     // 更新血糖负荷信息
     const glycemicLoadEl = screen.querySelector('.glycemic-info .text-green-600');
     if (glycemicLoadEl) {
@@ -1390,8 +1434,11 @@
     // 根据数据生成建议内容
     let guidance = '';
     
+    // 将10分制的健康评分转换为5分制
+    const fiveStarScore = (data.healthScore / 10) * 5;
+    
     // 基于健康评分的建议
-    if (data.healthScore >= 8.0) {
+    if (fiveStarScore >= 4.0) {
       guidance += `<div class="guidance-item mb-3">
         <div class="flex items-center text-green-600 mb-1">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -1401,7 +1448,7 @@
         </div>
         <p class="text-xs text-gray-600">This dish is rich in protein and fiber, making it suitable as part of your regular diet.</p>
       </div>`;
-    } else if (data.healthScore >= 6.0) {
+    } else if (fiveStarScore >= 3.0) {
       guidance += `<div class="guidance-item mb-3">
         <div class="flex items-center text-yellow-600 mb-1">
           <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -2141,22 +2188,32 @@
       }
     });
     
-    // 创建iOS样式的全屏幕滑入面板
+    // 创建编辑面板容器，放在dish analysis屏幕内部，而不是fixed在整个视口
     const editorPanel = document.createElement('div');
-    editorPanel.className = 'fixed inset-0 z-[1000]';
+    editorPanel.className = 'absolute inset-0 z-50';
+    editorPanel.style.position = 'absolute';
+    editorPanel.style.zIndex = '50';
+    editorPanel.style.width = '100%';
+    editorPanel.style.height = '100%';
+    editorPanel.style.pointerEvents = 'auto';
+    
+    // 获取手机屏幕高度，确保面板不超出手机壳
+    const dishScreenHeight = dishAnalysisScreen.clientHeight;
+    const maxPanelHeight = Math.min(600, dishScreenHeight * 0.8); // 最大高度为屏幕的80%或600px
+    
     editorPanel.innerHTML = `
       <div class="absolute inset-0 bg-black opacity-0 transition-opacity duration-300"></div>
-      <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg transform translate-y-full transition-transform duration-300 ease-out">
+      <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg transform translate-y-full transition-transform duration-300 ease-out" style="max-height: ${maxPanelHeight}px;">
         <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto my-3"></div>
         
         <div class="px-4 pb-4">
           <div class="flex justify-between items-center mb-4">
-            <button class="cancel-edit text-gray-500 text-base font-medium">取消</button>
+            <button class="cancel-edit text-gray-500 text-base font-medium">Cancel</button>
             <h3 class="text-base font-semibold text-center">Edit Ingredients</h3>
-            <button class="save-edit text-[#FFBE98] text-base font-medium">完成</button>
+            <button class="save-edit text-[#FFBE98] text-base font-medium">Done</button>
           </div>
           
-          <div class="ingredients-editor-content overflow-y-auto" style="max-height: calc(100vh - 200px); padding-bottom: env(safe-area-inset-bottom, 34px);">
+          <div class="ingredients-editor-content overflow-y-auto" style="max-height: ${maxPanelHeight - 100}px; padding-bottom: env(safe-area-inset-bottom, 20px);">
             <div class="ingredients-edit-list space-y-3">
               ${ingredients.map((ingredient, index) => `
                 <div class="ingredient-edit-item bg-gray-50 rounded-xl p-3" data-index="${index}">
@@ -2192,6 +2249,11 @@
         </div>
       </div>
     `;
+    
+    // 确保dish analysis屏幕是相对定位，这样编辑面板能相对于它定位
+    if (getComputedStyle(dishAnalysisScreen).position === 'static') {
+      dishAnalysisScreen.style.position = 'relative';
+    }
     
     // 将编辑面板添加到Dish Analysis屏幕
     dishAnalysisScreen.appendChild(editorPanel);
