@@ -696,7 +696,7 @@
         `;
         
         const recipeModeLabel = document.createElement('span');
-        recipeModeLabel.className = 'text-[8px] text-white font-medium';
+        recipeModeLabel.className = 'text-[8px] text-white font-medium recipeModeLabel';
         recipeModeLabel.textContent = 'Menu Mode';
         
         // Create dish mode (plate icon)

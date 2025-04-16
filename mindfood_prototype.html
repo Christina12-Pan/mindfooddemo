@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mindfood - Pre-diabetes Diet Management App</title>
-    <!-- 预加载和优化脚本，防止原始内容闪烁 -->
+    <!-- 预加载和优化脚本，防止原始内容闪�?-->
     <script src="frontend/js/preload_redesign.js"></script>
     <script src="frontend/js/optimize_page_loading.js"></script>
-    <!-- 先加载HTML修复脚本，确保页面结构正确 -->
+    <!-- 先加载HTML修复脚本，确保页面结构正�?-->
     <script src="frontend/js/fix_prototype_html.js"></script>
     <script src="frontend/js/clean_html_end.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,10 +15,14 @@
     <script src="frontend/js/add_app_background.js"></script>
     <!-- 修复背景冲突脚本 -->
     <script src="frontend/js/fix_background_conflicts.js"></script>
-    <!-- 修复Dish Analysis页面手机壳比例 -->
+    <!-- 修复Dish Analysis页面手机壳比�?-->
     <script src="frontend/js/dish_screen_fixed_size.js"></script>
     <!-- 修复Dish Analysis页面模态框位置问题 -->
     <script src="frontend/js/dish_modal_position_fix.js"></script>
+    <!-- 菜单识别结果页面脚本 -->
+    <script src="frontend/js/menu_recognition_result.js"></script>
+    <!-- 菜单图片占位符脚�?-->
+    <script src="frontend/resource/images/image_placeholder.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -56,8 +60,8 @@
             border-radius: 40px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             border: 12px solid #000;
-            display: none; /* 默认隐藏所有页�?*/
-            flex-direction: column; /* 使用弹性布局确保子元素正确排�?*/
+            display: none; /* 默认隐藏所有页�?*/
+            flex-direction: column; /* 使用弹性布局确保子元素正确排�?*/
         }
         
         /* 默认显示首页 */
@@ -65,9 +69,9 @@
             display: flex;
         }
         
-        /* 添加导航栏固定定位样�?*/
+        /* 添加导航栏固定定位样�?*/
         .nav-bottom {
-            position: absolute; /* 使用absolute而非fixed，但要确保正确的bottom�?*/
+            position: absolute; /* 使用absolute而非fixed，但要确保正确的bottom�?*/
             bottom: 0;
             left: 0;
             right: 0;
@@ -105,10 +109,10 @@
             -webkit-overflow-scrolling: touch;
             position: relative;
             z-index: 1;
-            padding-bottom: 100px !important; /* 确保足够的底部空�?*/
+            padding-bottom: 100px !important; /* 确保足够的底部空�?*/
         }
 
-        /* 更新的导航图标样�?*/
+        /* 更新的导航图标样�?*/
         .nav-icon {
             height: 24px;
             width: 24px;
@@ -116,7 +120,7 @@
         }
         
         .nav-icon.active {
-            stroke: #FFBE98; /* 主题�?*/
+            stroke: #FFBE98; /* 主题�?*/
             fill: none;
         }
         
@@ -126,11 +130,11 @@
         }
         
         .nav-text.active {
-            color: #FFBE98; /* 主题�?*/
+            color: #FFBE98; /* 主题�?*/
             font-weight: 500;
         }
 
-        /* 毛玻璃效果基础�?*/
+        /* 毛玻璃效果基础�?*/
         .glassmorphism {
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
@@ -138,7 +142,7 @@
             border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        /* 顶部状态栏毛玻璃效�?*/
+        /* 顶部状态栏毛玻璃效�?*/
         .ios-status-bar {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
@@ -150,7 +154,7 @@
             flex-shrink: 0; /* 防止压缩 */
         }
 
-        /* 底部导航毛玻璃效�?*/
+        /* 底部导航毛玻璃效�?*/
         .nav-bottom {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
@@ -158,7 +162,7 @@
             border-top: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        /* 设置选项卡片毛玻璃效�?*/
+        /* 设置选项卡片毛玻璃效�?*/
         .settings-card {
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(8px);
@@ -182,26 +186,26 @@
         }
 
         /* 自定义滚动条样式 */
-        /* 整体滚动�?*/
+        /* 整体滚动�?*/
         ::-webkit-scrollbar {
             width: 6px;
-            height: 0; /* 隐藏横向滚动�?*/
+            height: 0; /* 隐藏横向滚动�?*/
         }
 
-        /* 滚动条轨�?*/
+        /* 滚动条轨�?*/
         ::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.02);
             border-radius: 3px;
         }
 
-        /* 滚动条滑�?*/
+        /* 滚动条滑�?*/
         ::-webkit-scrollbar-thumb {
             background: rgba(156, 163, 175, 0.3);
             border-radius: 3px;
             transition: all 0.3s ease;
         }
 
-        /* 滚动条滑块悬停状�?*/
+        /* 滚动条滑块悬停状�?*/
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(156, 163, 175, 0.5);
         }
@@ -244,7 +248,7 @@
 
         .scroll-fade-bottom {
             position: absolute;
-            bottom: 80px; /* 考虑底部导航栏高�?*/
+            bottom: 80px; /* 考虑底部导航栏高�?*/
             left: 0;
             right: 0;
             height: 20px;
@@ -253,7 +257,7 @@
             z-index: 10;
         }
 
-        /* 日期选择器容器样�?*/
+        /* 日期选择器容器样�?*/
         .date-scroll {
             display: flex;
             width: 100%;
@@ -285,10 +289,10 @@
             border-radius: 9999px;
             font-size: 0.875rem;
             white-space: nowrap;
-            flex-shrink: 0; /* 防止按钮被压�?*/
+            flex-shrink: 0; /* 防止按钮被压�?*/
             cursor: pointer;
             transition: all 0.2s ease;
-            min-width: max-content; /* 确保内容不会被压�?*/
+            min-width: max-content; /* 确保内容不会被压�?*/
         }
 
         .date-button.active {
@@ -322,7 +326,7 @@
             @apply border-primary bg-primary bg-opacity-10 text-primary;
         }
 
-        /* 快速输入数值按钮样�?*/
+        /* 快速输入数值按钮样�?*/
         .quick-value {
             @apply w-14 h-10 rounded-lg border border-gray-200 text-gray-600 font-medium transition-colors duration-200;
         }
@@ -368,7 +372,7 @@
             @apply bg-primary text-white border-primary;
         }
 
-        /* 确保内容可滚动但不超出面�?*/
+        /* 确保内容可滚动但不超出面�?*/
         .modal-content {
             max-height: calc(100vh - 200px);
             overflow-y: auto;
@@ -443,12 +447,12 @@
             right: 0;
             width: 100%;
             z-index: 10;
-            border-radius: 0 0 28px 28px; /* 适配手机壳底部圆�?*/
+            border-radius: 0 0 28px 28px; /* 适配手机壳底部圆�?*/
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid rgba(229, 231, 235, 0.5);
-            overflow: hidden; /* 确保内容不超出圆角边�?*/
+            overflow: hidden; /* 确保内容不超出圆角边�?*/
         }
 
         /* 固定导航项目容器样式 */
@@ -483,7 +487,7 @@
             font-weight: 500;
         }
 
-        /* 导航中心按钮样式 - 关键是这�?*/
+        /* 导航中心按钮样式 - 关键是这�?*/
         .center-btn {
             width: 56px;
             height: 56px;
@@ -499,7 +503,7 @@
             z-index: 20; /* 确保在导航栏上层 */
         }
 
-        /* 圆形按钮下方的文字调�?*/
+        /* 圆形按钮下方的文字调�?*/
         .center-text {
             margin-top: 12px !important; /* 增加顶部间距以适应按钮 */
         }
@@ -537,7 +541,7 @@
           100% { transform: translateY(0); }
         }
 
-        /* 确保导航栏正确显�?*/
+        /* 确保导航栏正确显�?*/
         .nav-bottom {
             position: absolute;
             bottom: 0;
@@ -550,7 +554,7 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid rgba(229, 231, 235, 0.5);
-            overflow: hidden; /* 确保内容不超出圆角边�?*/
+            overflow: hidden; /* 确保内容不超出圆角边�?*/
         }
 
         /* 增强AI中心按钮样式 */
@@ -562,14 +566,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: -28px; /* 关键点：确保按钮上半部分显示在导航栏�?*/
+            margin-top: -28px; /* 关键点：确保按钮上半部分显示在导航栏�?*/
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.15);
             border: 3px solid white; /* 添加白色边框增强效果 */
             position: relative; /* 确保正确定位 */
             z-index: 20; /* 确保在导航栏上层 */
         }
 
-        /* 修改CSS样式，确保中间按钮正确显�?*/
+        /* 修改CSS样式，确保中间按钮正确显�?*/
         .nav-center-button {
             width: 56px;
             height: 56px;
@@ -585,12 +589,12 @@
             z-index: 20; /* 确保在导航栏上层 */
         }
 
-        /* 确保中间按钮下方的文字正确显�?*/
+        /* 确保中间按钮下方的文字正确显�?*/
         .center-text {
             margin-top: 12px !important; /* 增加顶部间距以适应按钮 */
         }
 
-        /* 统一导航栏样�?*/
+        /* 统一导航栏样�?*/
         .nav-bottom {
             position: absolute;
             bottom: 0;
@@ -598,7 +602,7 @@
             right: 0;
             width: 100%;
             z-index: 10;
-            border-radius: 0 0 28px 28px; /* 适配手机壳底部圆�?*/
+            border-radius: 0 0 28px 28px; /* 适配手机壳底部圆�?*/
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
@@ -606,11 +610,11 @@
             overflow: visible !important; /* 关键：允许内容溢出，使按钮可以显示在导航栏外 */
         }
 
-        /* 确保所有导航项目垂直居中对�?*/
+        /* 确保所有导航项目垂直居中对�?*/
         .nav-items {
             display: flex;
             justify-content: space-around;
-            align-items: flex-end; /* 使所有项目底部对�?*/
+            align-items: flex-end; /* 使所有项目底部对�?*/
             padding: 8px 16px 0;
             position: relative;
         }
@@ -625,7 +629,7 @@
           animation: fadeIn 0.5s ease-out forwards;
         }
         
-        /* 改进打字指示�?*/
+        /* 改进打字指示�?*/
         .typing-indicator span {
           @apply bg-primary rounded-full h-2 w-2 inline-block mx-0.5;
           animation: typing 1.4s infinite ease-in-out both;
@@ -659,7 +663,7 @@
           transition: opacity 0.3s ease;
         }
 
-        /* 导航栏基础样式 - 确保在手机壳�?*/
+        /* 导航栏基础样式 - 确保在手机壳�?*/
         .nav-bottom {
           position: absolute;
           bottom: 0;
@@ -667,15 +671,15 @@
           right: 0;
           width: 100%;
           z-index: 10;
-          border-radius: 0 0 28px 28px; /* 适配手机壳底部圆�?*/
-          overflow: hidden; /* 确保内容不超出圆�?*/
+          border-radius: 0 0 28px 28px; /* 适配手机壳底部圆�?*/
+          overflow: hidden; /* 确保内容不超出圆�?*/
           background: rgba(255, 255, 255, 0.8);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           border-top: 1px solid rgba(255, 255, 255, 0.18);
         }
         
-        /* 导航栏内容容�?*/
+        /* 导航栏内容容�?*/
         .nav-bottom .nav-container {
           display: flex;
           justify-content: space-between;
@@ -684,7 +688,7 @@
           background-color: white;
         }
         
-        /* 导航项样�?*/
+        /* 导航项样�?*/
         .nav-item {
           display: flex;
           flex-direction: column;
@@ -702,7 +706,7 @@
         
         /* 激活状态的导航图标 */
         .nav-icon.active {
-          color: #FFBE98; /* 主题�?*/
+          color: #FFBE98; /* 主题�?*/
         }
         
         /* 导航文本样式 */
@@ -714,7 +718,7 @@
         
         /* 激活状态的导航文本 */
         .nav-text.active {
-          color: #FFBE98; /* 主题�?*/
+          color: #FFBE98; /* 主题�?*/
           font-weight: 500;
         }
         
@@ -745,7 +749,7 @@
           height: calc(100% - 44px); /* 减去顶部状态栏高度 */
           overflow-y: auto;
           overflow-x: hidden;
-          padding-bottom: 80px; /* 确保内容不被导航栏遮�?*/
+          padding-bottom: 80px; /* 确保内容不被导航栏遮�?*/
           -webkit-overflow-scrolling: touch;
         }
 
@@ -777,9 +781,9 @@
         
         /* 重设内容区域 */
         .app-content {
-          flex: 1 !important; /* 填充所有可用空�?*/
+          flex: 1 !important; /* 填充所有可用空�?*/
           position: relative !important;
-          overflow: hidden !important; /* 确保所有内容在这个容器�?*/
+          overflow: hidden !important; /* 确保所有内容在这个容器�?*/
           display: flex !important;
           flex-direction: column !important;
         }
@@ -796,7 +800,7 @@
           padding-bottom: 150px !important; 
         }
         
-        /* 绝对定位导航栏容�?*/
+        /* 绝对定位导航栏容�?*/
         .nav-container-wrapper {
           position: absolute !important;
           bottom: 0 !important;
@@ -806,7 +810,7 @@
           pointer-events: none !important; /* 允许点击底部通过 */
         }
         
-        /* 导航�?*/
+        /* 导航�?*/
         .nav-bottom {
           background: white !important;
           border-radius: 0 0 28px 28px !important;
@@ -817,7 +821,7 @@
           padding-top: 12px !important; /* 增加顶部内边距，为Scan按钮腾出空间 */
         }
         
-        /* 导航栏内部容�?*/
+        /* 导航栏内部容�?*/
         .nav-content {
           display: flex !important;
           justify-content: space-between !important;
@@ -826,7 +830,7 @@
           position: relative !important; /* 为Scan按钮定位提供参�?*/
         }
         
-        /* 导航�?- 修复均匀布局 */
+        /* 导航�?- 修复均匀布局 */
         .nav-item {
           display: flex !important;
           flex-direction: column !important;
@@ -840,7 +844,7 @@
         
         /* Scan按钮容器特殊处理 */
         .nav-item[data-page="scan"] {
-          margin-top: -24px !important; /* 使按钮上�?*/
+          margin-top: -24px !important; /* 使按钮上�?*/
         }
         
         /* 导航图标 */
@@ -870,7 +874,7 @@
           font-weight: 500 !important;
         }
         
-        /* 扫描按钮特殊样式 - 修复显示不完整问�?*/
+        /* 扫描按钮特殊样式 - 修复显示不完整问�?*/
         .scan-button {
           width: 56px !important; /* 增加尺寸 */
           height: 56px !important; /* 增加尺寸 */
@@ -883,8 +887,8 @@
           position: absolute !important; /* 绝对定位 */
           left: 50% !important; /* 水平居中 */
           top: -28px !important; /* 上移 */
-          transform: translateX(-50%) !important; /* 精确居中 */
-          z-index: 5 !important; /* 确保显示在上�?*/
+          transform: translateX(-50%) !important;
+          z-index: 5 !important; /* 确保显示在上?*/
         }
         
         /* iOS home indicator */
@@ -896,9 +900,9 @@
           margin: 8px auto 12px !important;
         }
 
-        /* 修复导航栏上方多余白色区域问�?*/
+        /* 修复导航栏上方多余白色区域问�?*/
         
-        /* 导航容器包装�?- 确保没有额外的背景色和内边距 */
+        /* 导航容器包装�?- 确保没有额外的背景色和内边距 */
         .nav-container-wrapper {
           position: absolute !important;
           bottom: 0 !important;
@@ -911,7 +915,7 @@
           margin: 0 !important; /* 移除所有外边距 */
         }
         
-        /* 导航�?- 移除顶部内边�?*/
+        /* 导航�?- 移除顶部内边�?*/
         .nav-bottom {
           background: white !important;
           border-radius: 0 0 28px 28px !important;
@@ -919,18 +923,18 @@
           overflow: visible !important;
           pointer-events: auto !important;
           box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05) !important;
-          padding-top: 0 !important; /* 移除顶部内边�?*/
-          margin-top: 0 !important; /* 移除顶部外边�?*/
+          padding-top: 0 !important; /* 移除顶部内边�?*/
+          margin-top: 0 !important; /* 移除顶部外边�?*/
         }
         
-        /* 导航栏内部容�?- 调整为相对定�?*/
+        /* 导航栏内部容�?- 调整为相对定�?*/
         .nav-content {
           display: flex !important;
           justify-content: space-between !important;
           align-items: flex-end !important;
-          padding: 10px 16px !important; /* 统一内边�?*/
+          padding: 10px 16px !important; /* 统一内边�?*/
           position: relative !important;
-          background: white !important; /* 确保背景为白�?*/
+          background: white !important; /* 确保背景为白�?*/
         }
         
         /* 扫描按钮特殊样式 - 调整位置 */
@@ -1064,7 +1068,7 @@
             </div>
         </div>
         
-        <!-- 主屏�?首页 -->
+        <!-- 主屏�?首页 -->
         <div class="screen bg-white flex flex-col" data-page="home">
             <div class="ios-status-bar bg-white flex justify-between items-center px-6">
                 <span class="text-sm font-semibold">9:41</span>
@@ -1095,7 +1099,7 @@
                         </div>
                     </div>
                     
-                    <!-- 血糖数据卡�?-->
+                    <!-- 血糖数据卡�?-->
                     <div class="bg-secondary rounded-xl p-4 mt-6">
                         <div class="flex justify-between items-center mb-2">
                             <h2 class="font-semibold text-dark">Today's Glucose</h2>
@@ -1117,7 +1121,7 @@
                         </div>
                     </div>
                     
-                    <!-- 快速功�?-->
+                    <!-- 快速功�?-->
                     <h2 class="font-semibold text-dark mt-8 mb-4">Quick Actions</h2>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
@@ -1201,7 +1205,7 @@
                 </div>
             </div>
 
-            <!-- 底部导航 - 固定在屏幕底�?-->
+            <!-- 底部导航 - 固定在屏幕底�?-->
             <div class="nav-bottom glassmorphism">
                 <div class="bg-white border-t border-gray-200 px-6 py-2">
                     <div class="flex justify-between items-center">
@@ -1262,7 +1266,7 @@
                 </div>
             </div>
             
-            <!-- 空内容区域 - 新设计将通过JS完全动态创建 -->
+            <!-- 空内容区�?- 新设计将通过JS完全动态创�?-->
             <div class="content-container flex-1"></div>
         </div>
 
@@ -1284,7 +1288,7 @@
                 </div>
             </div>
             
-            <!-- 可滚动内容区�?-->
+            <!-- 可滚动内容区�?-->
             <div class="scrollable-content">
                 <div class="px-6 pt-4">
                     <div class="flex justify-between items-center mb-4">
@@ -1296,7 +1300,7 @@
                         </button>
                     </div>
                     
-                    <!-- 日期选择�?-->
+                    <!-- 日期选择�?-->
                     <div class="relative">
                         <div class="date-scroll">
                             <button class="date-button active">Today</button>
@@ -1327,7 +1331,7 @@
                         </div>
                     </div>
                     
-                    <!-- 血糖概览卡�?-->
+                    <!-- 血糖概览卡�?-->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="font-semibold text-dark">Glucose Monitoring</h2>
@@ -1376,7 +1380,7 @@
                         <button class="text-primary text-sm font-medium">Add Meal</button>
                     </div>
                     
-                    <!-- 修改餐食记录卡片，添加血糖关�?-->
+                    <!-- 修改餐食记录卡片，添加血糖关�?-->
                     <div class="space-y-4">
                         <!-- 早餐 -->
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
@@ -1492,14 +1496,14 @@
                 <div class="ios-home-indicator"></div>
             </div>
 
-            <!-- 血糖记录弹�?- 确保�?log 界面的手机壳�?-->
+            <!-- 血糖记录弹�?- 确保�?log 界面的手机壳�?-->
             <div id="glucoseModal" class="absolute inset-0 hidden" style="z-index: 1000;">
                 <!-- 背景遮罩 -->
                 <div class="absolute inset-0 bg-black bg-opacity-50" onclick="hideAddGlucoseModal()"></div>
                 
                 <!-- 底部滑出面板 -->
                 <div id="glucoseSheet" class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl transform translate-y-full transition-transform duration-300 ease-out">
-                    <!-- 把手指示�?-->
+                    <!-- 把手指示�?-->
                     <div class="pt-2 pb-3 flex justify-center">
                         <div class="w-12 h-1 rounded-full bg-gray-300"></div>
                     </div>
@@ -1535,7 +1539,7 @@
                             </div>
                         </div>
 
-                        <!-- 血糖值输�?-->
+                        <!-- 血糖值输�?-->
                         <div class="mb-6">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Glucose Level</label>
                             <div class="relative">
@@ -1548,7 +1552,7 @@
                             </div>
                         </div>
 
-                        <!-- 快速输入数�?-->
+                        <!-- 快速输入数�?-->
                         <div class="mb-6">
                             <div class="flex justify-center space-x-3">
                                 <button class="quick-value">4.8</button>
@@ -1597,7 +1601,7 @@
                 </div>
             </div>
             
-            <!-- 可滚动内容区�?-->
+            <!-- 可滚动内容区�?-->
             <div class="scrollable-content">
                 <!-- 用户资料头部 -->
                 <div class="bg-primary bg-opacity-10 p-6 pt-4">
@@ -1615,7 +1619,7 @@
                         </div>
                     </div>
                     
-                    <!-- 健康状态卡�?-->
+                    <!-- 健康状态卡�?-->
                     <div class="bg-white rounded-xl shadow-sm mt-6 p-4">
                         <h2 class="font-semibold text-dark mb-4">Health Stats</h2>
                         <div class="flex justify-between">
@@ -1850,10 +1854,10 @@
                 </div>
             </div>
 
-            <!-- 可滚动内容区�?-->
+            <!-- 可滚动内容区�?-->
             <div class="scrollable-content">
                 <div class="px-6 pt-4">
-                    <!-- 返回按钮和标�?-->
+                    <!-- 返回按钮和标�?-->
                     <div class="flex items-center mb-6">
                         <button onclick="history.back()" class="mr-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1865,7 +1869,7 @@
 
                     <!-- 问卷内容 -->
                     <div class="space-y-6">
-                        <!-- 进度指示�?-->
+                        <!-- 进度指示�?-->
                         <div class="bg-gray-100 rounded-full h-2 mb-8">
                             <div class="bg-primary h-full rounded-full" style="width: 25%"></div>
                         </div>
@@ -1918,7 +1922,7 @@
         <div id="aiAssistantModal" class="fixed inset-0 hidden z-[1050]">
           <div class="absolute inset-0 bg-black/70"></div>
           <div class="absolute inset-0 flex items-center justify-center">
-            <!-- 手机壳容�?-->
+            <!-- 手机壳容�?-->
             <div class="bg-black rounded-[40px] p-3 shadow-2xl overflow-hidden" style="width: 399px; height: 837px;">
               <!-- 手机内容区域 -->
               <div class="relative bg-white w-full h-full rounded-[32px] overflow-hidden">
@@ -1938,7 +1942,7 @@
                   </div>
                 </div>
 
-                <!-- 顶部导航�?-->
+                <!-- 顶部导航�?-->
                 <div class="glassmorphism sticky top-0 z-10 px-4 py-4 flex items-center justify-between border-b border-gray-100">
                   <button onclick="hideAIAssistant()" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1962,7 +1966,7 @@
 
                 <!-- 对话内容区域 -->
                 <div class="overflow-y-auto h-[calc(100%-130px)] bg-gray-50 p-4" id="chatContainer">
-                  <!-- 日期分隔�?-->
+                  <!-- 日期分隔�?-->
                   <div class="flex justify-center my-4">
                     <div class="px-3 py-1 bg-gray-200 rounded-full text-xs text-gray-600">Today</div>
                   </div>
@@ -1997,7 +2001,7 @@
                     </div>
                   </div>
 
-                  <!-- 快捷提问按钮�?-->
+                  <!-- 快捷提问按钮�?-->
                   <div class="px-2 mb-6 animate-fadeIn" style="animation-delay: 0.4s">
                     <p class="text-xs text-gray-500 mb-2 text-center">Tap a question to get started</p>
                     <div class="grid grid-cols-2 gap-2">
@@ -2057,19 +2061,19 @@
                       <p class="text-sm text-gray-800 mb-2">Here are some foods that help stabilize blood sugar:</p>
                       <ul class="text-sm text-gray-700 space-y-1">
                         <li class="flex items-start">
-                          <span class="text-primary mr-1">�?/span> Non-starchy vegetables (leafy greens, broccoli)
+                          <span class="text-primary mr-1">�?/span> Non-starchy vegetables (leafy greens, broccoli)
                         </li>
                         <li class="flex items-start">
-                          <span class="text-primary mr-1">�?/span> High-fiber foods (beans, lentils)
+                          <span class="text-primary mr-1">�?/span> High-fiber foods (beans, lentils)
                         </li>
                         <li class="flex items-start">
-                          <span class="text-primary mr-1">�?/span> Whole grains (oats, quinoa)
+                          <span class="text-primary mr-1">�?/span> Whole grains (oats, quinoa)
                         </li>
                         <li class="flex items-start">
-                          <span class="text-primary mr-1">�?/span> Healthy fats (avocados, nuts, olive oil)
+                          <span class="text-primary mr-1">�?/span> Healthy fats (avocados, nuts, olive oil)
                         </li>
                         <li class="flex items-start">
-                          <span class="text-primary mr-1">�?/span> Lean proteins (fish, chicken, tofu)
+                          <span class="text-primary mr-1">�?/span> Lean proteins (fish, chicken, tofu)
                         </li>
                       </ul>
                       <div class="mt-3 border-t border-gray-100 pt-2">
@@ -2170,7 +2174,7 @@
         <!-- 添加一个新的AI Assistant页面，作为一个独立的手机界面 -->
         <!-- 这段代码应该放在其他screen元素之后 -->
 
-        <!-- AI助手页面 - 独立的页面设�?-->
+        <!-- AI助手页面 - 独立的页面设�?-->
         <div class="screen bg-white" id="aiAssistantScreen" data-page="ai-assistant">
             <!-- 状态栏 -->
             <div class="ios-status-bar bg-white flex justify-between items-center px-6">
@@ -2188,7 +2192,7 @@
                 </div>
             </div>
 
-            <!-- 顶部标题�?-->
+            <!-- 顶部标题�?-->
             <div class="sticky top-0 z-10 px-4 py-4 flex items-center justify-between border-b border-gray-100 bg-white">
                 <div class="flex items-center">
                     <div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mr-2">
@@ -2205,10 +2209,10 @@
                 </button>
             </div>
 
-            <!-- 可滚动内容区�?-->
+            <!-- 可滚动内容区�?-->
             <div class="scrollable-content">
                 <div class="p-4" id="aiChatContainer">
-                    <!-- 日期分隔�?-->
+                    <!-- 日期分隔�?-->
                     <div class="flex justify-center my-4">
                         <div class="px-3 py-1 bg-gray-200 rounded-full text-xs text-gray-600">Today</div>
                     </div>
@@ -2243,7 +2247,7 @@
                         </div>
                     </div>
 
-                    <!-- 快捷提问按钮�?-->
+                    <!-- 快捷提问按钮�?-->
                     <div class="px-2 mb-6 animate-fadeIn" style="animation-delay: 0.4s">
                         <p class="text-xs text-gray-500 mb-2 text-center">Tap a question to get started</p>
                         <div class="grid grid-cols-2 gap-2">
@@ -2303,19 +2307,19 @@
                             <p class="text-sm text-gray-800 mb-2">Here are some foods that help stabilize blood sugar:</p>
                             <ul class="text-sm text-gray-700 space-y-1">
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-1">�?/span> Non-starchy vegetables (leafy greens, broccoli)
+                                    <span class="text-primary mr-1">�?/span> Non-starchy vegetables (leafy greens, broccoli)
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-1">�?/span> High-fiber foods (beans, lentils)
+                                    <span class="text-primary mr-1">�?/span> High-fiber foods (beans, lentils)
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-1">�?/span> Whole grains (oats, quinoa)
+                                    <span class="text-primary mr-1">�?/span> Whole grains (oats, quinoa)
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-1">�?/span> Healthy fats (avocados, nuts, olive oil)
+                                    <span class="text-primary mr-1">�?/span> Healthy fats (avocados, nuts, olive oil)
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-1">�?/span> Lean proteins (fish, chicken, tofu)
+                                    <span class="text-primary mr-1">�?/span> Lean proteins (fish, chicken, tofu)
                                 </li>
                             </ul>
                             <div class="mt-3 border-t border-gray-100 pt-2">
@@ -2471,7 +2475,7 @@
                 </div>
             </div>
 
-            <!-- 可滚动内容区�?-->
+            <!-- 可滚动内容区�?-->
             <div class="scrollable-content">
                 <!-- 顶部大图 -->
                 <div class="relative">
@@ -2506,7 +2510,7 @@
                         <!-- 标题部分 -->
                         <h1 class="text-2xl font-bold text-dark mb-2">Mediterranean Bowl</h1>
                         
-                        <!-- 评分和查看评论入�?-->
+                        <!-- 评分和查看评论入�?-->
                         <div class="flex items-center justify-between mb-6">
                             <div class="flex items-center">
                                 <div class="flex mr-2">
@@ -2545,19 +2549,19 @@
                             <div class="grid grid-cols-4 gap-2 mt-3">
                                 <div class="text-center">
                                     <div class="text-lg font-bold text-primary">420</div>
-                                    <div class="text-xs text-gray-500">Calories</div>
+                                    <div class="text-xs text-gray-500 mt-1">Calories</div>
                                 </div>
                                 <div class="text-center">
                                     <div class="text-lg font-bold text-blue-500">15g</div>
-                                    <div class="text-xs text-gray-500">Protein</div>
+                                    <div class="text-xs text-gray-500 mt-1">Protein</div>
                                 </div>
                                 <div class="text-center">
                                     <div class="text-lg font-bold text-green-500">48g</div>
-                                    <div class="text-xs text-gray-500">Carbs</div>
+                                    <div class="text-xs text-gray-500 mt-1">Carbs</div>
                                 </div>
                                 <div class="text-center">
                                     <div class="text-lg font-bold text-yellow-500">22g</div>
-                                    <div class="text-xs text-gray-500">Fat</div>
+                                    <div class="text-xs text-gray-500 mt-1">Fat</div>
                                 </div>
                             </div>
                         </div>
@@ -2570,7 +2574,7 @@
                             <span class="bg-purple-100 text-purple-700 text-xs px-3 py-1 rounded-full">Vegetarian</span>
                         </div>
                         
-                        <!-- 简要描�?- 保持不变 -->
+                        <!-- 简要描�?- 保持不变 -->
                         <div class="mb-6">
                             <h2 class="font-semibold text-dark mb-2">Description</h2>
                             <p class="text-sm text-gray-600">
@@ -2601,43 +2605,43 @@
                             
                             <ul id="ingredients-list" class="text-sm text-gray-600 space-y-2 mt-3">
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1/2</span> cup cooked quinoa</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1/4</span> cup hummus</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1</span> cup mixed greens</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1/2</span> cucumber, sliced</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">10</span> cherry tomatoes, halved</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1/4</span> cup red onion, thinly sliced</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1/4</span> cup kalamata olives</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1</span> tbsp extra virgin olive oil</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span><span class="ingredient-amount">1</span> tbsp lemon juice</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <span class="text-primary mr-2">�?/span>
+                                    <span class="text-primary mr-2">�?/span>
                                     <span>Salt and pepper to taste</span>
                                 </li>
                             </ul>
@@ -2794,7 +2798,7 @@
       return;
     }
     
-    // 基础配料量（每份�?
+    // 基础配料量（每份�?
     const baseIngredients = [
       { amount: 0.5, unit: "cup" },     // quinoa
       { amount: 0.25, unit: "cup" },    // hummus
@@ -2807,7 +2811,7 @@
       { amount: 1, unit: "tbsp" }       // lemon juice
     ];
     
-    // 格式化数�?
+    // 格式化数�?
     function formatAmount(amount) {
       if (amount % 1 === 0) return amount;
       if (amount === 0.25) return "1/4";
@@ -2818,7 +2822,7 @@
       return amount.toFixed(1);
     }
     
-    // 更新配料�?
+    // 更新配料�?
     function updateIngredients(servings) {
       ingredientAmounts.forEach((el, index) => {
         if (index < baseIngredients.length) {
@@ -2827,9 +2831,9 @@
       });
     }
     
-    // 更新进度�?
+    // 更新进度�?
     function updateServingsUI(servings) {
-      // 更新进度条宽�?
+      // 更新进度条宽�?
       const progressPercent = (servings / 10) * 100;
       servingsProgress.style.width = `${progressPercent}%`;
       
@@ -2900,11 +2904,11 @@
     const servingsValue = recipeDetailPage.querySelector('#servings-value');
     const ingredientAmounts = recipeDetailPage.querySelectorAll('.ingredient-amount');
     
-    // 提取和保存基础配料�?
+    // 提取和保存基础配料�?
     const baseIngredients = [];
     ingredientAmounts.forEach(el => {
       let amount = el.textContent;
-      // 转换分数为小�?
+      // 转换分数为小�?
       if (amount === "1/4") amount = 0.25;
       else if (amount === "1/2") amount = 0.5;
       else if (amount === "3/4") amount = 0.75;
@@ -2913,7 +2917,7 @@
       baseIngredients.push({ amount: amount || 1, unit: "" });
     });
     
-    // 格式化数�?
+    // 格式化数�?
     function formatAmount(amount) {
       if (amount % 1 === 0) return amount;
       if (amount === 0.25) return "1/4";
@@ -2924,7 +2928,7 @@
       return amount.toFixed(1);
     }
     
-    // 更新配料�?
+    // 更新配料�?
     function updateIngredients(servings) {
       ingredientAmounts.forEach((el, index) => {
         if (index < baseIngredients.length) {
@@ -2933,9 +2937,9 @@
       });
     }
     
-    // 更新进度�?
+    // 更新进度�?
     function updateServingsUI(servings) {
-      // 更新进度条宽�?
+      // 更新进度条宽�?
       const progressPercent = (servings / 10) * 100;
       servingsProgress.style.width = `${progressPercent}%`;
       
@@ -2956,7 +2960,7 @@
     console.log("Servings slider functionality rebuilt successfully.");
   }
   
-  // 添加jQuery-like contains选择�?
+  // 添加jQuery-like contains选择�?
   Element.prototype.querySelector = (function(querySelector) {
     return function(selector) {
       if (selector.includes(':contains(')) {
@@ -2973,7 +2977,7 @@
     };
   })(Element.prototype.querySelector);
   
-  // 对于菜谱详情页，确保在DOM变化后恢复份量调整功�?
+  // 对于菜谱详情页，确保在DOM变化后恢复份量调整功�?
   const observer = new MutationObserver(function(mutations) {
     for (const mutation of mutations) {
       if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -2996,7 +3000,7 @@
   // 开始观察DOM变化
   observer.observe(document.body, { childList: true, subtree: true });
   
-  // 修改showScreen函数，确保在切换到菜谱详情页时恢复份量调整功�?
+  // 修改showScreen函数，确保在切换到菜谱详情页时恢复份量调整功�?
   const originalShowScreen = window.showScreen || function() {};
   window.showScreen = function(screenName) {
     // 调用原始函数
@@ -3004,7 +3008,7 @@
       originalShowScreen(screenName);
     }
     
-    // 如果切换到菜谱详情页，恢复份量调整功�?
+    // 如果切换到菜谱详情页，恢复份量调整功�?
     if (screenName === 'recipe-detail') {
       setTimeout(function() {
         const recipeDetailPage = document.querySelector('.screen[data-page="recipe-detail"]');
@@ -3038,20 +3042,20 @@
     const timeButtons = glucoseSheet.querySelectorAll('.time-button');
     timeButtons.forEach(button => {
       button.addEventListener('click', function() {
-        // 移除所有按钮的active�?
+        // 移除所有按钮的active�?
         timeButtons.forEach(btn => btn.classList.remove('active'));
-        // 为当前点击的按钮添加active�?
+        // 为当前点击的按钮添加active�?
         this.classList.add('active');
       });
     });
     
-    // 添加快速输入按钮点击事�?
+    // 添加快速输入按钮点击事�?
     const quickValueButtons = glucoseSheet.querySelectorAll('.quick-value');
     const glucoseInput = glucoseSheet.querySelector('input[type="number"]');
     
     quickValueButtons.forEach(button => {
       button.addEventListener('click', function() {
-        // 将按钮的值设置到输入�?
+        // 将按钮的值设置到输入�?
         if (glucoseInput) {
           glucoseInput.value = this.textContent.trim();
         }
@@ -3073,7 +3077,7 @@
     // 移除上滑类，触发下滑动画
     glucoseSheet.classList.remove('slide-up');
     
-    // 等待动画完成后隐藏整个弹�?
+    // 等待动画完成后隐藏整个弹�?
     setTimeout(() => {
       glucoseModal.classList.add('hidden');
     }, 300); // 300ms是transition-duration
@@ -3081,16 +3085,16 @@
     console.log('血糖记录弹窗已隐藏');
   }
   
-  // 修改showScreen函数，确保在切换到log页面时重新绑定事�?
+  // 修改showScreen函数，确保在切换到log页面时重新绑定事�?
   window.showScreen = function(screenName) {
     // 调用原始函数
     if (typeof originalShowScreen === 'function') {
       originalShowScreen(screenName);
     }
     
-    console.log(`切换�?${screenName} 页面`);
+    console.log(`切换�?${screenName} 页面`);
     
-    // 如果切换到logs页面，确保Add Reading按钮的事件处理功能正�?
+    // 如果切换到logs页面，确保Add Reading按钮的事件处理功能正�?
     if (screenName === 'log') {
       setTimeout(function() {
         const logScreen = document.querySelector('.screen[data-page="log"]');
@@ -3103,9 +3107,9 @@
         if (addReadingBtn) {
           // 移除旧的点击事件处理器，防止重复绑定
           addReadingBtn.removeEventListener('click', showAddGlucoseModal);
-          // 添加新的点击事件处理�?
+          // 添加新的点击事件处理�?
           addReadingBtn.addEventListener('click', showAddGlucoseModal);
-          console.log('Add Reading按钮事件已绑定');
+          console.log('Add Reading按钮事件已绑�?);
         } else {
           console.log('找不到Add Reading按钮');
           
@@ -3120,7 +3124,7 @@
       }, 100);
     }
     
-    // 如果切换到菜谱详情页，恢复份量调整功�?
+    // 如果切换到菜谱详情页，恢复份量调整功�?
     if (screenName === 'recipe-detail') {
       setTimeout(function() {
         const recipeDetailPage = document.querySelector('.screen[data-page="recipe-detail"]');
@@ -3132,7 +3136,7 @@
     }
   };
   
-  // 确保DOM加载后初始化血糖记录弹窗功�?
+  // 确保DOM加载后初始化血糖记录弹窗功�?
   document.addEventListener('DOMContentLoaded', function() {
     // 添加通用的按钮查找功能（类似jQuery的contains选择器）
     if (!Element.prototype.querySelectorAll) {
@@ -3225,6 +3229,7 @@
 <script src="frontend/js/redesign_nutrition_summary.js"></script>
 <script src="frontend/js/redesign_scan_page.js"></script>
 <script src="frontend/js/create_dish_recognition_page.js"></script>
+<script src="frontend/js/create_menu_recognition_page.js"></script>
 <!-- 然后加载其他功能脚本 -->
 <script src="frontend/js/clean_html_file.js"></script>
 <script src="frontend/js/replace_navigation.js"></script>
@@ -3237,10 +3242,6 @@
 <script src="frontend/js/add_nav_fix.js"></script>
 <script src="frontend/js/replace_food_log_with_logo.js"></script>
 <script src="frontend/js/replace_community_with_logo.js"></script>
+
 </body>
 </html>
-
-```
-</script>
-```
-</script>
