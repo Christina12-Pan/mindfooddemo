@@ -1924,9 +1924,45 @@
       actionSheet.style.transform = 'translateY(100%)';
       overlay.style.opacity = 0;
       
+      // 获取底部操作栏
+      const actionBar = dishAnalysisScreen.querySelector('.action-section');
+      const originalActionBarPosition = actionBar ? actionBar.style.position : '';
+      const originalActionBarBottom = actionBar ? actionBar.style.bottom : '';
+      
       setTimeout(() => {
         if (dishAnalysisScreen.contains(overlay)) {
           dishAnalysisScreen.removeChild(overlay);
+          
+          // 恢复底部操作栏的位置
+          if (actionBar) {
+            actionBar.style.position = originalActionBarPosition;
+            actionBar.style.bottom = originalActionBarBottom;
+            actionBar.style.transform = '';
+            
+            // 强制重排
+            void actionBar.offsetHeight;
+          }
+          
+          // 重新布局强制刷新
+          const contentContainer = dishAnalysisScreen.querySelector('.dish-recognition-content');
+          if (contentContainer) {
+            contentContainer.style.position = '';
+            contentContainer.style.height = '';
+            contentContainer.style.overflow = '';
+          }
+          
+          // 修复滚动问题
+          document.body.style.position = '';
+          document.body.style.overflow = '';
+          document.body.style.height = '';
+          
+          // 轻微延迟后恢复正常布局，确保过渡效果完成
+          setTimeout(() => {
+            // 强制重绘
+            dishAnalysisScreen.style.display = 'none';
+            void dishAnalysisScreen.offsetHeight; 
+            dishAnalysisScreen.style.display = 'flex';
+          }, 50);
         }
       }, 300);
     }
@@ -2417,8 +2453,71 @@
       backdrop.classList.remove('opacity-50');
       panel.classList.add('translate-y-full');
       
+      // 创建一个变量，存储原始页面状态
+      const originalPosition = document.body.style.position;
+      const originalHeight = document.body.style.height;
+      const originalOverflow = document.body.style.overflow;
+      
+      // 获取底部操作栏
+      const actionBar = dishAnalysisScreen.querySelector('.action-section');
+      if (actionBar) {
+        // 保存底部操作栏的原始样式
+        const originalActionBarPosition = actionBar.style.position;
+        const originalActionBarBottom = actionBar.style.bottom;
+        
+        // 确保底部操作栏样式恢复
+        setTimeout(() => {
+          if (actionBar) {
+            actionBar.style.position = originalActionBarPosition || '';
+            actionBar.style.bottom = originalActionBarBottom || '';
+            actionBar.style.transform = '';
+            actionBar.style.transition = 'none';
+            
+            // 强制重绘
+            void actionBar.offsetHeight;
+            
+            // 恢复平滑过渡
+            setTimeout(() => {
+              actionBar.style.transition = '';
+            }, 50);
+          }
+        }, 100);
+      }
+      
+      // 移除面板前，先确保页面上的定位和样式正确
       setTimeout(() => {
-        dishAnalysisScreen.removeChild(editorPanel);
+        // 删除编辑面板
+        if (dishAnalysisScreen.contains(editorPanel)) {
+          dishAnalysisScreen.removeChild(editorPanel);
+        }
+        
+        // 恢复原始页面状态
+        document.body.style.position = originalPosition;
+        document.body.style.height = originalHeight;
+        document.body.style.overflow = originalOverflow;
+        
+        // 修复内容滚动区域
+        const contentContainer = dishAnalysisScreen.querySelector('.dish-recognition-content');
+        if (contentContainer) {
+          contentContainer.style.position = '';
+          contentContainer.style.height = '';
+          contentContainer.style.overflow = '';
+        }
+        
+        // 重设底部操作区域的样式
+        const actionSection = dishAnalysisScreen.querySelector('.action-section');
+        if (actionSection) {
+          actionSection.style.position = '';
+          actionSection.style.bottom = '';
+          actionSection.style.left = '';
+          actionSection.style.right = '';
+          actionSection.style.transform = '';
+        }
+        
+        // 重新布局强制刷新
+        dishAnalysisScreen.style.display = 'none';
+        void dishAnalysisScreen.offsetHeight; // 触发重排
+        dishAnalysisScreen.style.display = 'flex';
       }, 300);
     }
     

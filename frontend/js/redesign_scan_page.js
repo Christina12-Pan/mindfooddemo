@@ -72,17 +72,37 @@
         
         console.log('Attempting to redesign Scan page');
         
+        // 立即隐藏旧界面元素，防止闪烁
+        const scanScreen = document.querySelector('.screen[data-page="scan"]');
+        if (scanScreen) {
+            // 立即隐藏旧版UI，避免闪烁
+            scanScreen.style.opacity = "0";
+            scanScreen.style.transition = "none";
+            
+            // 移除所有可能的旧版UI
+            const oldContent = scanScreen.querySelector('.scrollable-content');
+            if (oldContent) {
+                scanScreen.removeChild(oldContent);
+            }
+            
+            // 移除旧版底部导航
+            const oldNavBottom = scanScreen.querySelector('.nav-bottom');
+            if (oldNavBottom) {
+                scanScreen.removeChild(oldNavBottom);
+            }
+        }
+        
         // Find Scan page
-        const scanScreen = findScanScreen();
-        if (!scanScreen) {
+        const processedScanScreen = findScanScreen();
+        if (!processedScanScreen) {
             console.log('Scan page not found');
             return;
         }
         
-        console.log('Found Scan page with data-page attribute: ' + scanScreen.getAttribute('data-page'));
+        console.log('Found Scan page with data-page attribute: ' + processedScanScreen.getAttribute('data-page'));
         
         // Check if the page already contains our designed elements
-        if (scanScreen.querySelector('.scan-redesigned-container')) {
+        if (processedScanScreen.querySelector('.scan-redesigned-container')) {
             console.log('Scan page has already been redesigned, skipping');
             hasApplied = true;
             return;
@@ -92,13 +112,13 @@
         
         try {
             // Apply fullscreen mode
-            makeFullscreen(scanScreen);
+            makeFullscreen(processedScanScreen);
             
             // Clear Scan page content, preserving necessary structure
-            clearScanContent(scanScreen);
+            clearScanContent(processedScanScreen);
             
             // Add newly designed content
-            addScanContent(scanScreen);
+            addScanContent(processedScanScreen);
             
             // Mark as applied
             hasApplied = true;
@@ -663,7 +683,7 @@
         barContainer.className = 'bg-black bg-opacity-60 backdrop-filter backdrop-blur-md rounded-full px-5 py-1 flex items-center space-x-10';
         barContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
         
-        // Create recipe mode (book icon)
+        // Create menu mode (book icon)
         const recipeMode = document.createElement('div');
         recipeMode.className = 'flex flex-col items-center cursor-pointer relative group py-1';
         
@@ -677,7 +697,7 @@
         
         const recipeModeLabel = document.createElement('span');
         recipeModeLabel.className = 'text-[8px] text-white font-medium';
-        recipeModeLabel.textContent = 'Recipe Mode';
+        recipeModeLabel.textContent = 'Menu Mode';
         
         // Create dish mode (plate icon)
         const dishMode = document.createElement('div');
@@ -708,7 +728,7 @@
             if (activeMode !== 'recipe') {
                 activeMode = 'recipe';
                 updateActiveStates();
-                console.log('Recipe mode activated');
+                console.log('Menu mode activated');
                 
                 // Add subtle visual feedback
                 recipeModeIcon.style.transform = 'scale(0.9)';
@@ -790,7 +810,19 @@
      */
     function createCaptureControls() {
         const controlsContainer = document.createElement('div');
-        controlsContainer.className = 'absolute bottom-28 left-0 right-0 flex justify-center items-center z-30';
+        controlsContainer.className = 'absolute bottom-28 left-0 right-0 z-30';
+        
+        // 创建主容器，采用flex布局
+        const mainContainer = document.createElement('div');
+        mainContainer.className = 'w-full flex items-center justify-center relative';
+        
+        // 创建拍照按钮容器 - 居中
+        const captureContainer = document.createElement('div');
+        captureContainer.className = 'flex items-center justify-center';
+        
+        // 创建照片选择按钮容器 - 左侧
+        const galleryContainer = document.createElement('div');
+        galleryContainer.className = 'absolute left-20';
         
         // Create gallery button
         const galleryButton = createGalleryButton();
@@ -798,16 +830,14 @@
         // Create capture button
         const captureButton = createCaptureButton();
         
-        // Create a wrapper for proper spacing
-        const wrapper = document.createElement('div');
-        wrapper.className = 'flex items-center justify-center space-x-10';
+        // 添加按钮到各自的容器
+        captureContainer.appendChild(captureButton);
+        galleryContainer.appendChild(galleryButton);
         
-        // Add buttons to wrapper
-        wrapper.appendChild(galleryButton);
-        wrapper.appendChild(captureButton);
-        
-        // Add wrapper to container
-        controlsContainer.appendChild(wrapper);
+        // 组装容器结构
+        mainContainer.appendChild(galleryContainer);
+        mainContainer.appendChild(captureContainer);
+        controlsContainer.appendChild(mainContainer);
         
         return controlsContainer;
     }
