@@ -1656,35 +1656,46 @@
   }
 
   /**
-   * 创建iOS风格的模态框
+   * 创建iOS风格的模态对话框
    * @param {string} title - 模态框标题
    * @param {string} message - 模态框内容
-   * @param {Array} buttons - 按钮配置，格式: [{label: '取消', style: 'cancel'}, {label: '确定', style: 'default'}]
+   * @param {Array} buttons - 按钮配置，格式: [{label: '按钮1', style: 'default/cancel/destructive'}]
    * @param {Function} callback - 点击按钮后的回调函数，参数为按钮索引
    */
   function createIOSModal(title, message, buttons, callback) {
+    // 获取当前活跃的Dish Analysis屏幕
+    const dishAnalysisScreen = document.querySelector('.screen[data-page="dish-recognition"]');
+    if (!dishAnalysisScreen) {
+      console.error('Dish Analysis screen not found');
+      return;
+    }
+    
     // 创建遮罩层
     const overlay = document.createElement('div');
-    overlay.className = 'fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
+    overlay.className = 'absolute inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
     
     // 创建模态框容器
     const modal = document.createElement('div');
-    modal.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden';
+    modal.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden shadow-2xl';
     
     // 创建模态框内容
     let modalHTML = '';
     
-    // 添加标题和消息
-    if (title) {
-      modalHTML += `<div class="px-4 pt-4 pb-2">
-        <h3 class="font-semibold text-center text-lg">${title}</h3>
-      </div>`;
-    }
-    
-    if (message) {
-      modalHTML += `<div class="px-4 pb-4">
-        <p class="text-center text-gray-600 text-sm">${message}</p>
-      </div>`;
+    // 添加标题和内容
+    if (title || message) {
+      modalHTML += `<div class="p-4">`;
+      
+      if (title) {
+        modalHTML += `<h3 class="font-semibold text-center text-lg mb-2">${title}</h3>`;
+      }
+      
+      if (message) {
+        // 处理换行符
+        const formattedMessage = message.replace(/\n/g, '<br>');
+        modalHTML += `<p class="text-center text-gray-600 text-sm whitespace-pre-line">${formattedMessage}</p>`;
+      }
+      
+      modalHTML += `</div>`;
     }
     
     // 添加按钮
@@ -1695,7 +1706,7 @@
         let buttonClasses = 'block w-full py-3 text-center font-medium';
         
         if (button.style === 'cancel') {
-          buttonClasses += ' text-gray-500';
+          buttonClasses += ' text-blue-500';
         } else if (button.style === 'destructive') {
           buttonClasses += ' text-red-500';
         } else {
@@ -1718,14 +1729,14 @@
     modal.querySelectorAll('button').forEach(button => {
       button.addEventListener('click', function() {
         const index = parseInt(this.getAttribute('data-index'));
-        document.body.removeChild(overlay);
+        dishAnalysisScreen.removeChild(overlay);
         if (callback) callback(index);
       });
     });
     
-    // 添加到页面
+    // 添加到Dish Analysis屏幕而不是document.body
     overlay.appendChild(modal);
-    document.body.appendChild(overlay);
+    dishAnalysisScreen.appendChild(overlay);
     
     // 添加动画效果
     overlay.style.opacity = 0;
@@ -1748,9 +1759,21 @@
    * @param {Function} callback - 点击选项后的回调函数，参数为选项索引
    */
   function createIOSActionSheet(title, options, callback) {
+    // 获取当前活跃的Dish Analysis屏幕
+    const dishAnalysisScreen = document.querySelector('.screen[data-page="dish-recognition"]');
+    if (!dishAnalysisScreen) {
+      console.error('Dish Analysis screen not found');
+      return;
+    }
+    
     // 创建遮罩层
     const overlay = document.createElement('div');
-    overlay.className = 'fixed inset-0 bg-black bg-opacity-40 z-50 flex items-end';
+    overlay.className = 'absolute inset-0 bg-black bg-opacity-40 z-50 flex items-end';
+    overlay.style.position = 'absolute';
+    overlay.style.top = '0';
+    overlay.style.bottom = '0';
+    overlay.style.left = '0';
+    overlay.style.right = '0';
     
     // 创建操作表单容器
     const actionSheet = document.createElement('div');
@@ -1810,15 +1833,15 @@
       overlay.style.opacity = 0;
       
       setTimeout(() => {
-        if (document.body.contains(overlay)) {
-          document.body.removeChild(overlay);
+        if (dishAnalysisScreen.contains(overlay)) {
+          dishAnalysisScreen.removeChild(overlay);
         }
       }, 300);
     }
     
-    // 添加到页面
+    // 添加到Dish Analysis屏幕而不是document.body
     overlay.appendChild(actionSheet);
-    document.body.appendChild(overlay);
+    dishAnalysisScreen.appendChild(overlay);
     
     // 添加动画效果
     setTimeout(() => {
@@ -1834,13 +1857,20 @@
    * @param {number} duration - 显示时长，单位ms
    */
   function createIOSToast(message, duration = 2000) {
+    // 获取当前活跃的Dish Analysis屏幕
+    const dishAnalysisScreen = document.querySelector('.screen[data-page="dish-recognition"]');
+    if (!dishAnalysisScreen) {
+      console.error('Dish Analysis screen not found');
+      return;
+    }
+    
     // 创建提示容器
     const toast = document.createElement('div');
-    toast.className = 'fixed left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-lg z-50 opacity-0 transition-opacity duration-300';
+    toast.className = 'absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 text-white px-4 py-2 rounded-lg z-50 opacity-0 transition-opacity duration-300';
     toast.textContent = message;
     
-    // 添加到页面
-    document.body.appendChild(toast);
+    // 添加到Dish Analysis屏幕而不是document.body
+    dishAnalysisScreen.appendChild(toast);
     
     // 添加动画效果
     setTimeout(() => {
@@ -1850,8 +1880,8 @@
         toast.style.opacity = 0;
         
         setTimeout(() => {
-          if (document.body.contains(toast)) {
-            document.body.removeChild(toast);
+          if (dishAnalysisScreen.contains(toast)) {
+            dishAnalysisScreen.removeChild(toast);
           }
         }, 300);
       }, duration);
@@ -1869,13 +1899,20 @@
    * @param {Function} callback - 点击按钮后的回调函数，参数为输入的文本内容
    */
   function createIOSPrompt(title, message, placeholder, defaultValue, callback) {
+    // 获取当前活跃的Dish Analysis屏幕
+    const dishAnalysisScreen = document.querySelector('.screen[data-page="dish-recognition"]');
+    if (!dishAnalysisScreen) {
+      console.error('Dish Analysis screen not found');
+      return;
+    }
+    
     // 创建遮罩层
     const overlay = document.createElement('div');
-    overlay.className = 'fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
+    overlay.className = 'absolute inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
     
     // 创建输入框容器
     const prompt = document.createElement('div');
-    prompt.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden';
+    prompt.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden shadow-xl';
     
     // 创建输入框内容
     prompt.innerHTML = `
@@ -1899,12 +1936,12 @@
     
     // 添加按钮点击事件
     cancelButton.addEventListener('click', function() {
-      document.body.removeChild(overlay);
+      dishAnalysisScreen.removeChild(overlay);
     });
     
     confirmButton.addEventListener('click', function() {
       const value = input.value.trim();
-      document.body.removeChild(overlay);
+      dishAnalysisScreen.removeChild(overlay);
       if (callback) callback(value);
     });
     
@@ -1912,26 +1949,19 @@
     input.addEventListener('keydown', function(e) {
       if (e.key === 'Enter') {
         const value = input.value.trim();
-        document.body.removeChild(overlay);
+        dishAnalysisScreen.removeChild(overlay);
         if (callback) callback(value);
       }
     });
     
-    // 添加到页面
+    // 添加到Dish Analysis屏幕而不是document.body
     overlay.appendChild(prompt);
-    document.body.appendChild(overlay);
+    dishAnalysisScreen.appendChild(overlay);
     
-    // 添加动画效果
-    overlay.style.opacity = 0;
-    prompt.style.transform = 'scale(0.9)';
-    prompt.style.transition = 'transform 0.2s ease-out';
-    overlay.style.transition = 'opacity 0.2s ease-out';
-    
+    // 聚焦输入框
     setTimeout(() => {
-      overlay.style.opacity = 1;
-      prompt.style.transform = 'scale(1)';
       input.focus();
-    }, 10);
+    }, 50);
     
     return overlay;
   }
