@@ -28,6 +28,12 @@
     const dishRecognitionScreen = document.createElement('div');
     dishRecognitionScreen.className = 'screen';
     dishRecognitionScreen.setAttribute('data-page', 'dish-recognition');
+    dishRecognitionScreen.style.position = 'relative';
+    dishRecognitionScreen.style.display = 'flex';
+    dishRecognitionScreen.style.flexDirection = 'column';
+    dishRecognitionScreen.style.height = '100vh';
+    dishRecognitionScreen.style.maxHeight = '100vh';
+    dishRecognitionScreen.style.overflow = 'hidden';
     
     // 设置页面HTML内容
     dishRecognitionScreen.innerHTML = `
@@ -65,15 +71,11 @@
           </svg>
         </button>
         <h1 class="text-lg font-bold text-gray-800">Dish Analysis</h1>
-        <button class="share-button w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 active:bg-gray-200 transition-colors">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.59 16.59L13.17 12L8.59 7.41L10 6L16 12L10 18L8.59 16.59Z" fill="#333333"/>
-          </svg>
-        </button>
+        <div class="w-10 h-10"></div>
       </div>
 
       <!-- 主内容区域 - 重新设计的滚动容器 -->
-      <div class="dish-recognition-content flex-1 bg-gray-50 flex flex-col h-full">
+      <div class="dish-recognition-content flex-1 bg-gray-50 flex flex-col h-full relative" style="overflow:hidden;">
         <!-- 顶部菜品图像区域 - 更大的图片展示，支持滑动多个菜品 -->
         <div class="dish-image-container h-48 bg-black relative overflow-hidden">
           <div class="dishes-slider flex h-full w-full overflow-x-hidden snap-x snap-mandatory touch-pan-x">
@@ -206,8 +208,8 @@
           </div>
         </div>
         
-        <!-- 内容滚动区域 - 卡片式布局 -->
-        <div class="analysis-content flex-1 overflow-auto px-4 py-3">
+        <!-- 内容滚动区域 - 卡片式布局，注意滚动区域不包含底部操作区 -->
+        <div class="analysis-content flex-1 overflow-auto px-4 py-3 pb-36">
           <!-- 卡片：健康评分 -->
           <div class="health-score-card bg-white rounded-2xl overflow-hidden shadow-sm mb-4">
             <div class="p-4">
@@ -406,9 +408,9 @@
           </div>
         </div>
         
-        <!-- 底部操作区 - 更符合iOS设计规范 -->
-        <div class="action-section bg-white border-t border-gray-100 px-4 pt-4 pb-8">
-          <div class="flex justify-between gap-3 mb-1">
+        <!-- 底部操作区 - 使用absolute定位固定在Dish Analysis屏幕底部 -->
+        <div class="action-section bg-white border-t border-gray-100 px-4 pt-4 pb-8 absolute bottom-0 left-0 right-0 z-50 shadow-lg" style="width:100%;">
+          <div class="flex justify-between gap-3">
             <!-- 保存记录按钮 - 主要操作 -->
             <button class="save-button flex-1 py-3.5 bg-[#FFBE98] rounded-xl text-white font-medium text-sm flex items-center justify-center shadow-sm">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -431,16 +433,6 @@
               </svg>
             </button>
           </div>
-          
-          <!-- 反馈按钮 -->
-          <div class="flex justify-center">
-            <button class="text-gray-500 text-xs flex items-center py-2">
-              <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-              </svg>
-              Adjust dish content or portion
-            </button>
-          </div>
         </div>
       </div>
       
@@ -449,6 +441,49 @@
         .analysis-content {
           -webkit-overflow-scrolling: touch;
           scroll-behavior: smooth;
+          padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+        }
+        
+        /* 自定义滚动条样式 */
+        .analysis-content::-webkit-scrollbar {
+          width: 4px;
+        }
+        
+        .analysis-content::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.05);
+        }
+        
+        .analysis-content::-webkit-scrollbar-thumb {
+          background: rgba(255, 190, 152, 0.5);
+          border-radius: 2px;
+        }
+        
+        /* 设置底部操作区域样式 */
+        .action-section {
+          padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0.5rem));
+          box-shadow: 0 -4px 10px -1px rgba(0, 0, 0, 0.1);
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+        }
+        
+        /* 确保dish-recognition-content有正确的定位上下文 */
+        .dish-recognition-content {
+          position: relative;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+        
+        /* 保证屏幕元素占满整个视口高度，但不超出 */
+        .screen[data-page="dish-recognition"] {
+          display: flex;
+          flex-direction: column;
+          height: 100vh;
+          max-height: 100vh;
+          overflow: hidden;
+          position: relative;
         }
         
         /* 滑动动画 */
@@ -470,25 +505,6 @@
         
         .nutrient-bar:active {
           background-color: #f3f4f6;
-        }
-        
-        /* 自定义滚动条样式 */
-        .analysis-content::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .analysis-content::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.05);
-        }
-        
-        .analysis-content::-webkit-scrollbar-thumb {
-          background: rgba(255, 190, 152, 0.5);
-          border-radius: 2px;
-        }
-        
-        /* 适配iPhone底部安全区域 */
-        .action-section {
-          padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0.5rem));
         }
         
         /* 按钮点击动画 */
@@ -2065,6 +2081,10 @@
    * @param {HTMLElement} screen - 当前屏幕元素 
    */
   function openIngredientsEditor(screen) {
+    // 获取Dish Analysis界面的尺寸和位置
+    const dishAnalysisScreen = screen.closest('.screen');
+    if (!dishAnalysisScreen) return;
+    
     // 获取当前成分列表容器
     const ingredientsContainer = screen.querySelector('.ingredients-grid');
     if (!ingredientsContainer) return;
@@ -2091,155 +2111,218 @@
       }
     });
     
-    // 创建编辑模式的HTML
-    let ingredientsEditHTML = `
-      <div class="ingredients-editor-modal fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div class="bg-white rounded-2xl w-11/12 max-w-md max-h-[80vh] overflow-hidden flex flex-col">
-          <div class="p-4 border-b border-gray-100">
-            <h3 class="font-semibold text-gray-800 text-center">Edit Ingredients</h3>
+    // 创建iOS样式的全屏幕滑入面板
+    const editorPanel = document.createElement('div');
+    editorPanel.className = 'fixed inset-0 z-[1000]';
+    editorPanel.innerHTML = `
+      <div class="absolute inset-0 bg-black opacity-0 transition-opacity duration-300"></div>
+      <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-lg transform translate-y-full transition-transform duration-300 ease-out">
+        <div class="w-12 h-1 bg-gray-300 rounded-full mx-auto my-3"></div>
+        
+        <div class="px-4 pb-4">
+          <div class="flex justify-between items-center mb-4">
+            <button class="cancel-edit text-gray-500 text-base font-medium">取消</button>
+            <h3 class="text-base font-semibold text-center">Edit Ingredients</h3>
+            <button class="save-edit text-[#FFBE98] text-base font-medium">完成</button>
           </div>
           
-          <div class="p-4 overflow-y-auto flex-1">
-            <div class="ingredients-edit-list space-y-2">
-    `;
-    
-    // 添加所有成分项
-    ingredients.forEach((ingredient, index) => {
-      ingredientsEditHTML += `
-        <div class="ingredient-edit-item flex items-center bg-gray-50 rounded-lg p-2" data-index="${index}">
-          <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2 flex-shrink-0"></div>
-          <div class="flex-1 flex gap-2">
-            <input type="text" class="ingredient-name-input flex-1 py-1 px-2 text-sm border border-gray-200 rounded" value="${ingredient.name}" placeholder="Ingredient">
-            <input type="text" class="ingredient-weight-input w-16 py-1 px-2 text-sm border border-gray-200 rounded" value="${ingredient.weight}" placeholder="Weight">
-          </div>
-          <button class="delete-ingredient-button ml-2 p-1 text-red-500 rounded-full hover:bg-red-50">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-            </svg>
-          </button>
-        </div>
-      `;
-    });
-    
-    // 添加"添加成分"按钮和底部操作区
-    ingredientsEditHTML += `
+          <div class="ingredients-editor-content overflow-y-auto" style="max-height: calc(100vh - 200px); padding-bottom: env(safe-area-inset-bottom, 34px);">
+            <div class="ingredients-edit-list space-y-3">
+              ${ingredients.map((ingredient, index) => `
+                <div class="ingredient-edit-item bg-gray-50 rounded-xl p-3" data-index="${index}">
+                  <div class="flex justify-between items-center mb-2">
+                    <div class="text-sm font-medium text-gray-700">Ingredient ${index + 1}</div>
+                    <button class="delete-ingredient-button text-red-500">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="space-y-2">
+                    <div class="ingredient-field">
+                      <label class="text-xs text-gray-500 mb-1 block">Name</label>
+                      <input type="text" class="ingredient-name-input w-full py-2 px-3 text-base border border-gray-300 rounded-lg" value="${ingredient.name}" placeholder="Enter ingredient name">
+                    </div>
+                    <div class="ingredient-field">
+                      <label class="text-xs text-gray-500 mb-1 block">Amount</label>
+                      <input type="text" class="ingredient-weight-input w-full py-2 px-3 text-base border border-gray-300 rounded-lg" value="${ingredient.weight}" placeholder="e.g. 100g">
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
             </div>
             
-            <button class="add-ingredient-button w-full mt-4 py-2 px-4 bg-gray-100 text-gray-600 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button class="add-ingredient-button w-full mt-4 py-3 bg-gray-100 text-gray-700 rounded-xl font-medium flex items-center justify-center">
+              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
               </svg>
-              Add Ingredient
+              Add New Ingredient
             </button>
-          </div>
-          
-          <div class="p-4 border-t border-gray-100 flex justify-between">
-            <button class="cancel-ingredients-edit py-2 px-6 bg-gray-100 text-gray-700 rounded-lg">Cancel</button>
-            <button class="save-ingredients-edit py-2 px-6 bg-[#FFBE98] text-white rounded-lg">Save</button>
           </div>
         </div>
       </div>
     `;
     
-    // 添加编辑模态框到屏幕
-    const modalContainer = document.createElement('div');
-    modalContainer.innerHTML = ingredientsEditHTML;
-    screen.appendChild(modalContainer.firstElementChild);
+    // 将编辑面板添加到Dish Analysis屏幕
+    dishAnalysisScreen.appendChild(editorPanel);
     
-    // 获取编辑模态框引用
-    const modal = screen.querySelector('.ingredients-editor-modal');
+    // 获取元素引用
+    const backdrop = editorPanel.querySelector('.absolute.inset-0.bg-black');
+    const panel = editorPanel.querySelector('.absolute.bottom-0');
+    const cancelButton = editorPanel.querySelector('.cancel-edit');
+    const saveButton = editorPanel.querySelector('.save-edit');
+    const addButton = editorPanel.querySelector('.add-ingredient-button');
+    const editList = editorPanel.querySelector('.ingredients-edit-list');
+    
+    // 显示面板动画
+    requestAnimationFrame(() => {
+      backdrop.classList.add('opacity-50');
+      panel.classList.remove('translate-y-full');
+    });
     
     // 添加新成分的功能
-    const addIngredientButton = modal.querySelector('.add-ingredient-button');
-    if (addIngredientButton) {
-      addIngredientButton.addEventListener('click', function() {
-        const editList = modal.querySelector('.ingredients-edit-list');
-        const newIndex = editList.querySelectorAll('.ingredient-edit-item').length;
-        
-        const newItem = document.createElement('div');
-        newItem.className = 'ingredient-edit-item flex items-center bg-gray-50 rounded-lg p-2';
-        newItem.setAttribute('data-index', newIndex);
-        
-        newItem.innerHTML = `
-          <div class="w-2 h-2 rounded-full bg-[#FFBE98] mr-2 flex-shrink-0"></div>
-          <div class="flex-1 flex gap-2">
-            <input type="text" class="ingredient-name-input flex-1 py-1 px-2 text-sm border border-gray-200 rounded" placeholder="Ingredient">
-            <input type="text" class="ingredient-weight-input w-16 py-1 px-2 text-sm border border-gray-200 rounded" placeholder="Weight">
-          </div>
-          <button class="delete-ingredient-button ml-2 p-1 text-red-500 rounded-full hover:bg-red-50">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+    addButton.addEventListener('click', function() {
+      const newIndex = editList.querySelectorAll('.ingredient-edit-item').length;
+      
+      const newItem = document.createElement('div');
+      newItem.className = 'ingredient-edit-item bg-gray-50 rounded-xl p-3';
+      newItem.setAttribute('data-index', newIndex);
+      
+      newItem.innerHTML = `
+        <div class="flex justify-between items-center mb-2">
+          <div class="text-sm font-medium text-gray-700">Ingredient ${newIndex + 1}</div>
+          <button class="delete-ingredient-button text-red-500">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
             </svg>
           </button>
-        `;
-        
-        editList.appendChild(newItem);
-        
-        // 给新添加的删除按钮添加事件监听
-        const deleteButton = newItem.querySelector('.delete-ingredient-button');
-        if (deleteButton) {
-          deleteButton.addEventListener('click', function() {
+        </div>
+        <div class="space-y-2">
+          <div class="ingredient-field">
+            <label class="text-xs text-gray-500 mb-1 block">Name</label>
+            <input type="text" class="ingredient-name-input w-full py-2 px-3 text-base border border-gray-300 rounded-lg" placeholder="Enter ingredient name">
+          </div>
+          <div class="ingredient-field">
+            <label class="text-xs text-gray-500 mb-1 block">Amount</label>
+            <input type="text" class="ingredient-weight-input w-full py-2 px-3 text-base border border-gray-300 rounded-lg" placeholder="e.g. 100g">
+          </div>
+        </div>
+      `;
+      
+      editList.appendChild(newItem);
+      
+      // 给新添加的删除按钮添加事件监听
+      const deleteButton = newItem.querySelector('.delete-ingredient-button');
+      if (deleteButton) {
+        deleteButton.addEventListener('click', function() {
+          // 添加删除动画
+          newItem.style.transition = 'all 0.3s ease';
+          newItem.style.opacity = '0';
+          newItem.style.height = '0';
+          newItem.style.marginBottom = '0';
+          newItem.style.overflow = 'hidden';
+          
+          setTimeout(() => {
             newItem.remove();
-          });
-        }
-        
-        // 聚焦到新添加的输入框
-        const nameInput = newItem.querySelector('.ingredient-name-input');
-        if (nameInput) {
-          nameInput.focus();
-        }
-      });
-    }
+            // 更新所有ingredient标题
+            updateIngredientNumbers(editList);
+          }, 300);
+        });
+      }
+      
+      // 聚焦到新添加的输入框
+      const nameInput = newItem.querySelector('.ingredient-name-input');
+      if (nameInput) {
+        nameInput.focus();
+      }
+      
+      // 滚动到底部显示新添加的成分
+      const scrollContainer = editorPanel.querySelector('.ingredients-editor-content');
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    });
     
     // 为所有删除按钮添加事件监听
-    const deleteButtons = modal.querySelectorAll('.delete-ingredient-button');
+    const deleteButtons = editorPanel.querySelectorAll('.delete-ingredient-button');
     deleteButtons.forEach(button => {
       button.addEventListener('click', function() {
         const item = this.closest('.ingredient-edit-item');
         if (item) {
-          item.remove();
+          // 添加删除动画
+          item.style.transition = 'all 0.3s ease';
+          item.style.opacity = '0';
+          item.style.height = '0';
+          item.style.marginBottom = '0';
+          item.style.overflow = 'hidden';
+          
+          setTimeout(() => {
+            item.remove();
+            // 更新所有ingredient标题
+            updateIngredientNumbers(editList);
+          }, 300);
         }
       });
     });
     
-    // 取消按钮
-    const cancelButton = modal.querySelector('.cancel-ingredients-edit');
-    if (cancelButton) {
-      cancelButton.addEventListener('click', function() {
-        modal.remove();
+    // 更新所有ingredient标题编号
+    function updateIngredientNumbers(container) {
+      const items = container.querySelectorAll('.ingredient-edit-item');
+      items.forEach((item, index) => {
+        const titleEl = item.querySelector('.flex.justify-between .text-sm');
+        if (titleEl) {
+          titleEl.textContent = `Ingredient ${index + 1}`;
+        }
+        item.setAttribute('data-index', index);
       });
     }
     
-    // 保存按钮
-    const saveButton = modal.querySelector('.save-ingredients-edit');
-    if (saveButton) {
-      saveButton.addEventListener('click', function() {
-        // 收集所有成分数据
-        const updatedIngredients = [];
-        const ingredientItems = modal.querySelectorAll('.ingredient-edit-item');
-        
-        ingredientItems.forEach(item => {
-          const nameInput = item.querySelector('.ingredient-name-input');
-          const weightInput = item.querySelector('.ingredient-weight-input');
-          
-          if (nameInput && nameInput.value.trim()) {
-            updatedIngredients.push({
-              name: nameInput.value.trim(),
-              weight: weightInput ? weightInput.value.trim() : ''
-            });
-          }
-        });
-        
-        // 更新UI
-        updateIngredientsUI(screen, updatedIngredients);
-        
-        // 关闭模态框
-        modal.remove();
-        
-        // 显示成功提示
-        createIOSToast('Ingredients updated successfully', 1500);
-      });
+    // 关闭面板的通用函数
+    function closePanel() {
+      backdrop.classList.remove('opacity-50');
+      panel.classList.add('translate-y-full');
+      
+      setTimeout(() => {
+        dishAnalysisScreen.removeChild(editorPanel);
+      }, 300);
     }
+    
+    // 取消按钮
+    cancelButton.addEventListener('click', closePanel);
+    
+    // 点击背景关闭
+    backdrop.addEventListener('click', closePanel);
+    
+    // 保存按钮
+    saveButton.addEventListener('click', function() {
+      // 收集所有成分数据
+      const updatedIngredients = [];
+      const ingredientItems = editorPanel.querySelectorAll('.ingredient-edit-item');
+      
+      ingredientItems.forEach(item => {
+        const nameInput = item.querySelector('.ingredient-name-input');
+        const weightInput = item.querySelector('.ingredient-weight-input');
+        
+        if (nameInput && nameInput.value.trim()) {
+          updatedIngredients.push({
+            name: nameInput.value.trim(),
+            weight: weightInput && weightInput.value.trim() ? weightInput.value.trim() : ''
+          });
+        }
+      });
+      
+      // 更新UI
+      updateIngredientsUI(screen, updatedIngredients);
+      
+      // 关闭面板
+      closePanel();
+      
+      // 显示成功提示
+      createIOSToast('Ingredients updated successfully', 1500);
+    });
+    
+    // 阻止面板上的点击事件冒泡到背景
+    panel.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
   }
   
   /**
