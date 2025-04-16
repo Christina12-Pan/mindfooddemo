@@ -228,23 +228,31 @@
                     </div>
                 </div>
                 
-                <!-- 底部操作栏 -->
-                <div class="fixed bottom-0 left-0 right-0 action-section glassmorphism rounded-t-2xl shadow-lg z-40" style="width: 351px; margin: 0 auto;">
-                    <div class="p-4 flex">
-                        <button class="flex-1 bg-gray-100 text-gray-800 rounded-xl py-3.5 mr-2 font-medium">
-                            View Full Menu
-                        </button>
-                        <button class="flex-1 bg-[#FFBE98] text-white rounded-xl py-3.5 font-medium">
-                            Order Now
-                        </button>
-                    </div>
+                <!-- iOS Home Indicator -->
+                <div class="fixed bottom-0 left-0 right-0 z-40" style="width: 351px; margin: 0 auto;">
                     <div class="ios-home-indicator bg-black mx-auto mb-2"></div>
                 </div>
             </div>
         `;
         
-        // 将HTML添加到body
-        document.body.insertAdjacentHTML('beforeend', menuRecognitionPageHTML);
+        // 查找一个合适的插入位置 - 在常规页面之后但在创建的特殊页面之前
+        // 查找扫描页面或其他常规页面作为参考点
+        const scanPage = document.querySelector('.screen[data-page="scan"]');
+        const homePageScreen = document.querySelector('.screen[data-page="home"]');
+        
+        if (scanPage) {
+            // 如果找到扫描页面，则在其后插入
+            scanPage.insertAdjacentHTML('afterend', menuRecognitionPageHTML);
+            console.log('Menu recognition page inserted after scan page');
+        } else if (homePageScreen) {
+            // 如果找到首页，则在其后插入
+            homePageScreen.insertAdjacentHTML('afterend', menuRecognitionPageHTML);
+            console.log('Menu recognition page inserted after home page');
+        } else {
+            // 如果找不到参考点，则追加到body
+            document.body.insertAdjacentHTML('beforeend', menuRecognitionPageHTML);
+            console.log('Menu recognition page appended to body');
+        }
         
         console.log('Menu recognition page created successfully');
     }

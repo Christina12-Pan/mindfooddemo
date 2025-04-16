@@ -32,9 +32,6 @@
         // 添加菜品添加按钮事件
         addDishActionEvents(menuResultPage);
         
-        // 添加底部操作栏事件
-        addBottomActionEvents(menuResultPage);
-        
         // 添加菜单识别页面打开的入口点
         addEntryPoints();
     }
@@ -269,7 +266,7 @@
     }
     
     /**
-     * 添加底部操作栏按钮事件
+     * 底部操作栏按钮事件函数保留但不使用
      * @param {HTMLElement} page - 菜单结果页面元素
      */
     function addBottomActionEvents(page) {

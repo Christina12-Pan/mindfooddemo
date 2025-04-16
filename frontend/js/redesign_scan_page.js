@@ -284,13 +284,14 @@
     }
     
     /**
-     * Add newly designed Scan page content
-     * @param {HTMLElement} scanScreen - Scan page element
+     * Add scan page content
+     * @param {HTMLElement} scanScreen - Scan screen element
      */
     function addScanContent(scanScreen) {
-        // Create main container
-        const mainContainer = document.createElement('div');
-        mainContainer.className = 'flex flex-col h-full scan-redesigned-container relative';
+        // Create scan page container
+        const scanPageContainer = document.createElement('div');
+        scanPageContainer.className = 'scan-page-container relative w-full h-full flex flex-col';
+        scanPageContainer.dataset.activeMode = 'recipe'; // Default to Menu Mode
         
         // Create camera viewfinder - full-screen background
         const cameraViewfinder = createCameraViewfinder();
@@ -298,29 +299,32 @@
         // Create back button - moved up to avoid status bar
         const backButton = createBackButton();
         
-        // Create top control buttons (flash, history) - moved up to avoid status bar
+        // Create top controls (flash & history buttons)
         const topControls = createTopControls();
         
-        // Create capture button and gallery button
+        // Create mode selection bar
+        const modeBar = createModeSelectionBar();
+        
+        // Create capture controls (camera button & gallery)
         const captureControls = createCaptureControls();
         
-        // Create mode selection bar - 现在放在底部按钮下方
-        const modeSelectionBar = createModeSelectionBar();
-        
-        // Combine page elements (removed status bar)
-        mainContainer.appendChild(cameraViewfinder);
-        mainContainer.appendChild(backButton);
-        mainContainer.appendChild(topControls);
-        mainContainer.appendChild(captureControls);
-        mainContainer.appendChild(modeSelectionBar);
+        // Combine page elements
+        scanPageContainer.appendChild(cameraViewfinder);
+        scanPageContainer.appendChild(backButton);
+        scanPageContainer.appendChild(topControls);
+        scanPageContainer.appendChild(modeBar);
+        scanPageContainer.appendChild(captureControls);
         
         // Add main container to Scan page
-        scanScreen.appendChild(mainContainer);
+        scanScreen.appendChild(scanPageContainer);
+        
+        // Initially hide the page to prevent flickering
+        scanPageContainer.style.opacity = "0";
         
         // Restore visibility after all content is loaded to prevent flickering
         setTimeout(() => {
-            scanScreen.style.opacity = "1";
-            scanScreen.style.transition = "opacity 0.2s ease-in-out";
+            scanPageContainer.style.opacity = "1";
+            scanPageContainer.style.transition = "opacity 0.2s ease-in-out";
         }, 10);
     }
     
@@ -767,6 +771,12 @@
                 // Update text opacity
                 recipeModeLabel.style.opacity = '1';
                 dishModeLabel.style.opacity = '0.7';
+                
+                // Update scan page container data attribute
+                const scanPageContainer = document.querySelector('.scan-page-container');
+                if (scanPageContainer) {
+                    scanPageContainer.dataset.activeMode = 'recipe';
+                }
             } else {
                 recipeModeIcon.className = 'w-5 h-5 rounded-full bg-white bg-opacity-70 flex items-center justify-center mb-1 transition-all transform group-hover:scale-110';
                 dishModeIcon.className = 'w-5 h-5 rounded-full bg-white flex items-center justify-center mb-1 transition-all transform group-hover:scale-110';
@@ -780,6 +790,12 @@
                 // Update text opacity
                 recipeModeLabel.style.opacity = '0.7';
                 dishModeLabel.style.opacity = '1';
+                
+                // Update scan page container data attribute
+                const scanPageContainer = document.querySelector('.scan-page-container');
+                if (scanPageContainer) {
+                    scanPageContainer.dataset.activeMode = 'dish';
+                }
             }
         }
         
@@ -911,80 +927,167 @@
     }
     
     /**
-     * Create capture button
+     * Create capture button for taking photos
      * @returns {HTMLElement} Capture button
      */
     function createCaptureButton() {
+        // Add necessary animation styles
+        if (!document.getElementById('capture-button-styles')) {
+            const style = document.createElement('style');
+            style.id = 'capture-button-styles';
+            style.textContent = `
+                @keyframes pulse-ring {
+                    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+                    25% { box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.4); }
+                    50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1); }
+                    100% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+                }
+                
+                @keyframes capture-click {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(0.92); }
+                    100% { transform: scale(1); }
+                }
+                
+                .shine-effect {
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: linear-gradient(
+                        to right,
+                        rgba(255, 255, 255, 0) 0%,
+                        rgba(255, 255, 255, 0.3) 50%,
+                        rgba(255, 255, 255, 0) 100%
+                    );
+                    transform: rotate(30deg);
+                    animation: shine 4s infinite;
+                }
+                
+                @keyframes shine {
+                    0% { transform: translateX(-100%) rotate(30deg); }
+                    20% { transform: translateX(100%) rotate(30deg); }
+                    100% { transform: translateX(100%) rotate(30deg); }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
         const button = document.createElement('button');
-        button.className = 'w-14 h-14 rounded-full flex items-center justify-center relative focus:outline-none';
+        button.className = 'w-14 h-14 rounded-full flex items-center justify-center relative focus:outline-none transform transition-transform';
         
-        // Create shine animation for the button
+        // iOS-style outer circle
+        const outerCircle = document.createElement('div');
+        outerCircle.className = 'absolute inset-0 rounded-full';
+        outerCircle.style.background = 'rgba(255, 255, 255, 0.2)';
+        outerCircle.style.backdropFilter = 'blur(4px)';
+        outerCircle.style.border = '1px solid rgba(255, 255, 255, 0.3)';
+        
+        // White circle
+        const whiteCircle = document.createElement('div');
+        whiteCircle.className = 'w-12 h-12 rounded-full bg-white flex items-center justify-center';
+        
+        // Add pulse ring animation
+        const pulseRing = document.createElement('div');
+        pulseRing.className = 'absolute inset-0 rounded-full';
+        pulseRing.style.boxShadow = '0 0 0 0 rgba(255, 255, 255, 0.7)';
+        pulseRing.style.animation = 'pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite';
+        
+        // Create shine animation
         const shine = document.createElement('div');
-        shine.className = 'absolute inset-0 rounded-full';
-        shine.style.animation = 'pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite';
-        shine.style.boxShadow = '0 0 8px 2px rgba(255, 255, 255, 0.3)';
-        shine.style.opacity = '0';
+        shine.className = 'absolute w-full h-full rounded-full overflow-hidden';
+        shine.innerHTML = `<div class="shine-effect"></div>`;
         
-        // Create pulse animation
-        const pulseStyle = document.createElement('style');
-        pulseStyle.textContent = `
-            @keyframes pulse-ring {
-                0% { transform: scale(0.95); opacity: 0; }
-                25% { opacity: 0.5; }
-                50% { transform: scale(1.05); opacity: 0; }
-                100% { opacity: 0; }
-            }
-            @keyframes capture-click {
-                0% { transform: scale(1); }
-                50% { transform: scale(0.92); }
-                100% { transform: scale(1); }
-            }
-        `;
-        document.head.appendChild(pulseStyle);
-        
-        // Outer ring with gradient
-        const outerRing = document.createElement('div');
-        outerRing.className = 'absolute inset-0 rounded-full';
-        outerRing.style.background = 'linear-gradient(145deg, rgba(255,255,255,0.5), rgba(255,255,255,0.8))';
-        outerRing.style.padding = '2px';
-        
-        // Inner circular background
-        const innerBg = document.createElement('div');
-        innerBg.className = 'absolute inset-0.5 rounded-full bg-black bg-opacity-20 backdrop-filter backdrop-blur-sm';
-        
-        // Inner button
-        const innerButton = document.createElement('div');
-        innerButton.className = 'w-10 h-10 rounded-full bg-white transform transition-transform duration-200';
-        
-        // Add hover effect
-        button.addEventListener('mouseenter', function() {
-            shine.style.opacity = '1';
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            shine.style.opacity = '0';
-        });
-        
-        // Add click event
+        // Add click event to simulate capture
         button.addEventListener('click', function() {
-            console.log('Capture button clicked');
+            // Add visual feedback
+            whiteCircle.classList.add('capture-click');
             
-            // Add visual feedback - animate the entire button
-            button.style.animation = 'capture-click 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            // Add scale animation
+            button.style.transform = 'scale(0.95)';
             
-            // Reset animation
+            // Check which mode is active (Menu Mode or Dish Mode)
+            const activeMode = document.querySelector('.scan-page-container')?.dataset.activeMode || 'recipe';
+            
             setTimeout(() => {
-                button.style.animation = '';
+                // Reset animation
+                button.style.transform = '';
+                whiteCircle.classList.remove('capture-click');
+                
+                // Show appropriate screen based on mode
+                if (activeMode === 'recipe') {
+                    // In Menu Mode, show menu recognition result
+                    showMenuRecognitionPage();
+                } else {
+                    // In Dish Mode, show dish analysis
+                    showPhotoProcessingUI();
+                }
             }, 300);
         });
         
-        // Assemble components
+        // Add hover effect
+        button.addEventListener('mouseenter', function() {
+            pulseRing.style.animation = 'none';
+            setTimeout(() => {
+                pulseRing.style.animation = 'pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite';
+            }, 10);
+        });
+        
+        // Assemble button
+        button.appendChild(outerCircle);
+        button.appendChild(pulseRing);
+        button.appendChild(whiteCircle);
         button.appendChild(shine);
-        button.appendChild(outerRing);
-        outerRing.appendChild(innerBg);
-        button.appendChild(innerButton);
         
         return button;
+    }
+    
+    /**
+     * Show Menu Recognition Page after taking a photo in Menu Mode
+     */
+    function showMenuRecognitionPage() {
+        console.log('Opening menu recognition page');
+        
+        // Show loading animation first
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.className = 'fixed inset-0 bg-black bg-opacity-70 z-50 flex flex-col items-center justify-center';
+        loadingOverlay.innerHTML = `
+            <div class="w-16 h-16 border-4 border-[#FFBE98] border-t-transparent rounded-full animate-spin mb-6"></div>
+            <p class="text-white text-lg font-medium mb-2">Analyzing Menu</p>
+            <p class="text-gray-300 text-sm">Finding the healthiest options for you...</p>
+        `;
+        document.body.appendChild(loadingOverlay);
+        
+        // Hide scan screen
+        const scanScreen = document.querySelector('.screen[data-page="scan"]');
+        if (scanScreen) {
+            scanScreen.style.display = 'none';
+        }
+        
+        // After a delay, show menu result page
+        setTimeout(() => {
+            // Remove loading overlay with fade animation
+            loadingOverlay.style.opacity = '0';
+            loadingOverlay.style.transition = 'opacity 0.3s ease';
+            
+            setTimeout(() => {
+                loadingOverlay.remove();
+                
+                // Show menu result page
+                const menuResultPage = document.querySelector('.screen[data-page="menu-result"]');
+                if (menuResultPage) {
+                    menuResultPage.style.display = 'flex';
+                } else {
+                    console.error('Menu result page not found');
+                    
+                    // If screen doesn't exist, return to scan screen
+                    if (scanScreen) {
+                        scanScreen.style.display = 'flex';
+                    }
+                }
+            }, 300);
+        }, 2000);
     }
     
     /**

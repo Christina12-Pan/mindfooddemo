@@ -658,7 +658,28 @@
     `;
     
     // 将页面添加到DOM中
-    document.body.appendChild(dishRecognitionScreen);
+    // 查找合适的插入位置
+    const menuResultPage = document.querySelector('.screen[data-page="menu-result"]');
+    const scanPage = document.querySelector('.screen[data-page="scan"]');
+    const homePageScreen = document.querySelector('.screen[data-page="home"]');
+    
+    if (menuResultPage) {
+        // 如果找到菜单结果页面，则在其后插入
+        menuResultPage.after(dishRecognitionScreen);
+        console.log('Dish recognition page inserted after menu result page');
+    } else if (scanPage) {
+        // 如果找到扫描页面，则在其后插入
+        scanPage.after(dishRecognitionScreen);
+        console.log('Dish recognition page inserted after scan page');
+    } else if (homePageScreen) {
+        // 如果找到首页，则在其后插入
+        homePageScreen.after(dishRecognitionScreen);
+        console.log('Dish recognition page inserted after home page');
+    } else {
+        // 如果找不到合适的参考点，则追加到body
+        document.body.appendChild(dishRecognitionScreen);
+        console.log('Dish recognition page appended to body');
+    }
     
     // 添加页面打开的入口点
     addEntryPoints();
