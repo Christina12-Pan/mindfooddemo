@@ -31,9 +31,21 @@
     dishRecognitionScreen.style.position = 'relative';
     dishRecognitionScreen.style.display = 'flex';
     dishRecognitionScreen.style.flexDirection = 'column';
-    dishRecognitionScreen.style.height = '100vh';
-    dishRecognitionScreen.style.maxHeight = '100vh';
+    // 移除可变高度设置
+    // dishRecognitionScreen.style.height = '100vh';
+    // dishRecognitionScreen.style.maxHeight = '100vh';
+    // 使用固定尺寸，与其他页面一致
+    dishRecognitionScreen.style.width = '375px';
+    dishRecognitionScreen.style.height = '812px';
     dishRecognitionScreen.style.overflow = 'hidden';
+    dishRecognitionScreen.style.backgroundColor = 'transparent'; // 确保背景是透明的
+    
+    // 清除可能干扰全局背景的属性
+    setTimeout(() => {
+      if (window.reapplyAppBackground) {
+        window.reapplyAppBackground();
+      }
+    }, 100);
     
     // 设置页面HTML内容
     dishRecognitionScreen.innerHTML = `
@@ -493,10 +505,14 @@
         .screen[data-page="dish-recognition"] {
           display: flex;
           flex-direction: column;
-          height: 100vh;
-          max-height: 100vh;
+          width: 375px !important; /* 强制固定宽度 */
+          height: 812px !important; /* 强制固定高度 */
           overflow: hidden;
           position: relative;
+          background-color: transparent !important; /* 确保背景透明，允许全局背景显示 */
+          margin: 20px; /* 与其他页面保持一致的外边距 */
+          box-sizing: content-box; /* 确保边框和内边距不影响尺寸 */
+          border-radius: 40px; /* 保持手机壳圆角 */
         }
         
         /* 滑动动画 */
@@ -1399,6 +1415,22 @@
     if (targetScreen) {
       targetScreen.style.display = 'flex';
       console.log(`Showing screen: ${pageId}`);
+      
+      // 触发页面切换自定义事件
+      const pageChangedEvent = new CustomEvent('pageChanged', {
+        detail: { pageId: pageId }
+      });
+      document.dispatchEvent(pageChangedEvent);
+      
+      // 如果有背景修复函数，调用它
+      if (typeof window.fixBackgroundConflicts === 'function') {
+        setTimeout(window.fixBackgroundConflicts, 100);
+      }
+      
+      // 如果有重新应用背景函数，调用它
+      if (typeof window.reapplyAppBackground === 'function') {
+        setTimeout(window.reapplyAppBackground, 200);
+      }
     }
   }
 
@@ -1720,10 +1752,23 @@
     // 创建遮罩层
     const overlay = document.createElement('div');
     overlay.className = 'absolute inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center';
+    overlay.style.position = 'absolute';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.right = '0';
+    overlay.style.bottom = '0';
+    overlay.style.zIndex = '9999';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
     
     // 创建模态框容器
     const modal = document.createElement('div');
     modal.className = 'bg-white rounded-xl w-5/6 max-w-sm overflow-hidden shadow-2xl';
+    modal.style.maxWidth = '280px';
+    modal.style.margin = 'auto';
+    modal.style.zIndex = '10000';
+    modal.style.position = 'relative';
     
     // 创建模态框内容
     let modalHTML = '';

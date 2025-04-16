@@ -251,24 +251,7 @@
         mainContainer.className = 'flex flex-col h-full home-redesigned-container';
         
         // 设置白色背景，使下方的背景图片在混合模式下具有适当透明度
-        mainContainer.style.backgroundColor = '#ffffff';
-        
-        // 添加背景图片容器
-        const bgContainer = document.createElement('div');
-        bgContainer.style.position = 'absolute';
-        bgContainer.style.top = '0';
-        bgContainer.style.left = '0';
-        bgContainer.style.width = '100%';
-        bgContainer.style.height = '100%';
-        bgContainer.style.backgroundImage = 'url("frontend/resource/appbg.png")';
-        bgContainer.style.backgroundSize = 'cover';
-        bgContainer.style.backgroundPosition = 'center';
-        bgContainer.style.opacity = '0.08'; // 8%的不透明度
-        bgContainer.style.zIndex = '0';
-        bgContainer.style.pointerEvents = 'none'; // 确保不会干扰用户交互
-        
-        // 添加背景容器
-        homeScreen.appendChild(bgContainer);
+        mainContainer.style.backgroundColor = 'transparent';
         
         // 确保主容器内容在背景上方
         mainContainer.style.position = 'relative';
@@ -307,6 +290,11 @@
         
         // 将主容器添加到Home页面
         homeScreen.appendChild(mainContainer);
+        
+        // 应用通用背景
+        if (typeof window.fixBackgroundConflicts === 'function') {
+            setTimeout(window.fixBackgroundConflicts, 100);
+        }
         
         // 在所有内容加载完毕后恢复可见性，防止闪烁
         setTimeout(() => {
